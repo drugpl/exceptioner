@@ -1,0 +1,8 @@
+Application raised <%= exception.class %>.
+<% if options[:controller] -%>
+    Exception happened in <%= options[:controller].controller_name %>#<%= options[:controller].action_name %>
+<% end -%>
+
+<%= exception.message.to_s %>
+<%= exception.backtrace.first %>
+
