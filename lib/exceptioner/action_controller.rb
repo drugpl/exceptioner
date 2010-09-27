@@ -1,6 +1,10 @@
 # This model is intended to be included in Rails2.x ApplicationController 
 # For Rails 3 as well as for other web frameworks you should use
 # Exceptioner::Middleware
+#
+# Rails 2.x catch exceptions in ActionController::Base so they aren't propagated
+# to underlaying middlewares. This obviously makes Exceptioner::Middleware
+# useless. 
 
 require 'exceptioner/notifier'
 
