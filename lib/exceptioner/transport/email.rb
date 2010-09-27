@@ -27,7 +27,7 @@ module Exceptioner::Transport
     end
 
     def self.template
-      @template ||= File.read(File.expand_path(File.join(__FILE__, 'templates', 'exception.erb')))
+      @template ||= File.read(File.expand_path(File.join(File.dirname(__FILE__), 'templates', 'exception.erb')))
     end
 
     def self.send(options = {})
