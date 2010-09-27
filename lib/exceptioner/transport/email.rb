@@ -17,10 +17,8 @@ module Exceptioner::Transport
     cattr_accessor :delivery_method
 
     def self.deliver(exception, options = {})
-      email_options = default_options.merge(options)
-      email_options[:subject] ||= "#{options[:prefix]}#{exception.message}"
-      email_options[:body] ||= render(exception, email_options)
-      send(email_options)
+      mail = prepare_email(exception, options)
+      mail.deliver
     end
 
     def self.render(exception, options = {})
@@ -29,17 +27,6 @@ module Exceptioner::Transport
 
     def self.template
       @template ||= File.read(File.expand_path(File.join(File.dirname(__FILE__), 'templates', 'exception.erb')))
-    end
-
-    def self.send(options = {})
-      mail = Mail.new do
-        from    options[:sender]
-        to      options[:recipients]
-        subject options[:subject]
-        body    options[:body]
-      end
-      mail.delivery_method options[:delivery_method]
-      mail.deliver
     end
 
     protected
@@ -51,6 +38,22 @@ module Exceptioner::Transport
         :subject => subject,
         :delivery_method => :sendmail
       }
+    end
+
+    def self.prepare_email(exception, email_options)
+      options = email_options.dup
+      options = default_options.merge(options)
+      options[:subject] ||= "#{options[:prefix]}#{exception.message}"
+      options[:body] ||= render(exception, email_options)
+
+      mail = Mail.new(
+       :from             => options[:sender], 
+       :to               => options[:recipients],
+       :subject          => options[:subject],
+       :body             => options[:body])
+
+      mail.delivery_method(options[:delivery_method])
+      mail
     end
 
   end
