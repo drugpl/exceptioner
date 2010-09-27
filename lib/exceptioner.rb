@@ -7,7 +7,7 @@ module Exceptioner
   autoload :Middleware, 'exceptioner/middleware'
   
   module Transport
-    autoload :email, 'exceptioner/transport/email'
+    autoload :Email, 'exceptioner/transport/email'
   end
 
 
