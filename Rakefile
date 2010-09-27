@@ -5,8 +5,9 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "exceptioner"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{Be notified about exceptions by various transports Email, Jabber, RSS. Choose the option you want}
+    gem.description = %Q{The most common use is to use Exceptioner as rack middleware and send notifications when an exception occur in you web application. It may be used with Rails, Sinatra or any other rack citizen. 
+      Exceptioner may be also used with any ruby code you want. Just configure delivery methods and don't miss any exception.}
     gem.email = "michal@lomnicki.com.pl"
     gem.homepage = "http://github.com/mlomnicki/exceptioner"
     gem.authors = ["Michał Łomnicki"]
