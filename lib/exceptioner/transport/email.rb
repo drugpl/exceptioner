@@ -14,6 +14,8 @@ module Exceptioner::Transport
 
     cattr_accessor :subject
 
+    cattr_accessor :delivery_method
+
     def self.deliver(exception, options = {})
       email_options = default_options.merge(options)
       email_options[:subject] ||= "#{options[:prefix]}#{exception.message}"
@@ -22,8 +24,8 @@ module Exceptioner::Transport
     end
 
     def self.render(exception, options = {})
-      erb = ERB.new(template) 
-      erb.result
+      erb = ERB.new(template, nil, '>') 
+      erb.result(binding)
     end
 
     def self.template
@@ -37,15 +39,18 @@ module Exceptioner::Transport
         subject options[:subject]
         body    options[:body]
       end
+      mail.delivery_method options[:delivery_method]
+      mail.deliver
     end
 
     protected
     def self.default_options
       {
-        :sender => sender,
+        :sender => sender || 'exceptioner',
         :recipients => recipients,
         :prefix => prefix || '[ERROR] ',
-        :subject => subject
+        :subject => subject,
+        :delivery_method => :sendmail
       }
     end
 
