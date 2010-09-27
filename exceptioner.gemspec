@@ -23,6 +23,8 @@ Gem::Specification.new do |s|
      "LICENSE",
      "README.rdoc",
      "Rakefile",
+     "VERSION",
+     "exceptioner.gemspec",
      "lib/exceptioner.rb",
      "lib/exceptioner/core_ext/class/attribute_accessors.rb",
      "lib/exceptioner/middleware.rb",
@@ -50,11 +52,14 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_development_dependency(%q<rspec>, [">= 1.2.9"])
+      s.add_runtime_dependency(%q<mail>, ["~> 2.2"])
     else
       s.add_dependency(%q<rspec>, [">= 1.2.9"])
+      s.add_dependency(%q<mail>, ["~> 2.2"])
     end
   else
     s.add_dependency(%q<rspec>, [">= 1.2.9"])
+    s.add_dependency(%q<mail>, ["~> 2.2"])
   end
 end
 
