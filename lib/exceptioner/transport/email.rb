@@ -24,8 +24,7 @@ module Exceptioner::Transport
     end
 
     def self.render(exception, options = {})
-      erb = ERB.new(template, nil, '>') 
-      erb.result(binding)
+      ERB.new(template, nil, '>').result(binding)
     end
 
     def self.template
