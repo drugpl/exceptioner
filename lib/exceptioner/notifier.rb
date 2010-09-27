@@ -3,14 +3,6 @@ module Exceptioner
 
     cattr_writer :transports
 
-    def initialize(transports = default_transports, options = {})
-      transports.each do |transport|
-        unless transport.is_a?(Class)
-          transport = Transports.const_get(transport)
-        end
-      end
-    end
-
     def self.dispatch(exception, options = {})
       available_transports = classify_transports(options[:transports] || transports)
       available_transports.each do |transport|
