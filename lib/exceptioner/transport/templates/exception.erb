@@ -1,9 +1,18 @@
-Application raised <%= exception.class %>.
+Application raised <%= exception.class %>
 <% if options[:controller] %>
-    Exception happened in <%= options[:controller].controller_name %>#<%= options[:controller].action_name %>
+ from <%= options[:controller].controller_name %>#<%= options[:controller].action_name %>
+<% end %>.
+
+    Message: <%= exception.message.to_s %>.
+    
+<%= Exceptioner::Transport::Helper.title('Backtrace') %>
+
+        <%= exception.backtrace.join("\n\t") %>
+
+
+<% if options[:env] %>
+<%= Exceptioner::Transport::Helper.title('Environment') %>
+
+        <%= Exceptioner::Transport::Helper.format_env(options[:env]) %>    
 <% end %>
-
-<%= exception.message.to_s %>
-
-<%= exception.backtrace.first %>
 

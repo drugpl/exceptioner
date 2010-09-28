@@ -14,12 +14,16 @@ module Exceptioner
     private
     def rescue_action_in_public(exception)
       super
-      Notifier.dipatch(exception)
+      exceptioner_dispatch_exception(exception)
     end
 
     def rescue_action_locally(exception)
       super
-      Notifier.dispatch(exception) if Exceptioner.dispatch_local_requests
+      exceptioner_dispatch_exception(exception) if Exceptioner.dispatch_local_requests
+    end
+
+    def exceptioner_dispatch_exception(exception)
+      Notifier.dispatch(exception, :controller => self, :env => request.env)
     end
 
   end

@@ -11,7 +11,7 @@ module Exceptioner
       begin
         @app.call(env)
       rescue Exception => exception
-        Notifier.dispatch(exception) 
+        Notifier.dispatch(exception, :controller => env['action_controller.instance'], :env => env)
         raise exception
       end
     end

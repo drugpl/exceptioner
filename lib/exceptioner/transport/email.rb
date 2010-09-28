@@ -1,6 +1,7 @@
 require 'mail'
 require 'erb'
 require 'exceptioner/transport/base'
+require 'exceptioner/transport/helper'
 
 module Exceptioner::Transport
 
