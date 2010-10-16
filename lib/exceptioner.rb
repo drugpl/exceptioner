@@ -9,7 +9,8 @@ module Exceptioner
   autoload :ActionController, 'exceptioner/action_controller'
   
   module Transport
-    autoload :Email, 'exceptioner/transport/email'
+    autoload :Email, 'exceptioner/transport/email/email'
+    autoload :ActionMailer, 'exceptioner/transport/action_mailer/action_mailer'
   end
 
   # Define how to deliver exceptions data. 

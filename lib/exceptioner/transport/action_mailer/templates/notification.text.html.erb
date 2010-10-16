@@ -1,0 +1,18 @@
+Application raised <%= @exception.class %>
+<% if @controller %>
+ from <%= @controller.controller_name %>#<%= @controller.action_name %>
+<% end %>.
+
+    Message: <%= @exception.message.to_s %>.
+    
+<%= Exceptioner::Transport::Helper.title('Backtrace') %>
+
+        <%= exception.backtrace.join("\n\t") %>
+
+
+<% if @env %>
+<%= Exceptioner::Transport::Helper.title('Environment') %>
+
+        <%= Exceptioner::Transport::Helper.format_env(@env) %>    
+<% end %>
+

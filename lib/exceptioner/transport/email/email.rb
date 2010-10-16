@@ -7,14 +7,6 @@ module Exceptioner::Transport
 
   class Email < Base
   
-    cattr_accessor :sender
-
-    cattr_accessor :recipients
-
-    cattr_accessor :prefix
-
-    cattr_accessor :subject
-
     cattr_accessor :delivery_method
 
     def self.deliver(exception, options = {})
@@ -29,29 +21,25 @@ module Exceptioner::Transport
     def self.template
       @template ||= File.read(File.expand_path(File.join(File.dirname(__FILE__), 'templates', 'exception.erb')))
     end
+    
+    def self.determine_email_options(exception, email_options)
+      options = {}
+      options[:from]    ||= options[:sender]
+      options[:to]      ||= options[:recipients]
+      options[:subject] ||= prefixed_subject(exception, options)
+      options[:body]    ||= render(exception, email_options)
+      options.merge!(default_options)
+    end
 
     protected
     def self.default_options
-      {
-        :sender => sender || 'exceptioner',
-        :recipients => recipients,
-        :prefix => prefix || '[ERROR] ',
-        :subject => subject,
-        :delivery_method => :sendmail
-      }
+      super.merge(:delivery_method => :sendmail)
     end
 
     def self.prepare_email(exception, email_options)
-      options = email_options.dup
-      options = default_options.merge(options)
-      options[:subject] ||= "#{options[:prefix]}#{exception.message}"
-      options[:body] ||= render(exception, email_options)
+      options = determine_email_options(exception, email_options)
 
-      mail = Mail.new(
-       :from             => options[:sender], 
-       :to               => options[:recipients],
-       :subject          => options[:subject],
-       :body             => options[:body])
+      mail = Mail.new(options)
 
       mail.delivery_method(options[:delivery_method])
       mail
