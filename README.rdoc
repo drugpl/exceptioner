@@ -7,7 +7,42 @@ Exceptioner may be also used with any ruby code you want. Just configure deliver
 
 = Usage 
 
-Exceptioner is under heavy development so better don't use it now ;)
+Note: Exceptioner is under heavy development and it is not recommended to use for
+production applications.
+
+== Rails 3 users
+
+Add to your Gemfile 
+    gem 'exceptioner'
+
+and obviously run bundle install
+
+Then copy config file to your application
+    rails generate exceptioner:install.
+
+You probably want to check config/initializers/exceptioner.rb and customize it a bit
+
+== Rails 2.X users
+
+    NEED SUPPORT
+
+== Any Rack application users
+
+    gem install exceptioner
+
+Then require exceptioner and add Exceptioner::Middleware to your stack
+
+== Any Ruby application users
+
+    gem install exceptioner
+
+Then require excptioner and use it like:
+    
+    begin 
+        # some code which may fail
+    rescue VeryFatalError => e
+        Exceptioner::Notifier.dispatch(e)
+    end    
 
 == Note on Patches/Pull Requests
  
