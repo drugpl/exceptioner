@@ -11,18 +11,14 @@ module Exceptioner
     end
 
     protected
-    def self.default_transports
-      [Transport::Email]
-    end
-
     def self.transports
-      @transports || default_transports
+      Exceptioner.transports
     end
 
     def self.classify_transports(transports)
       transports.collect do |transport|
         begin
-          transport.is_a?(Class) ? transport : const_get(transport)
+          transport.is_a?(Class) ? transport : Transport.const_get(transport)
         rescue NameError
           raise ExceptionerError, "No such transport: #{transport.to_s}"
         end
