@@ -6,16 +6,12 @@ require 'exceptioner/transport/helper'
 module Exceptioner::Transport
 
   class Email < Base
-  
-    cattr_accessor :sender
 
-    cattr_accessor :recipients
-
-    cattr_accessor :prefix
-
-    cattr_accessor :subject
+    DEFAULT_SENDER_ADDRESS = 'exceptioner@exceptioner.net'
 
     cattr_accessor :delivery_method
+
+    cattr_accessor :delivery_options
 
     def self.deliver(exception, options = {})
       mail = prepare_email(exception, options)
@@ -32,28 +28,28 @@ module Exceptioner::Transport
 
     protected
     def self.default_options
-      {
-        :sender => sender || 'exceptioner',
-        :recipients => recipients,
-        :prefix => prefix || '[ERROR] ',
-        :subject => subject,
-        :delivery_method => :sendmail
-      }
+      super.merge(
+        :delivery_method => delivery_method,
+        :delivery_options => delivery_options,
+        :sender => DEFAULT_SENDER_ADDRESS
+      )
     end
 
     def self.prepare_email(exception, email_options)
       options = email_options.dup
       options = default_options.merge(options)
-      options[:subject] ||= "#{options[:prefix]}#{exception.message}"
+      puts options.inspect
+      options[:subject] ||= prefixed_subject(exception, options)
       options[:body] ||= render(exception, email_options)
 
       mail = Mail.new(
-       :from             => options[:sender], 
-       :to               => options[:recipients],
-       :subject          => options[:subject],
-       :body             => options[:body])
+        :from             => options[:sender], 
+        :to               => options[:recipients],
+        :subject          => options[:subject],
+        :body             => options[:body]
+      )
 
-      mail.delivery_method(options[:delivery_method])
+      mail.delivery_method(options[:delivery_method], options[:delivery_options]) if options[:delivery_method]
       mail
     end
 
