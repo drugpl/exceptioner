@@ -1,5 +1,6 @@
 require 'exceptioner/core_ext/class/attribute_accessors'
 require 'exceptioner/core_ext/module/attribute_accessors'
+require 'exceptioner/railtie' if defined?(Rails::Railtie)
 
 module Exceptioner
 
@@ -9,7 +10,7 @@ module Exceptioner
   autoload :ActionController, 'exceptioner/action_controller'
   
   module Transport
-    autoload :Email, 'exceptioner/transport/email'
+    autoload :Email, 'exceptioner/transport/email/email'
   end
 
   # Define how to deliver exceptions data. 
@@ -18,7 +19,7 @@ module Exceptioner
   @@transports = [:mail]
 
   # If true exceptions raised by local requests will be delivered
-  # Note it's Rails 2.x specific setting
+  # Note it is Rails 2.x specific setting
   mattr_accessor :dispatch_local_requests
   @@dispatch_local_requests = false
 
