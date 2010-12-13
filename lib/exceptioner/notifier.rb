@@ -1,8 +1,6 @@
 module Exceptioner
   class Notifier
 
-    cattr_writer :transports
-
     def self.dispatch(exception, options = {})
       available_transports = classify_transports(options[:transports] || transports)
       available_transports.each do |transport|
@@ -18,7 +16,7 @@ module Exceptioner
     def self.classify_transports(transports)
       transports.collect do |transport|
         begin
-          transport.is_a?(Class) ? transport : Transport.const_get(transport)
+          transport.is_a?(Class) ? transport : Transport.const_get(transport.to_s.camelize)
         rescue NameError
           raise ExceptionerError, "No such transport: #{transport.to_s}"
         end
