@@ -1,0 +1,3 @@
+To copy an Exceptioner initializer to your Rails application do:
+    
+    rails generate exceptioner:install
