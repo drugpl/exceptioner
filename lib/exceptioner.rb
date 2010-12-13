@@ -10,7 +10,7 @@ module Exceptioner
   autoload :ActionController, 'exceptioner/action_controller'
   
   module Transport
-    autoload :Email, 'exceptioner/transport/email/email'
+    autoload :Mail, 'exceptioner/transport/mail/mail'
   end
 
   # Define how to deliver exceptions data. 
@@ -27,8 +27,8 @@ module Exceptioner
     yield self
   end
 
-  def self.email
-    Transport::Email
+  def self.mail
+    Transport::Mail
   end
 
 end
