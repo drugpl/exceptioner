@@ -12,10 +12,11 @@ module Exceptioner::Transport
     class_attribute :password
 
     def self.deliver(exception, options = {})
-      connect
       messages = prepare_messages(exception, options)
-      messages.each do |message|
-        @client.send(message)
+      connect do |client|
+        messages.each do |message|
+          client.send(message)
+        end
       end
     end
 
@@ -36,9 +37,10 @@ module Exceptioner::Transport
 
     def self.connect
       jid = ::Jabber::JID.new(self.jabber_id)      
-      @client = ::Jabber::Client.new(jid)
-      @client.connect
-      @client.auth(self.password)
+      client = ::Jabber::Client.new(jid)
+      client.connect
+      client.auth(self.password)
+      yield client
     end
 
   end
