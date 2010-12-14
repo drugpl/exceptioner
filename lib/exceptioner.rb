@@ -11,6 +11,7 @@ module Exceptioner
   
   module Transport
     autoload :Mail, 'exceptioner/transport/mail/mail'
+    autoload :Jabber, 'exceptioner/transport/jabber/jabber'
   end
 
   # Define how to deliver exceptions data. 
@@ -29,6 +30,10 @@ module Exceptioner
 
   def self.mail
     Transport::Mail
+  end
+
+  def self.jabber
+    Transport::Jabber
   end
 
 end
