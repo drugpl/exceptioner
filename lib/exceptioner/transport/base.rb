@@ -28,6 +28,15 @@ module Exceptioner::Transport
     def self.prefixed_subject(exception, options)
       "#{options[:prefix]}#{exception.message}"
     end
+    
+    def self.render(exception, options = {})
+      ERB.new(template, nil, '>').result(binding)
+    end
+
+    def self.template
+      @template ||= File.read(File.expand_path(File.join(File.dirname(__FILE__), 'templates', 'exception.erb')))
+    end
+    
 
   end
 
