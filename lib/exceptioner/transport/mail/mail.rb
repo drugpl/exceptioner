@@ -47,7 +47,7 @@ module Exceptioner::Transport
         :subject          => options[:subject],
         :body             => options[:body]
       )
-      mail.delivery_method(options[:delivery_method], options[:delivery_options]) if options[:delivery_method]
+      mail.delivery_method(options[:delivery_method], options[:delivery_options] || {}) if options[:delivery_method]
       mail
     end
 
