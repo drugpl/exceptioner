@@ -2,6 +2,14 @@ module Exceptioner
   class Notifier
 
     def self.dispatch(exception, options = {})
+      options = determine_options(exception, options.dup)
+      determine_transports(options) do |transport|
+        transport.deliver(options)
+      end
+    end
+
+    protected
+    def self.determine_options(exception, options)
       if exception.is_a?(Hash)
         options = exception
         exception = nil
@@ -11,13 +19,15 @@ module Exceptioner
         options[:error_message]   ||= exception.message
         options[:backtrace]       ||= exception.backtrace
       end
-      available_transports = classify_transports(options[:transports] || transports)
-      available_transports.each do |transport|
-        transport.deliver(options)
-      end
+      return options
     end
 
-    protected
+    def self.determine_transports(options)
+      available_transports = classify_transports(options[:transports] || transports)
+      available_transports.each { |transport| yield transport }
+      available_transports
+    end
+    
     def self.transports
       Exceptioner.transports
     end
@@ -31,6 +41,7 @@ module Exceptioner
         end
       end
     end
+
 
   end
 end
