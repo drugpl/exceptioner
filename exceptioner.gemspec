@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Micha\305\202 \305\201omnicki"]
-  s.date = %q{2010-09-27}
+  s.date = %q{2010-12-14}
   s.description = %q{The most common use is to use Exceptioner as rack middleware and send notifications when an exception occur in you web application. It may be used with Rails, Sinatra or any other rack citizen. 
       Exceptioner may be also used with any ruby code you want. Just configure delivery methods and don't miss any exception.}
   s.email = %q{michal@lomnicki.com.pl}
@@ -25,13 +25,21 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "exceptioner.gemspec",
+     "init.rb",
      "lib/exceptioner.rb",
+     "lib/exceptioner/action_controller.rb",
      "lib/exceptioner/core_ext/class/attribute_accessors.rb",
+     "lib/exceptioner/core_ext/module/attribute_accessors.rb",
      "lib/exceptioner/middleware.rb",
      "lib/exceptioner/notifier.rb",
+     "lib/exceptioner/railtie.rb",
      "lib/exceptioner/transport/base.rb",
-     "lib/exceptioner/transport/email.rb",
-     "lib/exceptioner/transport/templates/exception.erb",
+     "lib/exceptioner/transport/helper.rb",
+     "lib/exceptioner/transport/mail/mail.rb",
+     "lib/exceptioner/transport/mail/templates/exception.erb",
+     "lib/generators/exceptioner/USAGE",
+     "lib/generators/exceptioner/install_generator.rb",
+     "lib/generators/exceptioner/templates/exceptioner.rb",
      "spec/exceptioner_spec.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb"
@@ -53,13 +61,16 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_development_dependency(%q<rspec>, [">= 1.2.9"])
       s.add_runtime_dependency(%q<mail>, ["~> 2.2"])
+      s.add_runtime_dependency(%q<xmpp4r>, ["~> 0.5"])
     else
       s.add_dependency(%q<rspec>, [">= 1.2.9"])
       s.add_dependency(%q<mail>, ["~> 2.2"])
+      s.add_dependency(%q<xmpp4r>, ["~> 0.5"])
     end
   else
     s.add_dependency(%q<rspec>, [">= 1.2.9"])
     s.add_dependency(%q<mail>, ["~> 2.2"])
+    s.add_dependency(%q<xmpp4r>, ["~> 0.5"])
   end
 end
 
