@@ -17,14 +17,6 @@ module Exceptioner::Transport
       mail.deliver
     end
 
-    def self.render(exception, options = {})
-      ERB.new(template, nil, '>').result(binding)
-    end
-
-    def self.template
-      @template ||= File.read(File.expand_path(File.join(File.dirname(__FILE__), 'templates', 'exception.erb')))
-    end
-    
     def self.determine_mail_options(exception, mail_options)
       options = {}
       options[:from]    ||= options[:sender]
