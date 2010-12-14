@@ -7,9 +7,9 @@ module Exceptioner::Transport
 
   class Jabber < Base
     
-    cattr_accessor :jabber_id
+    class_attribute :jabber_id
 
-    cattr_accessor :password
+    class_attribute :password
 
     def self.deliver(exception, options = {})
       connect

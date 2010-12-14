@@ -8,9 +8,9 @@ module Exceptioner::Transport
   class Mail < Base
     DEFAULT_SENDER_ADDRESS = 'exceptioner@exceptioner.net'
 
-    cattr_accessor :delivery_method
+    class_attribute :delivery_method
 
-    cattr_accessor :delivery_options
+    class_attribute :delivery_options
 
     def self.deliver(exception, options = {})
       mail = prepare_mail(exception, options)
@@ -28,11 +28,11 @@ module Exceptioner::Transport
 
     protected
     def self.default_options
-      super.merge(
+      {
         :delivery_method => delivery_method,
         :delivery_options => delivery_options,
         :sender => DEFAULT_SENDER_ADDRESS
-      )
+      }.merge!(super)
     end
 
     def self.prepare_mail(exception, mail_options)

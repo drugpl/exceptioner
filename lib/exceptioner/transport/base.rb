@@ -2,13 +2,13 @@ module Exceptioner::Transport
 
   class Base
     
-    cattr_accessor :sender
+    class_attribute :sender
 
-    cattr_accessor :recipients
+    class_attribute :recipients
 
-    cattr_accessor :prefix
+    class_attribute :prefix
 
-    cattr_accessor :subject
+    class_attribute :subject
 
 
     def self.deliver(exception, options = {})

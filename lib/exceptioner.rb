@@ -1,4 +1,4 @@
-require 'exceptioner/core_ext/class/attribute_accessors'
+require 'exceptioner/core_ext/class/attribute'
 require 'exceptioner/core_ext/module/attribute_accessors'
 require 'exceptioner/railtie' if defined?(Rails::Railtie)
 
