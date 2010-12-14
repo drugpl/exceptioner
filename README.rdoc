@@ -45,7 +45,7 @@ Then require excptioner and use it like:
     begin 
         # some code which may fail
     rescue VeryFatalError => e
-        Exceptioner::Notifier.dispatch(e)
+        Exceptioner.notify(e)
     end    
 
 == Note on Patches/Pull Requests

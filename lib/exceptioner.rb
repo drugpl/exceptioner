@@ -36,4 +36,8 @@ module Exceptioner
     Transport::Jabber
   end
 
+  def self.notify(exception, options = {})
+    Notifier.dispatch(exception, options)
+  end
+
 end
