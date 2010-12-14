@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{exceptioner}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Micha\305\202 \305\201omnicki"]
@@ -28,8 +28,10 @@ Gem::Specification.new do |s|
      "init.rb",
      "lib/exceptioner.rb",
      "lib/exceptioner/action_controller.rb",
-     "lib/exceptioner/core_ext/class/attribute_accessors.rb",
+     "lib/exceptioner/core_ext/class/attribute.rb",
+     "lib/exceptioner/core_ext/kernel/singleton_class.rb",
      "lib/exceptioner/core_ext/module/attribute_accessors.rb",
+     "lib/exceptioner/core_ext/module/remove_method.rb",
      "lib/exceptioner/middleware.rb",
      "lib/exceptioner/notifier.rb",
      "lib/exceptioner/railtie.rb",
