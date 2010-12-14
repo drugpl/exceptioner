@@ -2,7 +2,7 @@
 Exceptioner.setup do |config|
 
   # Define how to deliver information about exception
-  # Available options are: email
+  # Available options are: mail, :jabber
   # config.transports = [:mail]
 
   # ### The section below regards mail transport only ###
@@ -26,7 +26,6 @@ Exceptioner.setup do |config|
 
   # Prefix prepended to email subject
   # config.mail.prefix = '[ERROR] '
-  
 
   # ### The section below regards jabber/xmpp transport only ###
 
@@ -40,6 +39,6 @@ Exceptioner.setup do |config|
   # config.jabber.jabber_id = 'server@jabber.org'
   
   # Sender's password
-  # conifg.jabber.password = 'SECRETXXX'
+  # config.jabber.password = 'SECRETXXX'
 
 end
