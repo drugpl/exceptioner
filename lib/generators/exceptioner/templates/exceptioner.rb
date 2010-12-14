@@ -5,7 +5,7 @@ Exceptioner.setup do |config|
   # Available options are: email
   # config.transports = [:mail]
 
-  # The section below regards mail transport only
+  # ### The section below regards mail transport only ###
 
   # Set message recipients
   # config.mail.recipients = %w[bofh@yourapp.com dev@yourapp.com]
@@ -26,5 +26,20 @@ Exceptioner.setup do |config|
 
   # Prefix prepended to email subject
   # config.mail.prefix = '[ERROR] '
+  
+
+  # ### The section below regards jabber/xmpp transport only ###
+
+  # List JIDs which we'll delivery exceptions to 
+  # config.jabber.recipients = %w[jid@jabber.org myname@gmail.com]
+
+  # Following settings are currently REQUIRED.
+  # We have to log in as user with following credentials:
+
+  # Sender's JID
+  # config.jabber.jabber_id = 'server@jabber.org'
+  
+  # Sender's password
+  # conifg.jabber.password = 'SECRETXXX'
 
 end
