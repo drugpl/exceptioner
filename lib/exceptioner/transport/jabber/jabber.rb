@@ -11,8 +11,8 @@ module Exceptioner::Transport
 
     class_attribute :password
 
-    def self.deliver(exception, options = {})
-      messages = prepare_messages(exception, options)
+    def self.deliver(options = {})
+      messages = prepare_messages(options)
       connect do |client|
         messages.each do |message|
           client.send(message)
@@ -21,10 +21,10 @@ module Exceptioner::Transport
     end
 
     protected
-    def self.prepare_messages(exception, message_options)
+    def self.prepare_messages(message_options)
       options = message_options.dup
       options = default_options.merge(options)
-      options[:body] ||= render(exception, message_options)
+      options[:body] ||= render(message_options)
 
       messages = []
       Array(options[:recipients]).each do |recipient|

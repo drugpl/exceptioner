@@ -11,7 +11,7 @@ module Exceptioner::Transport
     class_attribute :subject
 
 
-    def self.deliver(exception, options = {})
+    def self.deliver(options = {})
       raise Exceptioner::ExceptionerError, 'Implement deliver class method in your Exceptioner::Transport::Base subclass'
     end
     
@@ -25,11 +25,11 @@ module Exceptioner::Transport
       }
     end
 
-    def self.prefixed_subject(exception, options)
-      "#{options[:prefix]}#{exception.message}"
+    def self.prefixed_subject(options)
+      "#{options[:prefix]}#{options[:error_message]}"
     end
     
-    def self.render(exception, options = {})
+    def self.render(options = {})
       ERB.new(template, nil, '>').result(binding)
     end
 

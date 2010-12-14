@@ -2,9 +2,18 @@ module Exceptioner
   class Notifier
 
     def self.dispatch(exception, options = {})
+      if exception.is_a?(Hash)
+        options = exception
+        exception = nil
+      else
+        options[:exception]       ||= exception
+        options[:exception_class] ||= exception.class
+        options[:error_message]   ||= exception.message
+        options[:backtrace]       ||= exception.backtrace
+      end
       available_transports = classify_transports(options[:transports] || transports)
       available_transports.each do |transport|
-        transport.deliver(exception, options)
+        transport.deliver(options)
       end
     end
 

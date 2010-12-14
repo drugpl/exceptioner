@@ -12,18 +12,9 @@ module Exceptioner::Transport
 
     class_attribute :delivery_options
 
-    def self.deliver(exception, options = {})
-      mail = prepare_mail(exception, options)
+    def self.deliver(options = {})
+      mail = prepare_mail(options)
       mail.deliver
-    end
-
-    def self.determine_mail_options(exception, mail_options)
-      options = {}
-      options[:from]    ||= options[:sender]
-      options[:to]      ||= options[:recipients]
-      options[:subject] ||= prefixed_subject(exception, options)
-      options[:body]    ||= render(exception, mail_options)
-      options.merge!(default_options)
     end
 
     protected
@@ -35,11 +26,11 @@ module Exceptioner::Transport
       }.merge!(super)
     end
 
-    def self.prepare_mail(exception, mail_options)
+    def self.prepare_mail(mail_options)
       options = mail_options.dup
       options = default_options.merge(options)
-      options[:subject] ||= prefixed_subject(exception, options)
-      options[:body] ||= render(exception, mail_options)
+      options[:subject] ||= prefixed_subject(options)
+      options[:body]    ||= render(mail_options)
 
       mail = ::Mail.new(
         :from             => options[:sender], 

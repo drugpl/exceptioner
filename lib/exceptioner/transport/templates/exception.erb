@@ -1,14 +1,29 @@
-Application raised <%= exception.class %>
+<% if options[:exception]%>
+Application raised <%= options[:exception_class].to_s %> <%= options[:error_message] %>
+<% end %>
 <% if options[:controller] %>
  from <%= options[:controller].controller_name %>#<%= options[:controller].action_name %>
 <% end %>.
 
-    Message: <%= exception.message.to_s %>.
-    
+<% if options[:error_message] %>
+<%= Exceptioner::Transport::Helper.title('Error Message') %>
+    <%= options[:error_message] %>
+<% end %>
+
+<% if options[:backtrace] %>
 <%= Exceptioner::Transport::Helper.title('Backtrace') %>
 
-        <%= exception.backtrace.join("\n\t") %>
+        <%= options[:backtrace].join("\n\t") %>
+<% end %>
 
+<% if options[:parameters] %>
+<% options[:parameters].each_pair do |key, value| %>
+<%= Exceptioner::Transport::Helper.title(key.to_s) %>
+    
+    <%= value.inspect %>
+
+<% end %>
+<% end %>
 
 <% if options[:env] %>
 <%= Exceptioner::Transport::Helper.title('Environment') %>
