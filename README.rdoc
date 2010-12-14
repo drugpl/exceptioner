@@ -5,6 +5,10 @@ Be notified about exceptions by various transports Email, Jabber, IRC, etc. Choo
 The most common use is to use Exceptioner as rack middleware and send notifications when an exception occur in you web application. It may be used with Rails, Sinatra or any other rack citizen. 
 Exceptioner may be also used with any ruby code you want. Just configure delivery methods and don't miss any exception.
 
+= Currently available delivery methods
+* Email - BETA
+* Jabber/XMPP - ALPHA
+
 = Usage 
 
 Note: Exceptioner is under heavy development and it is not recommended to use for
