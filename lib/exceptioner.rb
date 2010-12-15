@@ -24,6 +24,18 @@ module Exceptioner
   mattr_accessor :dispatch_local_requests
   @@dispatch_local_requests = false
 
+  # Name of current environment.
+  # For rails it would be development, test or production.
+  # It's included in exception notification.
+  # You can also combine it with development_environments to decide
+  # when to handle exceptions by Exceptioner.
+  mattr_accessor :environment_name
+
+  # Define development environment. For these environments exceptions will not
+  # be handled by Exceptioner.
+  mattr_accessor :development_environments
+  @@development_environments = %w[development test cucumber]
+
   def self.setup
     yield self
   end

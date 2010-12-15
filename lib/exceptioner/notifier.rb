@@ -2,9 +2,11 @@ module Exceptioner
   class Notifier
 
     def self.dispatch(exception, options = {})
-      options = determine_options(exception, options.dup)
-      determine_transports(options) do |transport|
-        transport.deliver(options)
+      if dispatch_exception?
+        options = determine_options(exception, options.dup)
+        determine_transports(options) do |transport|
+          transport.deliver(options)
+        end
       end
     end
 
@@ -27,7 +29,7 @@ module Exceptioner
       available_transports.each { |transport| yield transport }
       available_transports
     end
-    
+
     def self.transports
       Exceptioner.transports
     end
@@ -40,6 +42,14 @@ module Exceptioner
           raise ExceptionerError, "No such transport: #{transport.to_s}"
         end
       end
+    end
+
+    def self.config
+      Exceptioner
+    end
+
+    def dispatch_exception?
+      ! config.development_environments.include?(config.environment_name)
     end
 
 

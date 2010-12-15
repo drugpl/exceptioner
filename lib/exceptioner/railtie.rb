@@ -7,8 +7,9 @@ module Exceptioner
     end
 
     initializer "exceptioner.use_rails_default" do |app|
-      Exceptioner.mail.delivery_method = rails_delivery(app)
-      Exceptioner.mail.delivery_options = rails_delivery_options(app)
+      Exceptioner.environment_name ||= Rails.env
+      Exceptioner.mail.delivery_method ||= rails_delivery(app)
+      Exceptioner.mail.delivery_options ||= rails_delivery_options(app)
     end
 
     protected
