@@ -4,6 +4,12 @@ Exceptioner.setup do |config|
   # Define how to deliver information about exception
   # Available options are: mail, :jabber
   # config.transports = [:mail]
+  
+  # Environments for which raised exceptions won't be dispatched
+  # config.development_environments = %w[development test cucumber]
+  
+  # Name of current environment. For Rails it gets Rails.env by default
+  # config.environment_name = Rails.env
 
   # ### The section below regards mail transport only ###
 
