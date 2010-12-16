@@ -48,7 +48,7 @@ module Exceptioner
       Exceptioner
     end
 
-    def dispatch_exception?
+    def self.dispatch_exception?
       ! config.development_environments.include?(config.environment_name)
     end
 
