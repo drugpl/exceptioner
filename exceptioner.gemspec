@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{exceptioner}
-  s.version = "0.0.2"
+  s.version = "0.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Micha\305\202 \305\201omnicki"]
-  s.date = %q{2010-12-14}
+  s.date = %q{2010-12-16}
   s.description = %q{The most common use is to use Exceptioner as rack middleware and send notifications when an exception occur in you web application. It may be used with Rails, Sinatra or any other rack citizen. 
       Exceptioner may be also used with any ruby code you want. Just configure delivery methods and don't miss any exception.}
   s.email = %q{michal@lomnicki.com.pl}
