@@ -9,6 +9,7 @@ module Exceptioner
 
   autoload :Middleware,       'exceptioner/middleware'
   autoload :ActionController, 'exceptioner/action_controller'
+  autoload :Notifier,         'exceptioner/notifier'
   
   module Transport
     autoload :Mail, 'exceptioner/transport/mail/mail'
