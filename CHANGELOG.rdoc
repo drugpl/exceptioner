@@ -2,3 +2,4 @@
 
 == 0.0.5
 * fixed environment variables formatting
+* got rid of jeweler in favour of bundler
