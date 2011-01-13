@@ -9,11 +9,16 @@ module Exceptioner
 
     def call(env)
       begin
-        @app.call(env)
+        response = @app.call(env)
       rescue Exception => exception
         Notifier.dispatch(exception, :controller => env['action_controller.instance'], :env => env)
         raise exception
       end
+      if env['rack.exception']
+        Notifier.dispatch(env['rack.exception'], :controller => env['action_controller.instance'], :env => env)
+      end
+      
+      response
     end
 
   end
