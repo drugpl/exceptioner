@@ -23,5 +23,5 @@ Gem::Specification.new do |s|
   s.add_dependency("xmpp4r", ["~> 0.5"])
 
   s.add_development_dependency("rack-test")
-  s.add_development_dependency("flexmock")
+  s.add_development_dependency("mocha")
 end
