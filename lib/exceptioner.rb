@@ -9,7 +9,6 @@ module Exceptioner
   class ExceptionerError < StandardError; end
 
   autoload :Middleware,       'exceptioner/middleware'
-  autoload :ActionController, 'exceptioner/action_controller'
   autoload :Notifier,         'exceptioner/notifier'
   
   module Transport
@@ -66,4 +65,10 @@ module Exceptioner
     Notifier.dispatch(exception, options)
   end
 
+  def self.config
+    self
+  end
+
 end
+
+require 'exceptioner/support/rails2' if defined?(Rails::VERSION::MAJOR) && Rails::VERSION::MAJOR == 2
