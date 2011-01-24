@@ -10,6 +10,11 @@ Exceptioner.setup do |config|
   
   # Name of current environment. For Rails it gets Rails.env by default
   # config.environment_name = Rails.env
+  
+  # Specify list of ignored exceptions.
+  # By default ActiveRecord::RecordNotFound, ActionController::RoutingError and
+  # ActionController::UnknownAction are ignored.
+  # config.ignore += %w[ActionController::InvalidAuthenticityToken]
 
   # ### The section below regards mail transport only ###
 

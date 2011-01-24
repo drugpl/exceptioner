@@ -2,7 +2,7 @@ module Exceptioner
   class Notifier
 
     def self.dispatch(exception, options = {})
-      if dispatch_exception?
+      if dispatch_exception?(exception)
         options = determine_options(exception, options.dup)
         determine_transports(options) do |transport|
           transport.deliver(options)
@@ -48,10 +48,21 @@ module Exceptioner
       Exceptioner
     end
 
-    def self.dispatch_exception?
-      ! config.development_environments.include?(config.environment_name)
+    def self.dispatch_exception?(exception)
+      ! (config.development_environments.include?(config.environment_name) || ignore_exception?(exception))
     end
 
+    def self.ignore_exception?(exception)
+      if config.ignore
+        # TODO: stringify config.ignore once
+        Array(config.ignore).collect(&:to_s).include?(exception_class_name(exception))
+      end
+    end
+
+    # Determines class of exception.
+    def self.exception_class_name(exception)
+      exception.is_a?(Exception) ? exception.class.name : exception.to_s
+    end
 
   end
 end

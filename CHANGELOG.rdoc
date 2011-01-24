@@ -1,5 +1,8 @@
 = CHANGELOG
 
+== 0.0.6 (24.01.2011)
+* config.ingore specifies ignored exceptions
+
 == 0.0.5 (13.01.2011)
 * fixed environment variables formatting
 * got rid of jeweler in favour of bundler

@@ -39,6 +39,17 @@ module Exceptioner
   mattr_accessor :development_environments
   @@development_environments = %w[development test cucumber]
 
+  DEFAULT_IGNORED_EXCEPTIONS = %w[
+    ActiveRecord::RecordNotFound
+    ActionController::RoutingError
+    ActionController::UnknownAction
+  ]
+
+  # Array of ignored exceptions. 
+  # By default it's set to exceptions defined in DEFAULT_IGNORED_EXCEPTIONS
+  mattr_accessor :ignore
+  @@ignore = DEFAULT_IGNORED_EXCEPTIONS.dup
+
   def self.setup
     yield self
   end

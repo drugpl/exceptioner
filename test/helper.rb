@@ -10,9 +10,9 @@ require 'mock_smtp'
 
 class Test::Unit::TestCase
 
-  def get_exception
-    raise
-  rescue => exception
+  def get_exception(klass = Exception)
+    raise klass.new("Test Exception")
+  rescue Exception => exception
     exception
   end
 
