@@ -13,6 +13,18 @@ module Exceptioner::Transport
 
     class_attribute :subject
 
+    def self.init
+    end
+
+    def self.configure
+      init unless initialized?
+      @initialized = true
+    end
+
+    def self.initialized?
+      @initialized
+    end
+
     def self.deliver(options = {})
       raise Exceptioner::ExceptionerError, 'Implement deliver class method in your Exceptioner::Transport::Base subclass'
     end

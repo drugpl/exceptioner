@@ -27,23 +27,14 @@ module Exceptioner
     end
 
     def self.determine_transports(options)
-      available_transports = classify_transports(options[:transports] || transports)
+      # TODO: classify once
+      available_transports = Exceptioner::Utils.classify_transports(options[:transports] || transports)
       available_transports.each { |transport| yield transport }
       available_transports
     end
 
     def self.transports
       Exceptioner.transports
-    end
-
-    def self.classify_transports(transports)
-      transports.collect do |transport|
-        begin
-          transport.is_a?(Class) ? transport : Transport.const_get(transport.to_s.camelize)
-        rescue NameError
-          raise ExceptionerError, "No such transport: #{transport.to_s}"
-        end
-      end
     end
 
     def self.config

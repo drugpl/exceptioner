@@ -12,6 +12,7 @@ module Exceptioner
 
   autoload :Middleware,       'exceptioner/middleware'
   autoload :Notifier,         'exceptioner/notifier'
+  autoload :Utils,            'exceptioner/utils'
   
   module Transport
     autoload :Mail, 'exceptioner/transport/mail/mail'
@@ -52,7 +53,8 @@ module Exceptioner
   @@ignore = DEFAULT_IGNORED_EXCEPTIONS.dup
 
   def self.setup
-    yield self
+    yield self if block_given?
+    init_transports
   end
 
   def self.init
@@ -94,6 +96,12 @@ module Exceptioner
   def self.disallow_ignored_exceptions
     dispatch do |exception|
       ! Array(ignore).collect(&:to_s).include?(exception.class.name)
+    end
+  end
+
+  def self.init_transports
+    Exceptioner::Utils.classify_transports(config.transports).each do |transport|
+      transport.configure
     end
   end
 
