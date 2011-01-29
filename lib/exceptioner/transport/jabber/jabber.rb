@@ -20,6 +20,26 @@ module Exceptioner::Transport
       end
     end
 
+    def self.register
+      raise "Set jabber_id in your configuration first!" unless self.jabber_id
+      configure do |client|
+        client.register(self.password)
+      end
+    end
+
+    def self.subscribe(options = {})
+      options = default_options.merge(options)
+
+      connect do |client|
+        Array(options[:recipients]).each do |recipient|
+          presence = ::Jabber::Presence.new
+          presence.set_type(:subscribe)
+          presence.set_to(recipient)
+          client.send(presence)
+        end
+      end
+    end
+
     protected
     def self.prepare_messages(message_options)
       options = message_options.dup
@@ -35,14 +55,19 @@ module Exceptioner::Transport
       messages
     end
 
-    def self.connect
-      jid = ::Jabber::JID.new(self.jabber_id)      
+    def self.configure
+      jid = ::Jabber::JID.new(self.jabber_id)
       client = ::Jabber::Client.new(jid)
       client.connect
-      client.auth(self.password)
       yield client
     end
 
+    def self.connect
+      configure do |client|
+        client.auth(self.password)
+        yield client
+      end
+    end
   end
 
 end
