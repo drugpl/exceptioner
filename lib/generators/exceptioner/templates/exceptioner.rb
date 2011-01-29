@@ -2,7 +2,7 @@
 Exceptioner.setup do |config|
 
   # Define how to deliver information about exception
-  # Available options are: mail, :jabber
+  # Available options are: mail, :jabber, :campfirenow
   # config.transports = [:mail]
   
   # Environments for which raised exceptions won't be dispatched
@@ -51,5 +51,28 @@ Exceptioner.setup do |config|
   
   # Sender's password
   # config.jabber.password = 'SECRETXXX'
+
+  # ### The section below regards campfirenow transport only ###
+  #
+  # Good idea is to make separated exceptioner user in the campfirenow
+
+  # config.campfirenow.subdomain = 'mycampfirenowdomain'
+
+  # Use the campfirenow token listed in https://yourdomain.campfirenow.com/member/edit
+
+  # config.campfirenow.token = 'mycampfirenowtoken'
+
+  # Use your own username and password
+
+  # config.campfirenow.username = 'username'
+  # config.campfirenow.password = 'password'
+
+  # Fill room id or name:
+
+  # config.campfirenow.room = 999
+
+  # or
+
+  # config.campfirenow.rooms = [999, 'exceptions room', 1234567, 'big fail room']
 
 end
