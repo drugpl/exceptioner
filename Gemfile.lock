@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    exceptioner (0.0.5)
+    exceptioner (0.0.6.pre1)
       mail (~> 2.2)
       xmpp4r (~> 0.5)
 

@@ -1,10 +1,12 @@
 require 'exceptioner/core_ext/class/attribute'
 require 'exceptioner/core_ext/module/attribute_accessors'
 require 'exceptioner/core_ext/string/inflections'
+require 'exceptioner/dispatchable'
 require 'exceptioner/version'
 require 'exceptioner/railtie' if defined?(Rails::Railtie)
 
 module Exceptioner
+  extend Dispatchable
 
   class ExceptionerError < StandardError; end
 
@@ -53,6 +55,10 @@ module Exceptioner
     yield self
   end
 
+  def self.init
+    add_default_dispatchers
+  end
+
   def self.mail
     Transport::Mail
   end
@@ -69,6 +75,30 @@ module Exceptioner
     self
   end
 
+  def self.reset_dispatchers
+    clear_dispatchers
+    add_default_dispatchers
+  end
+
+  def self.add_default_dispatchers
+    disallow_development_environment
+    disallow_ignored_exceptions
+  end
+
+  def self.disallow_development_environment 
+    dispatch do |exception|
+      ! development_environments.include?(environment_name)  
+    end
+  end
+
+  def self.disallow_ignored_exceptions
+    dispatch do |exception|
+      ! Array(ignore).collect(&:to_s).include?(exception.class.name)
+    end
+  end
+
 end
 
 require 'exceptioner/support/rails2' if defined?(Rails::VERSION::MAJOR) && Rails::VERSION::MAJOR == 2
+
+Exceptioner.init

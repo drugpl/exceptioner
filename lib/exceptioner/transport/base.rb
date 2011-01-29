@@ -1,6 +1,9 @@
+require 'exceptioner/dispatchable' 
+
 module Exceptioner::Transport
 
   class Base
+    extend Exceptioner::Dispatchable
     
     class_attribute :sender
 
@@ -10,11 +13,10 @@ module Exceptioner::Transport
 
     class_attribute :subject
 
-
     def self.deliver(options = {})
       raise Exceptioner::ExceptionerError, 'Implement deliver class method in your Exceptioner::Transport::Base subclass'
     end
-    
+
     protected
     def self.default_options
       {
