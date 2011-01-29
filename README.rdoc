@@ -28,7 +28,14 @@ You probably want to check config/initializers/exceptioner.rb and customize it a
 
 == Rails 2.X users
 
-    NEED SUPPORT
+Exceptioner::ApplicationController will be included into ActionController::Base.
+Create config/initializers/exceptioner.rb
+
+    Exceptioner.setup do |config|
+        config.transports = [:mail]
+        config.mail.recipients %w[me@example.net]
+        # Lookup documentation for more config options
+    end
 
 == Any Rack application users
 
