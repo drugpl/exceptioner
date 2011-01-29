@@ -12,13 +12,14 @@ module Exceptioner
 
   autoload :Middleware,       'exceptioner/middleware'
   autoload :Notifier,         'exceptioner/notifier'
-  
+
   module Transport
     autoload :Mail, 'exceptioner/transport/mail/mail'
     autoload :Jabber, 'exceptioner/transport/jabber/jabber'
+    autoload :Redmine, 'exceptioner/transport/redmine/redmine'
   end
 
-  # Define how to deliver exceptions data. 
+  # Define how to deliver exceptions data.
   # For example :mail, :jabber, :irc
   mattr_accessor :transports
   @@transports = [:mail]
@@ -46,7 +47,7 @@ module Exceptioner
     ActionController::UnknownAction
   ]
 
-  # Array of ignored exceptions. 
+  # Array of ignored exceptions.
   # By default it's set to exceptions defined in DEFAULT_IGNORED_EXCEPTIONS
   mattr_accessor :ignore
   @@ignore = DEFAULT_IGNORED_EXCEPTIONS.dup
@@ -65,6 +66,10 @@ module Exceptioner
 
   def self.jabber
     Transport::Jabber
+  end
+
+  def self.redmine
+    Transport::Redmine
   end
 
   def self.notify(exception, options = {})
