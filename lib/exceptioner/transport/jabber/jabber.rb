@@ -27,6 +27,19 @@ module Exceptioner::Transport
       end
     end
 
+    def self.subscribe(options = {})
+      options = default_options.merge(options)
+
+      connect do |client|
+        Array(options[:recipients]).each do |recipient|
+          presence = ::Jabber::Presence.new
+          presence.set_type(:subscribe)
+          presence.set_to(recipient)
+          client.send(presence)
+        end
+      end
+    end
+
     protected
     def self.prepare_messages(message_options)
       options = message_options.dup

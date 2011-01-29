@@ -4,5 +4,10 @@ namespace :exceptioner do
     task :register => :environment do
       Exceptioner::Transport::Jabber.register
     end
+
+    desc "Send subscription request to all Exceptioner recipients"
+    task :subscribe => :environment do
+      Exceptioner::Transport::Jabber.subscribe
+    end
   end
 end
