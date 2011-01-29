@@ -18,6 +18,7 @@ module Exceptioner
     autoload :Mail, 'exceptioner/transport/mail/mail'
     autoload :Jabber, 'exceptioner/transport/jabber/jabber'
     autoload :Redmine, 'exceptioner/transport/redmine/redmine'
+    autoload :IRC,            'exceptioner/transport/irc/irc'
   end
 
   # Define how to deliver exceptions data.
@@ -53,6 +54,9 @@ module Exceptioner
   mattr_accessor :ignore
   @@ignore = DEFAULT_IGNORED_EXCEPTIONS.dup
 
+  mattr_accessor :irc_bot
+  @@irc_bot = 
+
   def self.setup
     yield self if block_given?
     init_transports
@@ -69,6 +73,10 @@ module Exceptioner
   def self.jabber
     Transport::Jabber
   end
+
+  def self.irc
+    Transport::IRC
+	end
 
   def self.redmine
     Transport::Redmine
