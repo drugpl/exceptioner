@@ -55,6 +55,13 @@ Then require excptioner and use it like:
         Exceptioner.notify(e)
     end    
 
+== Contributors
+
+* Michał Łomnicki - http://mlomnicki.com
+* Dariusz Gertych - https://github.com/chytreg
+* Piotr Niełacny - http://ruby-blog.pl
+* Janek Dudek - http://jandudek.com/
+
 == Note on Patches/Pull Requests
  
 * Fork the project.
