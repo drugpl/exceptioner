@@ -2,7 +2,7 @@
 Exceptioner.setup do |config|
 
   # Define how to deliver information about exception
-  # Available options are: mail, :jabber, :campfirenow
+  # Available options are: mail, :jabber, :campfire
   # config.transports = [:mail]
   
   # Environments for which raised exceptions won't be dispatched
@@ -56,9 +56,9 @@ Exceptioner.setup do |config|
   #
   # Good idea is to make separated exceptioner user in the campfirenow
 
-  # config.campfirenow.subdomain = 'mycampfirenowdomain'
+  # config.campfire.subdomain = 'mycampfirenowdomain'
 
-  # Use the campfirenow token listed in https://yourdomain.campfirenow.com/member/edit
+  # Use the campfire token listed in https://yourdomain.campfirenow.com/member/edit
 
   # config.campfire.token = 'mycampfirenowtoken'
 
