@@ -1,5 +1,9 @@
 = CHANGELOG
 
+== 0.1.0
+* global dispatch hook 
+* dispatch hook for each transport
+
 == 0.0.6 (24.01.2011)
 * config.ingore specifies ignored exceptions
 * support for Rails 2

@@ -8,11 +8,14 @@ class NotifierTest < Test::Unit::TestCase
   class TestError < StandardError; end
 
   def setup
-    Exceptioner::Notifier.stubs(:dispatch_exception).returns(true)
     config.mail.recipients = %w[michal@example.net]
     config.jabber.jabber_id = %w[jabber@example.net]
     config.jabber.password = 'secret'
     config.jabber.recipients = %w[michal@example.net]
+    config.ignore = []
+    config.reset_dispatchers
+    config.mail.clear_dispatchers
+    config.jabber.clear_dispatchers
     mail_system.clear_deliveries 
   end
 
@@ -21,7 +24,6 @@ class NotifierTest < Test::Unit::TestCase
     Exceptioner::Notifier.stubs(:transports).returns([:mail])
     Exceptioner::Notifier.dispatch(exception)
     assert_equal 1, mail_system.deliveries.size
-
   end
 
   def test_deliver_exception_by_jabber
@@ -48,5 +50,39 @@ class NotifierTest < Test::Unit::TestCase
     Exceptioner::Notifier.dispatch(exception)
     assert_equal 0, mail_system.deliveries.size
   end
+  
+  def test_run_global_dispatch
+    exception = get_exception(TestError)
+    object = mock()
+    object.expects(:do_something).with(exception)
+    Exceptioner.config.dispatch do |exception|
+      object.do_something(exception)
+    end
+    Exceptioner::Notifier.dispatch(exception)
+  end
+
+  def test_run_dispatch_for_transport
+    exception = get_exception(TestError)
+    Exceptioner::Notifier.stubs(:transports).returns([:jabber])
+    Exceptioner::Transport::Jabber.stubs(:deliver)
+    object = mock()
+    object.expects(:do_something).with(exception)
+    Exceptioner.config.jabber.dispatch do |exception|
+      object.do_something(exception)
+    end
+    Exceptioner::Notifier.dispatch(exception)
+  end
+
+  def test_breaks_if_returned_false_from_dispatch
+    exception = get_exception(TestError)
+    Exceptioner::Notifier.stubs(:transports).returns([:mail])
+    object = mock()
+    object.expects(:do_something).with(exception).returns(false)
+    Exceptioner.config.mail.dispatch do |exception|
+      object.do_something(exception)
+    end
+    Exceptioner::Notifier.dispatch(exception)
+  end
+  
 
 end

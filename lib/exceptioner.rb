@@ -1,22 +1,26 @@
 require 'exceptioner/core_ext/class/attribute'
 require 'exceptioner/core_ext/module/attribute_accessors'
 require 'exceptioner/core_ext/string/inflections'
+require 'exceptioner/dispatchable'
 require 'exceptioner/version'
 require 'exceptioner/railtie' if defined?(Rails::Railtie)
 
 module Exceptioner
+  extend Dispatchable
 
   class ExceptionerError < StandardError; end
 
   autoload :Middleware,       'exceptioner/middleware'
   autoload :Notifier,         'exceptioner/notifier'
-  
+
   module Transport
     autoload :Mail, 'exceptioner/transport/mail/mail'
     autoload :Jabber, 'exceptioner/transport/jabber/jabber'
+    autoload :Redmine, 'exceptioner/transport/redmine/redmine'
+    autoload :IRC,            'exceptioner/transport/irc/irc'
   end
 
-  # Define how to deliver exceptions data. 
+  # Define how to deliver exceptions data.
   # For example :mail, :jabber, :irc
   mattr_accessor :transports
   @@transports = [:mail]
@@ -44,13 +48,20 @@ module Exceptioner
     ActionController::UnknownAction
   ]
 
-  # Array of ignored exceptions. 
+  # Array of ignored exceptions.
   # By default it's set to exceptions defined in DEFAULT_IGNORED_EXCEPTIONS
   mattr_accessor :ignore
   @@ignore = DEFAULT_IGNORED_EXCEPTIONS.dup
 
+  mattr_accessor :irc_bot
+  @@irc_bot = 
+
   def self.setup
     yield self
+  end
+
+  def self.init
+    add_default_dispatchers
   end
 
   def self.mail
@@ -61,6 +72,14 @@ module Exceptioner
     Transport::Jabber
   end
 
+  def self.irc
+    Transport::IRC
+	end
+
+  def self.redmine
+    Transport::Redmine
+  end
+
   def self.notify(exception, options = {})
     Notifier.dispatch(exception, options)
   end
@@ -69,6 +88,30 @@ module Exceptioner
     self
   end
 
+  def self.reset_dispatchers
+    clear_dispatchers
+    add_default_dispatchers
+  end
+
+  def self.add_default_dispatchers
+    disallow_development_environment
+    disallow_ignored_exceptions
+  end
+
+  def self.disallow_development_environment 
+    dispatch do |exception|
+      ! development_environments.include?(environment_name)  
+    end
+  end
+
+  def self.disallow_ignored_exceptions
+    dispatch do |exception|
+      ! Array(ignore).collect(&:to_s).include?(exception.class.name)
+    end
+  end
+
 end
 
 require 'exceptioner/support/rails2' if defined?(Rails::VERSION::MAJOR) && Rails::VERSION::MAJOR == 2
+
+Exceptioner.init
