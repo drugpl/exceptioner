@@ -12,6 +12,10 @@ module Exceptioner
       Exceptioner.mail.delivery_options ||= rails_delivery_options(app)
     end
 
+    rake_tasks do
+      load "exceptioner/tasks/exceptioner.rake"
+    end
+
     protected
     def rails_delivery(app)
       app.config.action_mailer.delivery_method 
