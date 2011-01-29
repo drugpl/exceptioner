@@ -35,6 +35,23 @@ class NotifierTest < Test::Unit::TestCase
     Exceptioner::Notifier.dispatch(exception)
   end
 
+  def test_jabber_registration
+    Exceptioner::Notifier.stubs(:transports).returns([:jabber])
+    Jabber::Client.any_instance.expects(:connect).once
+    Jabber::Client.any_instance.expects(:register).with(config.jabber.password).once
+    Exceptioner::Transport::Jabber.register
+  end
+
+  def test_jabber_subscription
+    Exceptioner::Notifier.stubs(:transports).returns([:jabber])
+    Jabber::Client.any_instance.expects(:connect).once
+    Jabber::Client.any_instance.expects(:auth).with(config.jabber.password).once
+    Jabber::Client.any_instance.expects(:send).
+      with() { |v| v.to_s.match "<presence" }.
+      times(config.jabber.recipients.length)
+    Exceptioner::Transport::Jabber.subscribe
+  end
+
   def test_ignores_specified_exceptions_given_by_string
     Exceptioner.ignore = %w[NotifierTest::TestException]
     exception = get_exception(TestException)
