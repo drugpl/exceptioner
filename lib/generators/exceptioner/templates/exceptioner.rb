@@ -60,19 +60,19 @@ Exceptioner.setup do |config|
 
   # Use the campfirenow token listed in https://yourdomain.campfirenow.com/member/edit
 
-  # config.campfirenow.token = 'mycampfirenowtoken'
+  # config.campfire.token = 'mycampfirenowtoken'
 
   # Use your own username and password
 
-  # config.campfirenow.username = 'username'
-  # config.campfirenow.password = 'password'
+  # config.campfire.username = 'username'
+  # config.campfire.password = 'password'
 
   # Fill room id or name:
 
-  # config.campfirenow.room = 999
+  # config.campfire.room = 999
 
   # or
 
-  # config.campfirenow.rooms = [999, 'exceptions room', 1234567, 'big fail room']
+  # config.campfire.rooms = [999, 'exceptions room', 1234567, 'big fail room']
 
 end

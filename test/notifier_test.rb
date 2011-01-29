@@ -1,6 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/helper')
 require 'xmpp4r'
 require 'tinder'
+require 'ostruct'
 
 class NotifierTest < Test::Unit::TestCase
 
@@ -14,9 +15,9 @@ class NotifierTest < Test::Unit::TestCase
     config.jabber.jabber_id = %w[jabber@example.net]
     config.jabber.password = 'secret'
     config.jabber.recipients = %w[michal@example.net]
-    config.campfirenow.subdomain = 'example'
-    config.campfirenow.username = 'lukasz'
-    config.campfirenow.token = 'randomtoken'
+    config.campfire.subdomain = 'example'
+    config.campfire.username = 'lukasz'
+    config.campfire.token = 'randomtoken'
     mail_system.clear_deliveries 
   end
 
@@ -37,11 +38,14 @@ class NotifierTest < Test::Unit::TestCase
     Exceptioner::Notifier.dispatch(exception)
   end
 
-  def test_deliver_exception_by_campfirenow
+  def test_deliver_exception_by_campfire
     exception = get_exception
-    Exceptioner::Notifier.stubs(:transports).returns([:campfirenow])
-    Tinder::Campfirenow.any_instance.expects(:new).with(
-      config.campfirenow.subdomain, :token => config.campfirenow.token).once
+    Exceptioner::Notifier.stubs(:transports).returns([:campfire])
+    Exceptioner::Transport::Campfire.stubs(:rooms).returns(['test'])
+    Tinder::Campfire.any_instance.stubs(:rooms).returns([
+        OpenStruct.new(:id => 1, :name => 'test',
+          :paste => Proc.new { |options| true })
+      ])
     Exceptioner::Notifier.dispatch(exception)
   end
 

@@ -5,17 +5,17 @@ require 'exceptioner/transport/helper'
 
 module Exceptioner::Transport
   
-  class Campfirenow < Base
+  class Campfire < Base
     
     class << self
         attr_accessor :subdomain, :token, :username, :password
         attr_accessor :room, :rooms
 
         def deliver(options = {})
-          rooms = prepare_rooms
-          connect do |campfirenow|
-            campfirenow.rooms.each do |room|
-              room.paste render(options) if rooms.include?(room.id) || rooms.include?(room.name)
+          @rooms = prepare_rooms
+          connect do |campfire|
+            campfire.rooms.each do |room|
+              room.paste render(options) if @rooms.include?(room.id) || @rooms.include?(room.name)
             end
           end
         end
@@ -33,8 +33,8 @@ module Exceptioner::Transport
           elsif username.present? && password.present?
             { :username => username, :password => password }
           end
-          campfirenow = Tinder::Campfirenow.new subdomain, params
-          yield campfirenow
+          campfire = Tinder::Campfire.new subdomain, params
+          yield campfire
         end
 
     end

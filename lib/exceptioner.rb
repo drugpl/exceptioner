@@ -14,11 +14,11 @@ module Exceptioner
   module Transport
     autoload :Mail, 'exceptioner/transport/mail/mail'
     autoload :Jabber, 'exceptioner/transport/jabber/jabber'
-    autoload :Campfirenow, 'exceptioner/transport/campfirenow/campfirenow'
+    autoload :Campfire, 'exceptioner/transport/campfire/campfire'
   end
 
   # Define how to deliver exceptions data. 
-  # For example :mail, :jabber, :irc
+  # For example :mail, :jabber, :irc, :campfirenow
   mattr_accessor :transports
   @@transports = [:mail]
 
@@ -62,8 +62,8 @@ module Exceptioner
     Transport::Jabber
   end
 
-  def self.campfirenow
-    Transport::Campfirenow
+  def self.campfire
+    Transport::Campfire
   end
 
   def self.notify(exception, options = {})
