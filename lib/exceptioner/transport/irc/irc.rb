@@ -5,7 +5,7 @@ require 'exceptioner/transport/base'
 require 'exceptioner/transport/helper'
 
 module Exceptioner::Transport
-  class IRC < Base
+  class Irc < Base
     class_attribute :server
     class_attribute :port
     class_attribute :nick
@@ -18,7 +18,7 @@ module Exceptioner::Transport
       self.exceptions = {}
 
       options = default_options.merge(:channel => self.channel)
-      klass = Exceptioner::Transport::IRC
+      klass = Exceptioner::Transport::Irc
 
       self.bot = Isaac::Bot.new do
 

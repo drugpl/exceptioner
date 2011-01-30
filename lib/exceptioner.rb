@@ -18,7 +18,7 @@ module Exceptioner
     autoload :Mail, 'exceptioner/transport/mail/mail'
     autoload :Jabber, 'exceptioner/transport/jabber/jabber'
     autoload :Redmine, 'exceptioner/transport/redmine/redmine'
-    autoload :IRC,            'exceptioner/transport/irc/irc'
+    autoload :Irc,            'exceptioner/transport/irc/irc'
   end
 
   # Define how to deliver exceptions data.
@@ -72,7 +72,7 @@ module Exceptioner
   end
 
   def self.irc
-    Transport::IRC
+    Transport::Irc
 	end
 
   def self.redmine
