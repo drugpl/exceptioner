@@ -60,5 +60,19 @@ Exceptioner.setup do |config|
   # end
   # config.redmine.project = 'project_id_or_identifier'
 
+  # ### The section below regards IRC transport only ###
+
+  # IRC Channel
+  # config.irc.channel = "#exmaple-channel"
+
+  # IRC server
+  # config.irc.server = "chat.freenode.net"
+
+  # IRC server port
+  # config.irc.port = "6667"
+
+  # IRC bot nick
+  # config.irc.nick = "ExceptionerBot"
+
 
 end

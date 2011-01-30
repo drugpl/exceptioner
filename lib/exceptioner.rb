@@ -54,9 +54,6 @@ module Exceptioner
   mattr_accessor :ignore
   @@ignore = DEFAULT_IGNORED_EXCEPTIONS.dup
 
-  mattr_accessor :irc_bot
-  @@irc_bot = 
-
   def self.setup
     yield self if block_given?
     init_transports
