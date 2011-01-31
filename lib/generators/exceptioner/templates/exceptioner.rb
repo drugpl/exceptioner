@@ -82,5 +82,19 @@ Exceptioner.setup do |config|
   # or
 
   # config.campfire.rooms = [999, 'exceptions room', 1234567, 'big fail room']
+  
+  # ### The section below regards IRC transport only ###
+
+  # IRC Channel
+  # config.irc.channel = "#exmaple-channel"
+
+  # IRC server
+  # config.irc.server = "chat.freenode.net"
+
+  # IRC server port
+  # config.irc.port = "6667"
+
+  # IRC bot nick
+  # config.irc.nick = "ExceptionerBot"
 
 end

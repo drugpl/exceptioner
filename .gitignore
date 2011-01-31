@@ -23,3 +23,6 @@ pkg
 
 ## Netbeans
 nbproject/
+=======
+## RUBYMINE
+.idea
