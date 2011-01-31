@@ -1,5 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/helper')
 require 'xmpp4r'
+require 'tinder'
+require 'ostruct'
 
 class NotifierTest < Test::Unit::TestCase
 
@@ -16,6 +18,9 @@ class NotifierTest < Test::Unit::TestCase
     config.reset_dispatchers
     config.mail.clear_dispatchers
     config.jabber.clear_dispatchers
+    config.campfire.subdomain = 'example'
+    config.campfire.username = 'lukasz'
+    config.campfire.token = 'randomtoken'
     mail_system.clear_deliveries 
   end
 
@@ -50,6 +55,16 @@ class NotifierTest < Test::Unit::TestCase
       with() { |v| v.to_s.match "<presence" }.
       times(config.jabber.recipients.length)
     Exceptioner::Transport::Jabber.subscribe
+  end
+
+  def test_deliver_exception_by_campfire
+    exception = get_exception
+    Exceptioner::Notifier.stubs(:transports).returns([:campfire])
+    Exceptioner::Transport::Campfire.stubs(:rooms).returns(['test'])
+    room_mock = stub_everything('Tinder::Room', :id => 1, :name => 'test')
+    room_mock.expects(:paste)
+    Tinder::Campfire.any_instance.stubs(:rooms).returns([room_mock])
+    Exceptioner::Notifier.dispatch(exception)
   end
 
   def test_ignores_specified_exceptions_given_by_string

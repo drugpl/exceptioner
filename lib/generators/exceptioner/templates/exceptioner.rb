@@ -2,7 +2,7 @@
 Exceptioner.setup do |config|
 
   # Define how to deliver information about exception
-  # Available options are: mail, :jabber
+  # Available options are: mail, :jabber, :campfire
   # config.transports = [:mail]
 
   # Environments for which raised exceptions won't be dispatched
@@ -60,5 +60,27 @@ Exceptioner.setup do |config|
   # end
   # config.redmine.project = 'project_id_or_identifier'
 
+  # ### The section below regards campfirenow transport only ###
+  #
+  # Good idea is to make separated exceptioner user in the campfirenow
+
+  # config.campfire.subdomain = 'mycampfirenowdomain'
+
+  # Use the campfire token listed in https://yourdomain.campfirenow.com/member/edit
+
+  # config.campfire.token = 'mycampfirenowtoken'
+
+  # Use your own username and password
+
+  # config.campfire.username = 'username'
+  # config.campfire.password = 'password'
+
+  # Fill room id or name:
+
+  # config.campfire.room = 999
+
+  # or
+
+  # config.campfire.rooms = [999, 'exceptions room', 1234567, 'big fail room']
 
 end

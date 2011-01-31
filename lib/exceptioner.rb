@@ -15,14 +15,15 @@ module Exceptioner
   autoload :Utils,            'exceptioner/utils'
   
   module Transport
-    autoload :Mail, 'exceptioner/transport/mail/mail'
-    autoload :Jabber, 'exceptioner/transport/jabber/jabber'
-    autoload :Redmine, 'exceptioner/transport/redmine/redmine'
-    autoload :IRC,            'exceptioner/transport/irc/irc'
+    autoload :Mail,     'exceptioner/transport/mail/mail'
+    autoload :Jabber,   'exceptioner/transport/jabber/jabber'
+    autoload :Redmine,  'exceptioner/transport/redmine/redmine'
+    autoload :IRC,      'exceptioner/transport/irc/irc'
+    autoload :Campfire, 'exceptioner/transport/campfire/campfire'
   end
 
-  # Define how to deliver exceptions data.
-  # For example :mail, :jabber, :irc
+  # Define how to deliver exceptions data. 
+  # For example :mail, :jabber, :irc, :campfirenow
   mattr_accessor :transports
   @@transports = [:mail]
 
@@ -80,6 +81,10 @@ module Exceptioner
 
   def self.redmine
     Transport::Redmine
+  end
+
+  def self.campfire
+    Transport::Campfire
   end
 
   def self.notify(exception, options = {})

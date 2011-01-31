@@ -1,6 +1,6 @@
 = Exceptioner 
 
-Stay notified about exceptions by various transports Email, Jabber, IRC, etc. Choose the option you want.
+Stay notified about exceptions by various transports Email, Jabber, IRC, Campfire etc. Choose the option you want.
 
 The most common use is to use Exceptioner as rack middleware and send notifications when an exception occur in you web application. It may be used with Rails, Sinatra or any other rack citizen. 
 Exceptioner may be also used with any ruby code you want. Just configure delivery methods and don't miss any exception.
@@ -8,6 +8,7 @@ Exceptioner may be also used with any ruby code you want. Just configure deliver
 = Currently available delivery methods
 * Email - BETA
 * Jabber/XMPP - ALPHA
+* Campfire
 
 = Usage 
 
@@ -55,12 +56,36 @@ Then require excptioner and use it like:
         Exceptioner.notify(e)
     end    
 
-== Contributors
+= Transports examples
+
+== Campfire
+
+    require 'exceptioner'
+
+    Exceptioner.setup do |config|
+      config.transports = [:campfire]
+      config.campfire.subdomain = 'myawesomesubdomain'
+      config.campfire.username = 'lukasz.sliwa'
+      config.campfire.password = 'password'
+
+      # config.campfire.token = 'myrandomtoken'
+
+      config.campfire.rooms = ['Another Awesome Room Name']
+    end
+
+    begin
+      raise Exception.new('i like raise')
+    rescue Exception => e
+      Exceptioner.notify(e)
+    end
+
+= Contributors
 
 * Michał Łomnicki - http://mlomnicki.com
 * Dariusz Gertych - https://github.com/chytreg
 * Piotr Niełacny - http://ruby-blog.pl
-* Janek Dudek - http://jandudek.com/
+* Janek Dudek - http://jandudek.com
+* Łukasz Śliwa - http://github.com/mrplum
 
 == Note on Patches/Pull Requests
  
