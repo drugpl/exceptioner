@@ -13,7 +13,7 @@ module Exceptioner::Transport
     class_attribute :bot
     class_attribute :exceptions
 
-    def self.configure()
+    def self.init
       validate_config
       self.exceptions = {}
 
