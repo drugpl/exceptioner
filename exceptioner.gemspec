@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email       = ["michal.lomnicki@gmail.com"]
   s.homepage    = "https://github.com/mlomnicki/exceptioner"
   s.summary     = "Stay notified of exceptions raised by your application. Choose from various notification methods like Email, Jabber or IRC"
-  s.description = "Exceptioner is meant to be for hoptoad, exception_notification or getexceptional. It's fully customizable and works with each kind of ruby application"
+  s.description = "Exceptioner is meant to be a replacement for hoptoad, exception_notification or getexceptional. It's fully customizable and works with each kind of ruby application"
 
   s.rubyforge_project = "exceptioner"
 
