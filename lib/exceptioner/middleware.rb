@@ -17,7 +17,7 @@ module Exceptioner
       if env['rack.exception']
         Notifier.dispatch(env['rack.exception'], :controller => env['action_controller.instance'], :env => env)
       end
-      
+
       response
     end
 
