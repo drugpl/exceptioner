@@ -121,10 +121,8 @@ module Exceptioner
   end
 
   def self.transport_instance(transport)
-    # TODO: classify once
     @@transport_instances ||= { }
-    transport_class = Utils.classify_transport(transport)
-    @@transport_instances[transport_class.to_s] ||= transport_class.new
+    @@transport_instances[transport] ||= Utils.classify_transport(transport).new
   end
 end
 
