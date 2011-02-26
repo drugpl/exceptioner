@@ -13,41 +13,41 @@ module Exceptioner::Transport
 
     class_attribute :subject
 
-    def self.init
+    def init
     end
 
-    def self.configure
+    def configure
       init unless initialized?
       @initialized = true
     end
 
-    def self.initialized?
+    def initialized?
       @initialized
     end
 
-    def self.deliver(options = {})
-      raise Exceptioner::ExceptionerError, 'Implement deliver class method in your Exceptioner::Transport::Base subclass'
+    def deliver(options = {})
+      raise Exceptioner::ExceptionerError, 'Implement deliver method in your Exceptioner::Transport::Base subclass'
     end
 
     protected
-    def self.default_options
+    def default_options
       {
-        :sender => sender || 'exceptioner',
-        :recipients => recipients,
-        :prefix => prefix || '[ERROR] ',
-        :subject => subject
+        :sender => self.class.sender || 'exceptioner',
+        :recipients => self.class.recipients,
+        :prefix => self.class.prefix || '[ERROR] ',
+        :subject => self.class.subject
       }
     end
 
-    def self.prefixed_subject(options)
+    def prefixed_subject(options)
       "#{options[:prefix]}#{options[:error_message]}"
     end
     
-    def self.render(options = {})
+    def render(options = {})
       ERB.new(template, nil, '>').result(binding)
     end
 
-    def self.template
+    def template
       @template ||= File.read(File.expand_path(File.join(File.dirname(__FILE__), 'templates', 'exception.erb')))
     end
     

@@ -5,7 +5,7 @@ module Exceptioner
       if config.run_dispatchers(exception)
         options = determine_options(exception, options.dup)
         determine_transports(options) do |transport|
-          if transport.run_dispatchers(exception)
+          if transport.class.run_dispatchers(exception)
             transport.deliver(options)
           end
         end
@@ -27,10 +27,9 @@ module Exceptioner
     end
 
     def self.determine_transports(options)
-      # TODO: classify once
-      available_transports = Exceptioner::Utils.classify_transports(options[:transports] || transports)
-      available_transports.each { |transport| yield transport }
-      available_transports
+      (options[:transports] || transports).each do |transport|
+        yield transport_instance(transport)
+      end
     end
 
     def self.transports
@@ -46,5 +45,8 @@ module Exceptioner
       exception.is_a?(Exception) ? exception.class.name : exception.to_s
     end
 
+    def self.transport_instance(transport)
+      Exceptioner.transport_instance(transport)
+    end
   end
 end
