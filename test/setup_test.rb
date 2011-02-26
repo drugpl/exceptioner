@@ -16,7 +16,7 @@ class SetupTest < Test::Unit::TestCase
   def test_only_added_transports_are_initialized
     config.transports = [:mail]
     Exceptioner.setup
-    assert Exceptioner.transport_instance(:jabber).initialized?
+    assert !Exceptioner.transport_instance(:jabber).initialized?
   end
 
 end

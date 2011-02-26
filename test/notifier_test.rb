@@ -48,8 +48,16 @@ class NotifierTest < Test::Unit::TestCase
     Exceptioner::Notifier.transport_instance(:jabber).register
   end
 
-  def test_jabber_subscription
-    Exceptioner::Notifier.stubs(:transports).returns([:jabber])
+  def test_connecting_for_jabber_subscription
+    config.transports = [:jabber]
+    transport = Exceptioner.transport_instance(:jabber)
+    transport.expects(:connect).once
+    Exceptioner::Notifier.transport_instance(:jabber).subscribe
+  end
+
+  def test_authenticating_for_jabber_subscription
+    config.transports = [:jabber]
+    transport = Exceptioner.transport_instance(:jabber)
     Jabber::Client.any_instance.expects(:connect).once
     Jabber::Client.any_instance.expects(:auth).with(config.jabber.password).once
     Jabber::Client.any_instance.expects(:send).
@@ -78,8 +86,8 @@ class NotifierTest < Test::Unit::TestCase
 
   def test_ignores_specified_exceptions_given_by_class
     config.ignore = NotifierTest::TestError
+    config.transports = [:mail]
     exception = get_exception(TestError)
-    Exceptioner::Notifier.stubs(:transports).returns([:mail])
     Exceptioner::Notifier.dispatch(exception)
     assert_equal 0, mail_system.deliveries.size
   end
@@ -96,26 +104,22 @@ class NotifierTest < Test::Unit::TestCase
 
   def test_run_dispatch_for_transport
     exception = get_exception(TestError)
-    Exceptioner::Notifier.stubs(:transports).returns([:jabber])
-    Exceptioner::Transport::Jabber.any_instance.stubs(:deliver)
-    object = mock()
-    object.expects(:do_something).with(exception)
-    config.jabber.dispatch do |exception|
-      object.do_something(exception)
-    end
+    config.transports = [:jabber]
+    Exceptioner.transport_instance(:jabber).expects(:deliver)
     Exceptioner::Notifier.dispatch(exception)
   end
 
   def test_breaks_if_returned_false_from_dispatch
     exception = get_exception(TestError)
-    Exceptioner::Notifier.stubs(:transports).returns([:mail])
+    config.transports = [:mail]
     object = mock()
     object.expects(:do_something).with(exception).returns(false)
     Exceptioner.transport_instance(:mail).dispatch do |exception|
       object.do_something(exception)
     end
     Exceptioner::Notifier.dispatch(exception)
+    assert_equal 0, mail_system.deliveries.size
   end
-  
+
 
 end
