@@ -2,6 +2,7 @@ require 'exceptioner/core_ext/class/attribute'
 require 'exceptioner/core_ext/module/attribute_accessors'
 require 'exceptioner/core_ext/string/inflections'
 require 'exceptioner/dispatchable'
+require 'exceptioner/issue'
 require 'exceptioner/version'
 require 'exceptioner/railtie' if defined?(Rails::Railtie)
 
@@ -13,7 +14,7 @@ module Exceptioner
   autoload :Middleware,       'exceptioner/middleware'
   autoload :Notifier,         'exceptioner/notifier'
   autoload :Utils,            'exceptioner/utils'
-  
+
   module Transport
     autoload :Mail,     'exceptioner/transport/mail/mail'
     autoload :Jabber,   'exceptioner/transport/jabber/jabber'
@@ -22,7 +23,7 @@ module Exceptioner
     autoload :Campfire, 'exceptioner/transport/campfire/campfire'
   end
 
-  # Define how to deliver exceptions data. 
+  # Define how to deliver exceptions data.
   # For example :mail, :jabber, :irc, :campfirenow
   mattr_accessor :transports
   @@transports = [:mail]
@@ -102,9 +103,9 @@ module Exceptioner
     disallow_ignored_exceptions
   end
 
-  def self.disallow_development_environment 
+  def self.disallow_development_environment
     dispatch do |exception|
-      ! development_environments.include?(environment_name)  
+      ! development_environments.include?(environment_name)
     end
   end
 
