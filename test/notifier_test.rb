@@ -3,13 +3,18 @@ require 'xmpp4r'
 require 'tinder'
 require 'ostruct'
 
+# http transport test module
+require File.expand_path(File.dirname(__FILE__) + '/http_test')
+
 class NotifierTest < Test::Unit::TestCase
+  include HttpTransportTest
 
   class TestException < StandardError; end
 
   class TestError < StandardError; end
 
   def setup
+    super
     config.mail.recipients = %w[michal@example.net]
     config.jabber.jabber_id = %w[jabber@example.net]
     config.jabber.password = 'secret'
@@ -21,7 +26,7 @@ class NotifierTest < Test::Unit::TestCase
     config.campfire.subdomain = 'example'
     config.campfire.username = 'lukasz'
     config.campfire.token = 'randomtoken'
-    mail_system.clear_deliveries 
+    mail_system.clear_deliveries
   end
 
   def test_deliver_exception_by_email
@@ -74,7 +79,7 @@ class NotifierTest < Test::Unit::TestCase
     Exceptioner::Notifier.dispatch(exception)
     assert_equal 0, mail_system.deliveries.size
   end
-  
+
   def test_ignores_specified_exceptions_given_by_class
     Exceptioner.ignore = NotifierTest::TestError
     exception = get_exception(TestError)
@@ -82,7 +87,7 @@ class NotifierTest < Test::Unit::TestCase
     Exceptioner::Notifier.dispatch(exception)
     assert_equal 0, mail_system.deliveries.size
   end
-  
+
   def test_run_global_dispatch
     exception = get_exception(TestError)
     object = mock()
@@ -115,6 +120,6 @@ class NotifierTest < Test::Unit::TestCase
     end
     Exceptioner::Notifier.dispatch(exception)
   end
-  
+
 
 end

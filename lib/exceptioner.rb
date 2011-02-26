@@ -13,16 +13,17 @@ module Exceptioner
   autoload :Middleware,       'exceptioner/middleware'
   autoload :Notifier,         'exceptioner/notifier'
   autoload :Utils,            'exceptioner/utils'
-  
+
   module Transport
     autoload :Mail,     'exceptioner/transport/mail/mail'
     autoload :Jabber,   'exceptioner/transport/jabber/jabber'
     autoload :Redmine,  'exceptioner/transport/redmine/redmine'
     autoload :IRC,      'exceptioner/transport/irc/irc'
     autoload :Campfire, 'exceptioner/transport/campfire/campfire'
+    autoload :Http,     'exceptioner/transport/http/http'
   end
 
-  # Define how to deliver exceptions data. 
+  # Define how to deliver exceptions data.
   # For example :mail, :jabber, :irc, :campfirenow
   mattr_accessor :transports
   @@transports = [:mail]
@@ -84,6 +85,10 @@ module Exceptioner
     Transport::Campfire
   end
 
+  def self.http
+    Transport::Http
+  end
+
   def self.notify(exception, options = {})
     Notifier.dispatch(exception, options)
   end
@@ -102,9 +107,9 @@ module Exceptioner
     disallow_ignored_exceptions
   end
 
-  def self.disallow_development_environment 
+  def self.disallow_development_environment
     dispatch do |exception|
-      ! development_environments.include?(environment_name)  
+      ! development_environments.include?(environment_name)
     end
   end
 
