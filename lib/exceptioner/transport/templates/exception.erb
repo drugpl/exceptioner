@@ -1,33 +1,32 @@
-<% if options[:exception]%>
-Application raised <%= options[:exception_class].to_s %> <%= options[:error_message] %>
+<% if issue.exception %>
+Application raised <%= issue.exception_name %> <%= issue.message %>
 <% end %>
-<% if options[:controller] %>
- from <%= options[:controller].controller_name %>#<%= options[:controller].action_name %>
+<% if issue.controller %>
+ from <%= issue.controller_name %>#<%= issue.controller_action_name %>
 <% end %>.
 
-<% if options[:error_message] %>
+<% if issue.message %>
 <%= Exceptioner::Transport::Helper.title('Error Message') %>
-    <%= options[:error_message] %>
+    <%= issue.message %>
 <% end %>
 
-<% if options[:backtrace] %>
+<% if issue.backtrace %>
 <%= Exceptioner::Transport::Helper.title('Backtrace') %>
 
-        <%= options[:backtrace].join("\n\t") %>
+        <%= issue.backtrace.join("\n\t") %>
 <% end %>
 
-<% if options[:parameters] %>
-<% options[:parameters].each_pair do |key, value| %>
+<% if issue.params %>
+<% issue.params.each_pair do |key, value| %>
 <%= Exceptioner::Transport::Helper.title(key.to_s) %>
-    
+
     <%= value.inspect %>
 
 <% end %>
 <% end %>
 
-<% if options[:env] %>
+<% if issue.env %>
 <%= Exceptioner::Transport::Helper.title('Environment') %>
 
-        <%= Exceptioner::Transport::Helper.format_env(options[:env]) %>    
+        <%= Exceptioner::Transport::Helper.format_env(issue.env) %>
 <% end %>
-
