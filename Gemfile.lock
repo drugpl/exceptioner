@@ -6,6 +6,7 @@ PATH
       mail (~> 2.2)
       redmine_client
       tinder (~> 1.4)
+      valuable (~> 0.8.5)
       xmpp4r (~> 0.5)
 
 GEM
@@ -50,6 +51,7 @@ GEM
     twitter-stream (0.1.10)
       eventmachine (>= 0.12.8)
       roauth (>= 0.0.2)
+    valuable (0.8.5)
     xmpp4r (0.5)
 
 PLATFORMS
@@ -58,7 +60,13 @@ PLATFORMS
 DEPENDENCIES
   contest
   exceptioner!
+  isaac (~> 0.2.6)
+  mail (~> 2.2)
   mocha
   rack
   rake
+  redmine_client
   rr
+  tinder (~> 1.4)
+  valuable (~> 0.8.5)
+  xmpp4r (~> 0.5)

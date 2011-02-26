@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency("isaac", ["~> 0.2.6"])
   s.add_dependency("redmine_client")
   s.add_dependency("tinder", ["~> 1.4"])
+  s.add_dependency("valuable", ["~> 0.8.5"])
 
   s.add_development_dependency("rack")
   s.add_development_dependency("mocha")
