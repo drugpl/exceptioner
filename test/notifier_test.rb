@@ -21,13 +21,13 @@ class NotifierTest < Test::Unit::TestCase
     config.campfire.subdomain = 'example'
     config.campfire.username = 'lukasz'
     config.campfire.token = 'randomtoken'
-    mail_system.clear_deliveries 
+    mail_system.clear_deliveries
   end
 
   def test_deliver_exception_by_email
     exception = get_exception
     Exceptioner::Notifier.stubs(:transports).returns([:mail])
-    Exceptioner::Notifier.dispatch(exception)
+    Exceptioner::Notifier.dispatch(:exception => exception)
     assert_equal 1, mail_system.deliveries.size
   end
 
@@ -37,7 +37,7 @@ class NotifierTest < Test::Unit::TestCase
     Jabber::Client.any_instance.expects(:connect).once
     Jabber::Client.any_instance.expects(:auth).with(config.jabber.password).once
     Jabber::Client.any_instance.expects(:send).once
-    Exceptioner::Notifier.dispatch(exception)
+    Exceptioner::Notifier.dispatch(:exception => exception)
   end
 
   def test_jabber_registration
@@ -64,25 +64,25 @@ class NotifierTest < Test::Unit::TestCase
     room_mock = stub_everything('Tinder::Room', :id => 1, :name => 'test')
     room_mock.expects(:paste)
     Tinder::Campfire.any_instance.stubs(:rooms).returns([room_mock])
-    Exceptioner::Notifier.dispatch(exception)
+    Exceptioner::Notifier.dispatch(:exception => exception)
   end
 
   def test_ignores_specified_exceptions_given_by_string
     Exceptioner.ignore = %w[NotifierTest::TestException]
     exception = get_exception(TestException)
     Exceptioner::Notifier.stubs(:transports).returns([:mail])
-    Exceptioner::Notifier.dispatch(exception)
+    Exceptioner::Notifier.dispatch(:exception => exception)
     assert_equal 0, mail_system.deliveries.size
   end
-  
+
   def test_ignores_specified_exceptions_given_by_class
     Exceptioner.ignore = NotifierTest::TestError
     exception = get_exception(TestError)
     Exceptioner::Notifier.stubs(:transports).returns([:mail])
-    Exceptioner::Notifier.dispatch(exception)
+    Exceptioner::Notifier.dispatch(:exception => exception)
     assert_equal 0, mail_system.deliveries.size
   end
-  
+
   def test_run_global_dispatch
     exception = get_exception(TestError)
     object = mock()
@@ -90,7 +90,7 @@ class NotifierTest < Test::Unit::TestCase
     Exceptioner.config.dispatch do |exception|
       object.do_something(exception)
     end
-    Exceptioner::Notifier.dispatch(exception)
+    Exceptioner::Notifier.dispatch(:exception => exception)
   end
 
   def test_run_dispatch_for_transport
@@ -102,7 +102,7 @@ class NotifierTest < Test::Unit::TestCase
     Exceptioner.config.jabber.dispatch do |exception|
       object.do_something(exception)
     end
-    Exceptioner::Notifier.dispatch(exception)
+    Exceptioner::Notifier.dispatch(:exception => exception)
   end
 
   def test_breaks_if_returned_false_from_dispatch
@@ -113,8 +113,8 @@ class NotifierTest < Test::Unit::TestCase
     Exceptioner.config.mail.dispatch do |exception|
       object.do_something(exception)
     end
-    Exceptioner::Notifier.dispatch(exception)
+    Exceptioner::Notifier.dispatch(:exception => exception)
   end
-  
+
 
 end
