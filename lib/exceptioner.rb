@@ -18,7 +18,7 @@ module Exceptioner
     autoload :Mail,     'exceptioner/transport/mail/mail'
     autoload :Jabber,   'exceptioner/transport/jabber/jabber'
     autoload :Redmine,  'exceptioner/transport/redmine/redmine'
-    autoload :IRC,      'exceptioner/transport/irc/irc'
+    autoload :Irc,      'exceptioner/transport/irc/irc'
     autoload :Campfire, 'exceptioner/transport/campfire/campfire'
   end
 

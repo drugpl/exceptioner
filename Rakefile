@@ -3,6 +3,8 @@ require 'rake/testtask'
 Bundler::GemHelper.install_tasks
 Bundler.setup
 
+ENV["RAILS_ENV"] ||= "test"
+
 task :default => :test
 
 desc 'Run Exceptioner unit tests.'

@@ -38,6 +38,9 @@ class MockSocket
       true
     end
   end
+  def closed?; false end
+  def close; end
+  def write(m); print(m) end
 end
 
 class Test::Unit::TestCase

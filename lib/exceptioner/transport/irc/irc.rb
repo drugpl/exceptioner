@@ -23,9 +23,10 @@ module Exceptioner::Transport
       self.bot = Isaac::Bot.new do
 
         configure do |c|
-          c.nick   = options[:nick]
-          c.server = options[:server]
-          c.port   = options[:port]
+          c.nick          = options[:nick]
+          c.server        = options[:server]
+          c.port          = options[:port]
+          c.environment   = :test if ENV['RAILS_ENV'] == 'test'
         end
 
         on :connect do
