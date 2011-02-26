@@ -1,33 +1,21 @@
 module Exceptioner
   class Notifier
+    def self.dispatch(options = {})
+      issue = Issue.new(options)
 
-    def self.dispatch(exception, options = {})
       if config.run_dispatchers(exception)
-        options = determine_options(exception, options.dup)
-        determine_transports(options) do |transport|
+        determine_transports(issue.transports) do |transport|
           if transport.class.run_dispatchers(exception)
-            transport.deliver(options)
+            transport.deliver(issue)
           end
         end
       end
     end
 
     protected
-    def self.determine_options(exception, options)
-      if exception.is_a?(Hash)
-        options = exception
-        exception = nil
-      else
-        options[:exception]       ||= exception
-        options[:exception_class] ||= exception.class
-        options[:error_message]   ||= exception.message
-        options[:backtrace]       ||= exception.backtrace
-      end
-      return options
-    end
 
-    def self.determine_transports(options)
-      (options[:transports] || transports).each do |transport|
+    def self.determine_transports(issue_transports)
+      (issue_transports || transports).each do |transport|
         yield transport_instance(transport)
       end
     end
