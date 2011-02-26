@@ -18,7 +18,7 @@ module Exceptioner
     autoload :Mail,     'exceptioner/transport/mail/mail'
     autoload :Jabber,   'exceptioner/transport/jabber/jabber'
     autoload :Redmine,  'exceptioner/transport/redmine/redmine'
-    autoload :IRC,      'exceptioner/transport/irc/irc'
+    autoload :Irc,      'exceptioner/transport/irc/irc'
     autoload :Campfire, 'exceptioner/transport/campfire/campfire'
     autoload :Http,     'exceptioner/transport/http/http'
   end
@@ -55,6 +55,12 @@ module Exceptioner
   # By default it's set to exceptions defined in DEFAULT_IGNORED_EXCEPTIONS
   mattr_accessor :ignore
   @@ignore = DEFAULT_IGNORED_EXCEPTIONS.dup
+
+  # Filesystem path to user's application and gems root.
+  # These paths will be stripped from paths in backtraces.
+  # Each of them can be array of paths.
+  mattr_accessor :application_path
+  mattr_accessor :gem_path
 
   def self.setup
     yield self if block_given?

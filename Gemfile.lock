@@ -16,6 +16,7 @@ GEM
     activesupport (2.3.11)
     addressable (2.2.4)
     contest (0.1.2)
+    crack (0.1.8)
     eventmachine (0.12.10)
     faraday (0.5.6)
       addressable (~> 2.2.4)
@@ -50,6 +51,9 @@ GEM
     twitter-stream (0.1.10)
       eventmachine (>= 0.12.8)
       roauth (>= 0.0.2)
+    webmock (1.6.2)
+      addressable (>= 2.2.2)
+      crack (>= 0.1.7)
     xmpp4r (0.5)
 
 PLATFORMS
@@ -58,7 +62,13 @@ PLATFORMS
 DEPENDENCIES
   contest
   exceptioner!
+  isaac (~> 0.2.6)
+  mail (~> 2.2)
   mocha
   rack
   rake
+  redmine_client
   rr
+  tinder (~> 1.4)
+  webmock
+  xmpp4r (~> 0.5)
