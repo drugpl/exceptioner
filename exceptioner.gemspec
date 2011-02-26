@@ -27,4 +27,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency("rack")
   s.add_development_dependency("mocha")
+  s.add_development_dependency("contest")
+  s.add_development_dependency("rr")
+  s.add_development_dependency("rake")
 end

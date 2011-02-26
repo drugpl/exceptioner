@@ -2,35 +2,63 @@ PATH
   remote: .
   specs:
     exceptioner (0.0.6.pre1)
+      isaac (~> 0.2.6)
       mail (~> 2.2)
+      redmine_client
+      tinder (~> 1.4)
       xmpp4r (~> 0.5)
 
 GEM
   remote: http://rubygems.org/
   specs:
-    activesupport (3.0.3)
+    activeresource (2.3.11)
+      activesupport (= 2.3.11)
+    activesupport (2.3.11)
+    addressable (2.2.4)
+    contest (0.1.2)
+    eventmachine (0.12.10)
+    faraday (0.5.6)
+      addressable (~> 2.2.4)
+      multipart-post (~> 1.1.0)
+      rack (>= 1.1.0, < 2)
     i18n (0.5.0)
-    mail (2.2.14)
+    isaac (0.2.6)
+    mail (2.2.15)
       activesupport (>= 2.3.6)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
-    mocha (0.9.10)
-      rake
+    mocha (0.9.12)
+    multipart-post (1.1.0)
     polyglot (0.3.1)
     rack (1.2.1)
     rake (0.8.7)
+    redmine_client (0.0.1)
+      activeresource (~> 2.3.0)
+    roauth (0.0.3)
+    rr (1.0.2)
+    tinder (1.4.3)
+      activesupport
+      eventmachine
+      faraday (~> 0.5.1)
+      mime-types
+      multipart-post
+      twitter-stream
     treetop (1.4.9)
       polyglot (>= 0.3.1)
+    twitter-stream (0.1.10)
+      eventmachine (>= 0.12.8)
+      roauth (>= 0.0.2)
     xmpp4r (0.5)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  contest
   exceptioner!
-  mail (~> 2.2)
   mocha
   rack
-  xmpp4r (~> 0.5)
+  rake
+  rr
