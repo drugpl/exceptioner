@@ -12,21 +12,21 @@ module Exceptioner::Transport
 
     class_attribute :delivery_options
 
-    def self.deliver(options = {})
+    def deliver(options = {})
       mail = prepare_mail(options)
       mail.deliver
     end
 
     protected
-    def self.default_options
+    def default_options
       {
-        :delivery_method => delivery_method,
-        :delivery_options => delivery_options,
+        :delivery_method => self.class.delivery_method,
+        :delivery_options => self.class.delivery_options,
         :sender => DEFAULT_SENDER_ADDRESS
       }.merge!(super)
     end
 
-    def self.prepare_mail(mail_options)
+    def prepare_mail(mail_options)
       options = mail_options.dup
       options = default_options.merge(options)
       options[:subject] ||= prefixed_subject(options)

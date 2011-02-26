@@ -115,11 +115,15 @@ module Exceptioner
   end
 
   def self.init_transports
-    Exceptioner::Utils.classify_transports(config.transports).each do |transport|
-      transport.configure
+    Exceptioner::Utils.classify_transports(config.transports).each do |transport_class|
+      transport_instance(transport_class).configure
     end
   end
 
+  def self.transport_instance(transport_class)
+    @@transport_instances ||= { }
+    @@transport_instances[transport_class.to_s] ||= transport_class.new
+  end
 end
 
 require 'exceptioner/support/rails2' if defined?(Rails::VERSION::MAJOR) && Rails::VERSION::MAJOR == 2
