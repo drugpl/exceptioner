@@ -55,6 +55,12 @@ module Exceptioner
   mattr_accessor :ignore
   @@ignore = DEFAULT_IGNORED_EXCEPTIONS.dup
 
+  # Filesystem path to user's application and gems root.
+  # These paths will be stripped from paths in backtraces.
+  # Each of them can be array of paths.
+  mattr_accessor :application_path
+  mattr_accessor :gem_path
+
   def self.setup
     yield self if block_given?
     init_transports

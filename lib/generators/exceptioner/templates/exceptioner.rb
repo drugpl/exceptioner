@@ -11,6 +11,11 @@ Exceptioner.setup do |config|
   # Name of current environment. For Rails it gets Rails.env by default
   # config.environment_name = Rails.env
 
+  # Filesystem path to user's application and gems root.
+  # These paths will be stripped from paths in backtraces.
+  # config.application_path = Rails.root
+  # config.gem_path = Gem.path
+
   # Specify list of ignored exceptions.
   # By default ActiveRecord::RecordNotFound, ActionController::RoutingError and
   # ActionController::UnknownAction are ignored.
