@@ -13,7 +13,7 @@ Application raised <%= options[:exception_class].to_s %> <%= options[:error_mess
 <% if options[:backtrace] %>
 <%= Exceptioner::Transport::Helper.title('Backtrace') %>
 
-        <%= options[:backtrace].join("\n\t") %>
+        <%= Exceptioner::Utils.filter_backtrace(options[:backtrace]).join("\n\t") %>
 <% end %>
 
 <% if options[:parameters] %>
