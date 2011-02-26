@@ -18,7 +18,7 @@ class Test::Unit::TestCase
   end
 
   def config
-    Exceptioner
+    Exceptioner.config
   end
 
   def mail_system

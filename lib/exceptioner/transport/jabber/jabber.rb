@@ -6,10 +6,6 @@ require 'exceptioner/transport/helper'
 module Exceptioner::Transport
 
   class Jabber < Base
-    
-    class_attribute :jabber_id
-
-    class_attribute :password
 
     def self.deliver(options = {})
       messages = prepare_messages(options)
@@ -21,9 +17,9 @@ module Exceptioner::Transport
     end
 
     def self.register
-      raise "Set jabber_id in your configuration first!" unless self.jabber_id
+      raise "Set jabber_id in your configuration first!" unless config.jabber_id
       connect do |client|
-        client.register(self.password)
+        client.register(config.password)
       end
     end
 
@@ -56,7 +52,7 @@ module Exceptioner::Transport
     end
 
     def self.connect
-      jid = ::Jabber::JID.new(self.jabber_id)
+      jid = ::Jabber::JID.new(config.jabber_id)
       client = ::Jabber::Client.new(jid)
       client.connect
       yield client
@@ -64,7 +60,7 @@ module Exceptioner::Transport
 
     def self.authenticate
       connect do |client|
-        client.auth(self.password)
+        client.auth(config.password)
         yield client
       end
     end

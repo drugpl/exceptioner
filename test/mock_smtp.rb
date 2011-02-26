@@ -11,6 +11,7 @@ class MockSMTP
   end
 
   def sendmail(body, from, to)
+    puts "CALLED SEND"
     @@deliveries << Mail.new(:from => from, :to => to, :body => body)
   end
 

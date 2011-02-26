@@ -34,11 +34,11 @@ module Exceptioner
     end
 
     def self.transports
-      Exceptioner.transports
+      config.transports
     end
 
     def self.config
-      Exceptioner
+      Exceptioner.config
     end
 
     # Determines class of exception.

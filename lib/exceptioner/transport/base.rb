@@ -1,19 +1,26 @@
-require 'exceptioner/dispatchable' 
+require 'exceptioner/dispatchable'
 
 module Exceptioner::Transport
 
   class Base
     extend Exceptioner::Dispatchable
-    
-    class_attribute :sender
-
-    class_attribute :recipients
-
-    class_attribute :prefix
-
-    class_attribute :subject
 
     def self.init
+    end
+
+    def self.config
+      @config ||= begin
+                    local_config.update_attributes(Exceptioner.config.only(local_config.attributes.keys))
+                    local_config
+                  end
+    end
+
+    def self.config_name
+      self.name.split('::').last.downcase
+    end
+
+    def self.local_config
+      Exceptioner.config.send(self.config_name)
     end
 
     def self.configure
@@ -32,17 +39,17 @@ module Exceptioner::Transport
     protected
     def self.default_options
       {
-        :sender => sender || 'exceptioner',
-        :recipients => recipients,
-        :prefix => prefix || '[ERROR] ',
-        :subject => subject
+        :sender => config.sender || 'exceptioner',
+        :recipients => config.recipients,
+        :prefix => config.prefix,
+        :subject => config.subject
       }
     end
 
     def self.prefixed_subject(options)
       "#{options[:prefix]}#{options[:error_message]}"
     end
-    
+
     def self.render(options = {})
       ERB.new(template, nil, '>').result(binding)
     end
@@ -50,7 +57,7 @@ module Exceptioner::Transport
     def self.template
       @template ||= File.read(File.expand_path(File.join(File.dirname(__FILE__), 'templates', 'exception.erb')))
     end
-    
+
 
   end
 

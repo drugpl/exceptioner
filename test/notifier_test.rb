@@ -10,23 +10,24 @@ class NotifierTest < Test::Unit::TestCase
   class TestError < StandardError; end
 
   def setup
+    Exceptioner.reset_config
     config.mail.recipients = %w[michal@example.net]
     config.jabber.jabber_id = %w[jabber@example.net]
     config.jabber.password = 'secret'
     config.jabber.recipients = %w[michal@example.net]
     config.ignore = []
-    config.reset_dispatchers
-    config.mail.clear_dispatchers
-    config.jabber.clear_dispatchers
+    Exceptioner.reset_dispatchers
+    Exceptioner::Transport::Mail.clear_dispatchers
+    Exceptioner::Transport::Jabber.clear_dispatchers
     config.campfire.subdomain = 'example'
     config.campfire.username = 'lukasz'
     config.campfire.token = 'randomtoken'
-    mail_system.clear_deliveries 
+    mail_system.clear_deliveries
   end
 
   def test_deliver_exception_by_email
     exception = get_exception
-    Exceptioner::Notifier.stubs(:transports).returns([:mail])
+    config.transports = [:mail]
     Exceptioner::Notifier.dispatch(exception)
     assert_equal 1, mail_system.deliveries.size
   end
@@ -59,8 +60,8 @@ class NotifierTest < Test::Unit::TestCase
 
   def test_deliver_exception_by_campfire
     exception = get_exception
-    Exceptioner::Notifier.stubs(:transports).returns([:campfire])
-    Exceptioner::Transport::Campfire.stubs(:rooms).returns(['test'])
+    config.transports = [:campfire]
+    config.campfire.rooms = %w[test]
     room_mock = stub_everything('Tinder::Room', :id => 1, :name => 'test')
     room_mock.expects(:paste)
     Tinder::Campfire.any_instance.stubs(:rooms).returns([room_mock])
@@ -68,7 +69,7 @@ class NotifierTest < Test::Unit::TestCase
   end
 
   def test_ignores_specified_exceptions_given_by_string
-    Exceptioner.ignore = %w[NotifierTest::TestException]
+    config.ignore = %w[NotifierTest::TestException]
     exception = get_exception(TestException)
     Exceptioner::Notifier.stubs(:transports).returns([:mail])
     Exceptioner::Notifier.dispatch(exception)
@@ -76,7 +77,7 @@ class NotifierTest < Test::Unit::TestCase
   end
   
   def test_ignores_specified_exceptions_given_by_class
-    Exceptioner.ignore = NotifierTest::TestError
+    config.ignore = NotifierTest::TestError
     exception = get_exception(TestError)
     Exceptioner::Notifier.stubs(:transports).returns([:mail])
     Exceptioner::Notifier.dispatch(exception)
@@ -110,7 +111,7 @@ class NotifierTest < Test::Unit::TestCase
     Exceptioner::Notifier.stubs(:transports).returns([:mail])
     object = mock()
     object.expects(:do_something).with(exception).returns(false)
-    Exceptioner.config.mail.dispatch do |exception|
+    Exceptioner::Transport::Mail.dispatch do |exception|
       object.do_something(exception)
     end
     Exceptioner::Notifier.dispatch(exception)
