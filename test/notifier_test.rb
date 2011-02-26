@@ -44,7 +44,7 @@ class NotifierTest < Test::Unit::TestCase
     Exceptioner::Notifier.stubs(:transports).returns([:jabber])
     Jabber::Client.any_instance.expects(:connect).once
     Jabber::Client.any_instance.expects(:register).with(config.jabber.password).once
-    Exceptioner::Notifier.transport_instance(Exceptioner::Transport::Jabber).register
+    Exceptioner::Notifier.transport_instance(:jabber).register
   end
 
   def test_jabber_subscription
@@ -54,7 +54,7 @@ class NotifierTest < Test::Unit::TestCase
     Jabber::Client.any_instance.expects(:send).
       with() { |v| v.to_s.match "<presence" }.
       times(config.jabber.recipients.length)
-    Exceptioner::Notifier.transport_instance(Exceptioner::Transport::Jabber).subscribe
+    Exceptioner::Notifier.transport_instance(:jabber).subscribe
   end
 
   def test_deliver_exception_by_campfire

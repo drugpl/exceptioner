@@ -19,7 +19,7 @@ class SetupTest < Test::Unit::TestCase
   def test_initialized_returns_true
     Exceptioner.config.transports = [:mail]
     Exceptioner.setup
-    transport = Exceptioner.transport_instance(Exceptioner::Transport::Mail)
+    transport = Exceptioner.transport_instance(:mail)
     assert transport.initialized?
   end
 
