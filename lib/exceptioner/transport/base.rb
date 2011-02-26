@@ -3,41 +3,41 @@ require 'exceptioner/dispatchable'
 module Exceptioner::Transport
 
   class Base
-    extend Exceptioner::Dispatchable
+    include Exceptioner::Dispatchable
 
-    def self.init
+    def init
     end
 
-    def self.config
+    def config
       @config ||= begin
                     local_config.update_attributes(Exceptioner.config.only(local_config.attributes.keys))
                     local_config
                   end
     end
 
-    def self.config_name
-      self.name.split('::').last.downcase
+    def config_name
+      self.class.name.split('::').last.downcase
     end
 
-    def self.local_config
+    def local_config
       Exceptioner.config.send(self.config_name)
     end
 
-    def self.configure
+    def configure
       init unless initialized?
       @initialized = true
     end
 
-    def self.initialized?
+    def initialized?
       @initialized
     end
 
-    def self.deliver(options = {})
-      raise Exceptioner::ExceptionerError, 'Implement deliver class method in your Exceptioner::Transport::Base subclass'
+    def deliver(options = {})
+      raise Exceptioner::ExceptionerError, 'Implement deliver method in your Exceptioner::Transport::Base subclass'
     end
 
     protected
-    def self.default_options
+    def default_options
       {
         :sender => config.sender || 'exceptioner',
         :recipients => config.recipients,
@@ -46,18 +46,17 @@ module Exceptioner::Transport
       }
     end
 
-    def self.prefixed_subject(options)
+    def prefixed_subject(options)
       "#{options[:prefix]}#{options[:error_message]}"
     end
 
-    def self.render(options = {})
+    def render(options = {})
       ERB.new(template, nil, '>').result(binding)
     end
 
-    def self.template
+    def template
       @template ||= File.read(File.expand_path(File.join(File.dirname(__FILE__), 'templates', 'exception.erb')))
     end
-
 
   end
 

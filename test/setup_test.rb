@@ -1,6 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/helper')
 
-
 class SetupTest < Test::Unit::TestCase
 
   def setup
@@ -9,21 +8,15 @@ class SetupTest < Test::Unit::TestCase
 
   def test_each_transport_is_initialized
     config.transports = [:mail, :jabber]
-    Exceptioner::Transport::Mail.expects(:init)
-    Exceptioner::Transport::Jabber.expects(:init)
     Exceptioner.setup
+    assert Exceptioner.transport_instance(:mail).initialized?
+    assert Exceptioner.transport_instance(:jabber).initialized?
   end
 
   def test_only_added_transports_are_initialized
-    Exceptioner.config.transports = [:mail]
-    Exceptioner::Transport::Jabber.expects(:init).never
+    config.transports = [:mail]
     Exceptioner.setup
-  end
-
-  def test_initialized_returns_true
-    Exceptioner.config.transports = [:mail]
-    Exceptioner.setup
-    assert Exceptioner::Transport::Mail.initialized?
+    assert Exceptioner.transport_instance(:jabber).initialized?
   end
 
 end

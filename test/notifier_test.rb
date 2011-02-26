@@ -17,8 +17,8 @@ class NotifierTest < Test::Unit::TestCase
     config.jabber.recipients = %w[michal@example.net]
     config.ignore = []
     Exceptioner.reset_dispatchers
-    Exceptioner::Transport::Mail.clear_dispatchers
-    Exceptioner::Transport::Jabber.clear_dispatchers
+    Exceptioner.transport_instance(:mail).clear_dispatchers
+    Exceptioner.transport_instance(:jabber).clear_dispatchers
     config.campfire.subdomain = 'example'
     config.campfire.username = 'lukasz'
     config.campfire.token = 'randomtoken'
@@ -45,7 +45,7 @@ class NotifierTest < Test::Unit::TestCase
     Exceptioner::Notifier.stubs(:transports).returns([:jabber])
     Jabber::Client.any_instance.expects(:connect).once
     Jabber::Client.any_instance.expects(:register).with(config.jabber.password).once
-    Exceptioner::Transport::Jabber.register
+    Exceptioner::Notifier.transport_instance(:jabber).register
   end
 
   def test_jabber_subscription
@@ -55,7 +55,7 @@ class NotifierTest < Test::Unit::TestCase
     Jabber::Client.any_instance.expects(:send).
       with() { |v| v.to_s.match "<presence" }.
       times(config.jabber.recipients.length)
-    Exceptioner::Transport::Jabber.subscribe
+    Exceptioner::Notifier.transport_instance(:jabber).subscribe
   end
 
   def test_deliver_exception_by_campfire
@@ -75,7 +75,7 @@ class NotifierTest < Test::Unit::TestCase
     Exceptioner::Notifier.dispatch(exception)
     assert_equal 0, mail_system.deliveries.size
   end
-  
+
   def test_ignores_specified_exceptions_given_by_class
     config.ignore = NotifierTest::TestError
     exception = get_exception(TestError)
@@ -83,12 +83,12 @@ class NotifierTest < Test::Unit::TestCase
     Exceptioner::Notifier.dispatch(exception)
     assert_equal 0, mail_system.deliveries.size
   end
-  
+
   def test_run_global_dispatch
     exception = get_exception(TestError)
     object = mock()
     object.expects(:do_something).with(exception)
-    Exceptioner.config.dispatch do |exception|
+    config.dispatch do |exception|
       object.do_something(exception)
     end
     Exceptioner::Notifier.dispatch(exception)
@@ -97,10 +97,10 @@ class NotifierTest < Test::Unit::TestCase
   def test_run_dispatch_for_transport
     exception = get_exception(TestError)
     Exceptioner::Notifier.stubs(:transports).returns([:jabber])
-    Exceptioner::Transport::Jabber.stubs(:deliver)
+    Exceptioner::Transport::Jabber.any_instance.stubs(:deliver)
     object = mock()
     object.expects(:do_something).with(exception)
-    Exceptioner.config.jabber.dispatch do |exception|
+    config.jabber.dispatch do |exception|
       object.do_something(exception)
     end
     Exceptioner::Notifier.dispatch(exception)
@@ -111,7 +111,7 @@ class NotifierTest < Test::Unit::TestCase
     Exceptioner::Notifier.stubs(:transports).returns([:mail])
     object = mock()
     object.expects(:do_something).with(exception).returns(false)
-    Exceptioner::Transport::Mail.dispatch do |exception|
+    Exceptioner.transport_instance(:mail).dispatch do |exception|
       object.do_something(exception)
     end
     Exceptioner::Notifier.dispatch(exception)

@@ -7,18 +7,18 @@ module Exceptioner::Transport
     class_attribute :project # id_or_identifier of redmine project
     class_attribute :options # redmine issue options
 
-    def self.connection(&block)
+    def connection(&block)
       RedmineClient::Base.configure(&block)
     end
 
-    def self.deliver(options = {})
+    def deliver(options = {})
       options[:subject] ||= prefixed_subject(options)
       options[:description] ||= render(options)
       begin
         issue = RedmineClient::Issue.new(
-          :subject     => options[:subject],
-          :description => options[:description],
-          :project_id  => self.project
+          :subject     => self.options[:subject],
+          :description => self.options[:description],
+          :project_id  => self.class.project
         )
         issue.save
       rescue ActiveResource::UnauthorizedAccess

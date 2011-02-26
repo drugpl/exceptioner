@@ -7,13 +7,13 @@ module Exceptioner::Transport
 
   class Mail < Base
 
-    def self.deliver(options = {})
+    def deliver(options = {})
       mail = prepare_mail(options)
       mail.deliver
     end
 
     protected
-    def self.prepare_mail(mail_options)
+    def prepare_mail(mail_options)
       options = config.attributes.merge(mail_options)
       options[:subject] ||= prefixed_subject(options)
       options[:body]    ||= render(mail_options)

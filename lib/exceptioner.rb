@@ -42,6 +42,7 @@ module Exceptioner
 
   def self.reset_config
     @config = nil
+    @@transport_instances = nil
   end
 
   def self.reset_dispatchers
@@ -67,11 +68,15 @@ module Exceptioner
   end
 
   def self.init_transports
-    Exceptioner::Utils.classify_transports(config.transports).each do |transport|
-      transport.configure
+    config.transports.each do |transport|
+      transport_instance(transport).configure
     end
   end
 
+  def self.transport_instance(transport)
+    @@transport_instances ||= { }
+    @@transport_instances[transport] ||= Utils.classify_transport(transport).new
+  end
 end
 
 require 'exceptioner/support/rails2' if defined?(Rails::VERSION::MAJOR) && Rails::VERSION::MAJOR == 2
