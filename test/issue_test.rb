@@ -77,4 +77,10 @@ class IssueTest < Test::Unit::TestCase
     @issue.env = 'production'
     assert_equal('production', @issue.env)
   end
+
+  def test_transports
+    transports = [:mail, :irc]
+    @issue.transports = transports
+    assert_equal(transports, @issue.transports)
+  end
 end

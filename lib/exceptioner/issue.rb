@@ -1,6 +1,6 @@
 module Exceptioner
   class Issue
-    attr_accessor :exception, :message, :backtrace, :controller, :env
+    attr_accessor :exception, :message, :backtrace, :controller, :env, :transports
     attr_writer :params
 
     def initialize(options = {})
