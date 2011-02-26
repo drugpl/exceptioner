@@ -115,13 +115,15 @@ module Exceptioner
   end
 
   def self.init_transports
-    Exceptioner::Utils.classify_transports(config.transports).each do |transport_class|
-      transport_instance(transport_class).configure
+    config.transports.each do |transport|
+      transport_instance(transport).configure
     end
   end
 
-  def self.transport_instance(transport_class)
+  def self.transport_instance(transport)
+    # TODO: classify once
     @@transport_instances ||= { }
+    transport_class = Utils.classify_transport(transport)
     @@transport_instances[transport_class.to_s] ||= transport_class.new
   end
 end
