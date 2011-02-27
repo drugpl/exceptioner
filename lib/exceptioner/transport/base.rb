@@ -12,7 +12,7 @@ module Exceptioner
 
       def config
         @config ||= begin
-                      local_config.update_attributes(Exceptioner.config.only(local_config.attributes.keys))
+                      local_config.update_attributes(@global_config.only(local_config.attributes.keys))
                       local_config
                     end
       end
@@ -22,10 +22,11 @@ module Exceptioner
       end
 
       def local_config
-        Exceptioner.config.send(self.config_name)
+        @global_config.send(self.config_name)
       end
 
-      def configure
+      def configure(config)
+        @global_config = config
         init unless initialized?
         @initialized = true
       end

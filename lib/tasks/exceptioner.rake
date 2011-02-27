@@ -5,12 +5,12 @@ namespace :exceptioner do
 
     desc "Register Jabber account used by Exceptioner"
     task :register => :environment do
-      Exceptioner.transport_instance(:jabber).register
+      Exceptioner.notifier.transport(:jabber).register
     end
 
     desc "Send subscription request to all Exceptioner recipients"
     task :subscribe => :environment do
-      Exceptioner.transport_instance(:jabber).subscribe
+      Exceptioner.notifier.transport(:jabber).subscribe
     end
   end
 end

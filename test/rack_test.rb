@@ -1,13 +1,20 @@
 require File.expand_path(File.dirname(__FILE__) + '/helper')
 
 class RackTest < ExceptionerTestCase
+  def setup
+    Exceptioner.destroy
+  end
+
+  def notifier
+    Exceptioner.notifier
+  end
     
   def test_should_dispatch_exception
     exception = get_exception
     app = lambda { |env| raise exception  }
     environment = { 'key' => 'value' }
 
-    Exceptioner::Notifier.expects(:dispatch).with(exception, has_entry(:env, environment))
+    notifier.expects(:dispatch).with(has_entries(:env => environment, :exception => exception))
     
     begin
       stack = Exceptioner::Middleware.new(app)
@@ -29,7 +36,7 @@ class RackTest < ExceptionerTestCase
       response
     end
 
-    Exceptioner::Notifier.expects(:dispatch).with(exception, has_entry(:env, environment))
+    notifier.expects(:dispatch).with(has_entries(:env => environment, :exception => exception))
 
     stack = Exceptioner::Middleware.new(app)
 

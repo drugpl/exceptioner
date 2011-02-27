@@ -6,70 +6,74 @@ class NotifierTest < ExceptionerTestCase
 
   class TestError < StandardError; end
 
-  def setup
-    Exceptioner.reset_config
-    config.ignore = []
-    Exceptioner.reset_dispatchers
-    Exceptioner.transport_instance(:test).clear_dispatchers
-  end
-
-  def test_ignores_specified_exceptions_given_by_string
-    config.ignore = %w[NotifierTest::TestException]
-    config.transports = [:test]
-    Exceptioner.init
+  def test_calls_deliver
     exception = get_exception(TestException)
-    Exceptioner.transport_instance(:test).expects(:deliver).never
-    Exceptioner::Notifier.dispatch(:exception => exception)
+    config.transports = [:test]
+    transport(:test).expects(:deliver)
+    notifier.dispatch(:exception => exception)
   end
 
   def test_ignores_specified_exceptions_given_by_class
-    exception = NotifierTest::TestError
-    config.ignore = [exception]
+    config.ignore = NotifierTest::TestError
     config.transports = [:test]
-    Exceptioner.init
-    Exceptioner.transport_instance(:test).expects(:deliver).never
-    Exceptioner::Notifier.dispatch(:exception => exception.new)
+    exception = get_exception(TestError)
+    transport(:test).expects(:deliver).never
+    notifier.dispatch(:exception => exception)
   end
 
-  def test_run_global_dispatch
+  def test_ignores_specified_exceptions_given_by_string
+    config.ignore = "NotifierTest::TestError"
+    config.transports = [:test]
+    exception = get_exception(TestError)
+    transport(:test).expects(:deliver).never
+    notifier.dispatch(:exception => exception)
+  end
+
+  def test_run_global_dispatchers
     exception = get_exception(TestError)
     config.transports = [:test]
     object = mock()
     object.expects(:do_something).with(exception)
-    Exceptioner.dispatch do |exception|
+    notifier.add_dispatcher do |exception|
       object.do_something(exception)
     end
-    Exceptioner::Notifier.dispatch(:exception => exception)
+    transport(:test).stubs(:deliver)
+    notifier.dispatch(:exception => exception)
   end
 
-  def test_run_dispatch_for_transport
+  def test_run_dispatchers_for_transport
     exception = get_exception(TestError)
     config.transports = [:test]
-    Exceptioner.transport_instance(:test).expects(:deliver)
     object = mock()
     object.expects(:do_something).with(exception)
-    Exceptioner.transport_instance(:test).dispatch do |exception|
+    transport(:test).add_dispatcher do |exception|
       object.do_something(exception)
     end
-    Exceptioner::Notifier.dispatch(:exception => exception)
+    transport(:test).expects(:deliver)
+    notifier.dispatch(:exception => exception)
   end
 
-  def test_breaks_if_returned_false_from_dispatch
+  def test_breaks_if_returned_false_from_dispatcher
     exception = get_exception(TestError)
     config.transports = [:test]
     object = mock()
     object.expects(:do_something).with(exception).returns(false)
-    Exceptioner.transport_instance(:test).dispatch do |exception|
+    transport(:test).add_dispatcher do |exception|
       object.do_something(exception)
     end
-    Exceptioner.transport_instance(:test).expects(:deliver).never
-    Exceptioner::Notifier.dispatch(:exception => exception)
+    transport(:test).expects(:deliver).never
+    notifier.dispatch(:exception => exception)
   end
 
   def test_transport_has_one_instance
     config.transports = [:test]
-    instance1 = Exceptioner.transport_instance(:test)
-    instance2 = Exceptioner.transport_instance(:test)
+    instance1 = notifier.transport(:test)
+    instance2 = notifier.transport(:test)
     assert instance1.object_id == instance2.object_id
+  end
+
+  def test_transport_is_initialized
+    config.transports = [:test]
+    assert transport(:test).initialized?
   end
 end
