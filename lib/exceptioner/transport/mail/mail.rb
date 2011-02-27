@@ -7,16 +7,16 @@ module Exceptioner::Transport
 
   class Mail < Base
 
-    def deliver(options = {})
-      mail = prepare_mail(options)
+    def deliver(issue)
+      mail = prepare_mail(issue)
       mail.deliver
     end
 
     protected
-    def prepare_mail(mail_options)
-      options = config.attributes.merge(mail_options)
+    def prepare_mail(issue)
+      options = config.attributes
       options[:subject] ||= prefixed_subject(options)
-      options[:body]    ||= render(mail_options)
+      options[:body]    ||= render(issue)
 
       mail = ::Mail.new(
         :from             => options[:sender],
