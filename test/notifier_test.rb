@@ -72,4 +72,9 @@ class NotifierTest < ExceptionerTestCase
     instance2 = notifier.transport_instance(:mail)
     assert instance1.object_id == instance2.object_id
   end
+
+  def test_transport_is_initialized
+    notifier.config.transports = [:mail]
+    assert notifier.transport_instance(:mail).initialized?
+  end
 end
