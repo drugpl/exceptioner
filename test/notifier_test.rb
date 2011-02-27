@@ -3,9 +3,7 @@ require 'xmpp4r'
 require 'tinder'
 require 'ostruct'
 
-# http transport test module
-require File.expand_path(File.dirname(__FILE__) + '/http_test')
-
+require File.expand_path(File.dirname(__FILE__) + '/http_transport_test')
 require File.expand_path(File.dirname(__FILE__) + '/jabber_transport_test')
 
 class NotifierTest < Test::Unit::TestCase
