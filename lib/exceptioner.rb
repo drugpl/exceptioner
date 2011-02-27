@@ -21,7 +21,7 @@ module Exceptioner
   end
 
   def self.setup
-    @config = yield config if block_given?
+    yield config if block_given?
   end
 
   def self.config
