@@ -10,7 +10,7 @@ class JabberTransportTest < TransportTestCase
   end
 
   def transport
-    notifier.transport_instance(:jabber)
+    notifier.transport(:jabber)
   end
 
   def test_deliver_exception_by_jabber

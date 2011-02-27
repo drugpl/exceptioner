@@ -9,7 +9,7 @@ class IrcTransportTest < TransportTestCase
   end
 
   def transport
-    notifier.transport_instance(:irc)
+    notifier.transport(:irc)
   end
 
   def test_deliver_exception_by_irc

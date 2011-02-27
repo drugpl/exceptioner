@@ -68,8 +68,8 @@ class NotifierTest < ExceptionerTestCase
 
   def test_transport_has_one_instance
     config.transports = [:mail]
-    instance1 = notifier.transport_instance(:mail)
-    instance2 = notifier.transport_instance(:mail)
+    instance1 = notifier.transport(:mail)
+    instance2 = notifier.transport(:mail)
     assert instance1.object_id == instance2.object_id
   end
 

@@ -24,7 +24,7 @@ class ExceptionerTestCase < Test::Unit::TestCase
   end
 
   def transport(name)
-    notifier.transport_instance(name)
+    notifier.transport(name)
   end
 
   def get_exception(klass = Exception)

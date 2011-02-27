@@ -4,7 +4,7 @@ module Exceptioner
 
     def initialize(config)
       @config = config
-      @transport_instances = {}
+      @transports = {}
       add_default_dispatchers
     end
 
@@ -20,9 +20,9 @@ module Exceptioner
       end
     end
 
-    def transport_instance(transport)
-      @transport_instances[transport] ||= begin
-        transport = Utils.classify_transport(transport).new
+    def transport(name)
+      @transports[name] ||= begin
+        transport = Utils.classify_transport(name).new
         transport.configure(config)
         transport
       end
@@ -40,8 +40,8 @@ module Exceptioner
     protected
 
     def determine_transports(issue_transports)
-      (issue_transports || transports).each do |transport|
-        yield transport_instance(transport)
+      (issue_transports || transports).each do |transport_name|
+        yield transport(transport_name)
       end
     end
 
