@@ -3,8 +3,8 @@ require 'isaac'
 require 'rubygems'
 require 'test/unit'
 require 'contest'
-require 'rr'
 require 'timeout'
+
 begin
   require 'ruby-debug'
 rescue LoadError; end
@@ -41,23 +41,4 @@ class MockSocket
   def closed?; false end
   def close; end
   def write(m); print(m) end
-end
-
-class Test::Unit::TestCase
-  include RR::Adapters::TestUnit
-
-  def mock_bot(&b)
-    @socket, @server = MockSocket.pipe
-    stub(TCPSocket).open(anything, anything) {@socket}
-    bot = Isaac::Bot.new(&b)
-    bot.config.environment = :test
-    Thread.start { bot.start }
-    bot
-  end
-
-  def bot_is_connected
-    assert_equal "NICK isaac\r\n", @server.gets
-    assert_equal "USER isaac 0 * :Isaac\r\n", @server.gets
-    1.upto(4) {|i| @server.print ":localhost 00#{i}\r\n"}
-  end
 end
