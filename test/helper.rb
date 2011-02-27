@@ -10,6 +10,13 @@ require 'mock_smtp'
 
 class ExceptionerTestCase < Test::Unit::TestCase
 
+  attr_reader :notifier
+
+  def setup
+    config = Exceptioner::Configuration.new
+    @notifier = Exceptioner::Notifier.new(config)
+  end
+
   def get_exception(klass = Exception)
     raise klass.new("Test Exception")
   rescue Exception => exception

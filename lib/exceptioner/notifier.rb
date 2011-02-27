@@ -6,6 +6,7 @@ module Exceptioner
       @config = config
       @transport_instances = {}
       add_default_dispatchers
+      init_transports
     end
 
     def dispatch(options = {})
@@ -26,6 +27,12 @@ module Exceptioner
 
     def config
       @config
+    end
+
+    def init_transports
+      config.transports.each do |transport|
+        transport_instance(transport).configure(config)
+      end
     end
 
     def add_default_dispatchers

@@ -8,13 +8,6 @@ class NotifierTest < ExceptionerTestCase
 
   class TestError < StandardError; end
 
-  attr_reader :notifier
-
-  def setup
-    config = Exceptioner::Configuration.new
-    @notifier = Exceptioner::Notifier.new(config)
-  end
-
   def test_calls_deliver
     exception = get_exception(TestException)
     notifier.stubs(:transports).returns([:mail])
