@@ -20,7 +20,6 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency("redmine_client")
-  s.add_dependency("tinder", ["~> 1.4"])
   s.add_dependency("valuable", ["~> 0.8.5"])
   s.add_dependency("json")
 

@@ -59,19 +59,6 @@ module Exceptioner
     end
     has_value :redmine, :klass => Redmine, :default => Redmine.new
 
-    class Campfire < Authenticable
-      has_value :subdomain, :klass => String
-      has_value :token, :klass => String
-      has_value :rooms, :default => []
-      has_value :room
-
-      def room=(value)
-        self.rooms = [value]
-        self.room = value
-      end
-    end
-    has_value :campfire, :klass => Campfire, :default => Campfire.new
-
     class Http < Configuration
       has_value :api_uri, :klass => String
       has_value :api_key, :klass => String
