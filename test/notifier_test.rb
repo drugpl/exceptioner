@@ -3,10 +3,12 @@ require 'xmpp4r'
 require 'tinder'
 require 'ostruct'
 
+require File.expand_path(File.dirname(__FILE__) + '/mail_transport_test')
 require File.expand_path(File.dirname(__FILE__) + '/http_transport_test')
 require File.expand_path(File.dirname(__FILE__) + '/jabber_transport_test')
 
 class NotifierTest < Test::Unit::TestCase
+  include MailTransportTest
   include HttpTransportTest
   include JabberTransportTest
 
@@ -17,7 +19,6 @@ class NotifierTest < Test::Unit::TestCase
   def setup
     Exceptioner.reset_config
     super
-    config.mail.recipients = %w[michal@example.net]
     config.ignore = []
     Exceptioner.reset_dispatchers
     Exceptioner.transport_instance(:mail).clear_dispatchers
@@ -27,13 +28,6 @@ class NotifierTest < Test::Unit::TestCase
     config.campfire.token = 'randomtoken'
     config.irc.channel = "#example-channel"
     mail_system.clear_deliveries
-  end
-
-  def test_deliver_exception_by_email
-    exception = get_exception
-    config.transports = [:mail]
-    ::Mail::Message.any_instance.expects(:deliver).once
-    Exceptioner::Notifier.dispatch(:exception => exception)
   end
 
   # def test_deliver_exception_by_irc
