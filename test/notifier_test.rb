@@ -6,11 +6,13 @@ require 'ostruct'
 require File.expand_path(File.dirname(__FILE__) + '/mail_transport_test')
 require File.expand_path(File.dirname(__FILE__) + '/http_transport_test')
 require File.expand_path(File.dirname(__FILE__) + '/jabber_transport_test')
+require File.expand_path(File.dirname(__FILE__) + '/campfire_transport_test')
 
 class NotifierTest < Test::Unit::TestCase
   include MailTransportTest
   include HttpTransportTest
   include JabberTransportTest
+  include CampfireTransportTest
 
   class TestException < StandardError; end
 
@@ -23,9 +25,6 @@ class NotifierTest < Test::Unit::TestCase
     Exceptioner.reset_dispatchers
     Exceptioner.transport_instance(:mail).clear_dispatchers
     Exceptioner.transport_instance(:jabber).clear_dispatchers
-    config.campfire.subdomain = 'example'
-    config.campfire.username = 'lukasz'
-    config.campfire.token = 'randomtoken'
     config.irc.channel = "#example-channel"
     mail_system.clear_deliveries
   end
@@ -50,16 +49,6 @@ class NotifierTest < Test::Unit::TestCase
   #
   #   Exceptioner::Notifier.dispatch(exception)
   # end
-
-  def test_deliver_exception_by_campfire
-    exception = get_exception
-    config.transports = [:campfire]
-    config.campfire.rooms = %w[test]
-    room_mock = stub_everything('Tinder::Room', :id => 1, :name => 'test')
-    room_mock.expects(:paste)
-    Tinder::Campfire.any_instance.stubs(:rooms).returns([room_mock])
-    Exceptioner::Notifier.dispatch(:exception => exception)
-  end
 
   def test_ignores_specified_exceptions_given_by_string
     config.ignore = %w[NotifierTest::TestException]
