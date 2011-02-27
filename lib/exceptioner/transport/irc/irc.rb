@@ -87,14 +87,15 @@ module Exceptioner::Transport
       return @bot, thread
     end
 
-    def deliver(options = {})
-      body = prepare_message(options)
+    def deliver(issue)
+      body = prepare_message(issue)
       @bot.msg config.channel, body
     end
 
-    def prepare_message(options)
-      body = render(options)
-      exception = add_exception(body, options)
+    def prepare_message(issue)
+      options = config.attributes
+      body = render(issue)
+      exception = add_exception(body, issue, options)
       "Exception!: " + exception[:link]
     end
 
@@ -105,9 +106,9 @@ module Exceptioner::Transport
       end
     end
 
-    def add_exception(body, exception)
-      hash = Digest::SHA1.hexdigest(exception.to_s)
-      @exceptions[hash] ||= { :options => exception, :link => post_body(body), :body => body, :counter => 1, :created_at => Time.now }
+    def add_exception(body, issue, options = {})
+      hash = Digest::SHA1.hexdigest(issue.backtrace)
+      @exceptions[hash] ||= { :issue => issue, :link => post_body(body, options), :body => body, :counter => 1, :created_at => Time.now }
       @exceptions[hash][:counter] += 1
 
       @exceptions[hash]
