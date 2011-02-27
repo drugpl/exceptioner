@@ -40,8 +40,10 @@ module Exceptioner
 
     has_value :subject, :klass => String, :default => "[ERROR] "
 
+    # Filesystem path to user's application and gems root.
+    # These paths will be stripped from paths in backtraces.
+    # Each of them can be array of paths.
     has_value :application_path
-
     has_value :gem_path
 
     def only(*keys)
@@ -49,84 +51,53 @@ module Exceptioner
     end
 
     class Authenticable < Configuration
-
       has_value :username, :klass => String
-
       has_value :password, :klass => String
-
     end
 
     class Mail < Configuration
-
       has_value :delivery_method, :klass => Symbol, :default => :sendmail
-
       has_value :delivery_options, :klass => Hash, :default => {}
-
     end
-
     has_value :mail, :klass => Mail, :default => Mail.new
 
     class Irc < Configuration
-
       has_value :server, :klass => String
-
       has_value :port, :klass => Integer, :default => 6667
-
       has_value :nick, :klass => String, :default => 'exceptioner'
-
       has_value :channel, :klass => String
-
     end
-
     has_value :irc, :klass => Irc, :default => Irc.new
 
     class Jabber < Authenticable
-
       has_collection :jabber_id
-
     end
-
     has_value :jabber, :klass => Jabber, :default => Jabber.new
 
     class Redmine < Configuration
-
       has_value :project, :klass => String
-
       has_value :options, :klass => Hash
-
     end
-
     has_value :redmine, :klass => Redmine, :default => Redmine.new
 
     class Campfire < Authenticable
-
       has_value :subdomain, :klass => String
-
       has_value :token, :klass => String
-
       has_value :rooms, :default => []
-
       has_value :room
 
       def room=(value)
         self.rooms = [value]
         self.room = value
       end
-
     end
-
     has_value :campfire, :klass => Campfire, :default => Campfire.new
 
     class Http < Configuration
-
       has_value :api_uri, :klass => String
-
       has_value :api_key, :klass => String
-
       has_value :api_version, :klass => String
-
     end
-
     has_value :http, :klass => Http, :default => Http.new
 
     # Define how to deliver exceptions data.

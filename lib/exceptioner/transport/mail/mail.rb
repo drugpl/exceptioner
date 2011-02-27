@@ -4,9 +4,7 @@ require 'exceptioner/transport/base'
 require 'exceptioner/transport/helper'
 
 module Exceptioner::Transport
-
   class Mail < Base
-
     def deliver(issue)
       mail = prepare_mail(issue)
       mail.deliver
@@ -27,7 +25,5 @@ module Exceptioner::Transport
       mail.delivery_method(options[:delivery_method], options[:delivery_options] || {}) if options[:delivery_method]
       mail
     end
-
   end
-
 end

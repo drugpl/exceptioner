@@ -16,8 +16,5 @@ module Exceptioner::Transport
       char = '#'
       "#{char * length}\n#{text}:\n#{char * length}\n"
     end
-
-
-
   end
 end

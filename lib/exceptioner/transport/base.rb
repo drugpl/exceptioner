@@ -1,7 +1,6 @@
 require 'exceptioner/dispatchable'
 
 module Exceptioner::Transport
-
   class Base
     include Exceptioner::Dispatchable
 
@@ -12,9 +11,9 @@ module Exceptioner::Transport
 
     def config
       @config ||= begin
-                    local_config.update_attributes(Exceptioner.config.only(local_config.attributes.keys))
-                    local_config
-                  end
+        local_config.update_attributes(Exceptioner.config.only(local_config.attributes.keys))
+        local_config
+      end
     end
 
     def config_name

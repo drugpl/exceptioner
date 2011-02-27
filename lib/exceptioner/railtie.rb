@@ -1,5 +1,4 @@
 module Exceptioner
-
   class Railtie < Rails::Railtie
 
     initializer "exceptioner.use_rack_middleware" do |app|
@@ -26,5 +25,4 @@ module Exceptioner
     end
 
   end
-
 end

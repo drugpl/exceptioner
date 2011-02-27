@@ -2,7 +2,6 @@ require 'erb'
 require 'redmine_client'
 
 module Exceptioner::Transport
-
   class Redmine < Base
     class_attribute :project # id_or_identifier of redmine project
     class_attribute :options # redmine issue options
@@ -28,5 +27,4 @@ module Exceptioner::Transport
       end
     end
   end
-
 end

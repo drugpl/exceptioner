@@ -4,9 +4,7 @@ require 'exceptioner/transport/base'
 require 'exceptioner/transport/helper'
 
 module Exceptioner::Transport
-
   class Campfire < Base
-
     def deliver(issue)
       @rooms = config.rooms
       connect do |campfire|
@@ -27,6 +25,5 @@ module Exceptioner::Transport
       campfire = Tinder::Campfire.new config.subdomain, params
       yield campfire
     end
-
   end
 end
