@@ -4,8 +4,6 @@ module Exceptioner::Transport
   class Base
     include Exceptioner::Dispatchable
 
-    class_attribute :sender
-
     def init
     end
 
