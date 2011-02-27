@@ -16,6 +16,10 @@ module TaskUtils
     system("cd #{path} && rake test")
   end
 
+  def build(path)
+    system("cd #{path} && rake build")
+  end
+
   def each_gem(action, paths = all_paths, &block)
     all_paths.each do |path|
       puts action
@@ -36,6 +40,16 @@ module TaskUtils
     [core_path] + transports_paths
   end
 
+end
+
+namespace :build do
+  desc "Builds all gems"
+  task :all => :build do
+    TaskUtils.each_gem("Building...") do |name, path|
+      puts name
+      TaskUtils.build(path)
+    end
+  end
 end
 
 namespace :core do
