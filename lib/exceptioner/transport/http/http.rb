@@ -13,12 +13,12 @@ module Exceptioner::Transport
       validate_config
     end
 
-    def deliver(exception_hash = {})
+    def deliver(issue)
       uri = URI.parse(options[:api_uri])
       request = Net::HTTP::Post.new(uri.request_uri)
       request["Content-Type"] = "application/json"
       request["API-Key"] = options[:api_key]
-      request.body = prepare_json(exception_hash)
+      request.body = prepare_json(issue)
       response = Net::HTTP.new(uri.host, uri.port).start do |http|
         http.request(request)
       end
@@ -52,13 +52,13 @@ module Exceptioner::Transport
       default_options.merge(opts)
     end
 
-    def prepare_json(exception_hash)
-      issue = {
-        :name => exception_hash[:exception_class].name,
-        :message => exception_hash[:error_message],
-        :backtrace => exception_hash[:backtrace].join("\n")
+    def prepare_json(issue)
+      issue_hash = {
+        :name => issue.exception_name,
+        :message => issue.message,
+        :backtrace => issue.backtrace.join("\n")
       }
-      return { :issue => issue }.to_json
+      return { :issue => issue_hash }.to_json
     end
   end
 end

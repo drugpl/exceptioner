@@ -13,7 +13,7 @@ module HttpTransportTest
       :backtrace => exception.backtrace.join("\n")
     )
     Exceptioner::Notifier.stubs(:transports).returns([:http])
-    Exceptioner::Notifier.dispatch(exception)
+    Exceptioner::Notifier.dispatch(:exception => exception)
   end
 
   def test_deliver_exception_fail_by_http
@@ -25,7 +25,7 @@ module HttpTransportTest
     )
     Exceptioner::Notifier.stubs(:transports).returns([:http])
     assert_raise Exceptioner::Transport::Http::HttpError do
-      Exceptioner::Notifier.dispatch(exception)
+      Exceptioner::Notifier.dispatch(:exception => exception)
     end
   end
 
