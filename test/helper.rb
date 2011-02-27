@@ -16,10 +16,6 @@ class ExceptionerTestCase < Test::Unit::TestCase
     exception
   end
 
-  def config
-    Exceptioner.config
-  end
-
   def mail_system
     MockSMTP
   end
