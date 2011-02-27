@@ -22,7 +22,7 @@ module Exceptioner
 
     def transport(name)
       @transports[name] ||= begin
-        transport = Utils.classify_transport(name).new
+        transport = classify_transport(name).new
         transport.configure(config)
         transport
       end
@@ -51,6 +51,14 @@ module Exceptioner
 
     def transports
       config.transports
+    end
+
+    def classify_transport(transport_name)
+      begin
+        ::Exceptioner::Transport.const_get(Utils.camelize(transport_name.to_s))
+      rescue NameError
+        raise Exceptioner::ExceptionerError, "No such transport: #{transport_name.to_s}"
+      end
     end
 
     # Determines class of exception.
