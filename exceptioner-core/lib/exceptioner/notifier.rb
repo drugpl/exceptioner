@@ -9,9 +9,7 @@ module Exceptioner
     end
 
     def dispatch(options = {})
-      options[:application_path] ||= config.application_path
-      options[:gem_path] ||= config.gem_path
-      issue = Issue.new(options)
+      issue = Issue.new(default_options.merge options)
 
       if run_dispatchers(issue.exception)
         determine_transports(issue.transports) do |transport|
@@ -40,6 +38,10 @@ module Exceptioner
     end
 
     protected
+
+    def default_options
+      { :application_path => config.application_path, :gem_path => config.gem_path }
+    end
 
     def determine_transports(issue_transports)
       (issue_transports || transports).each do |transport_name|
