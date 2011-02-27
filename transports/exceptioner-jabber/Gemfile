@@ -1,7 +1,5 @@
 source "http://rubygems.org"
 
-gem 'exceptioner-core', :path => File.expand_path('../../exceptioner-core')
-
 # Specify your gem's dependencies in exceptioner-mail.gemspec
 gemspec
 

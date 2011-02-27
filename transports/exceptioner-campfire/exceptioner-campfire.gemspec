@@ -19,7 +19,9 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
+  s.add_dependency("exceptioner-core", ["~> 0.6"]) if ENV['EXCEPTIONER_BUILD']
   s.add_dependency("tinder", ["~> 1.4"])
+
 
   eval File.read(File.join(File.dirname(__FILE__), '../../development_dependencies.rb'))
 end

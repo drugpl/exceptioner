@@ -6,6 +6,10 @@ ENV["RAILS_ENV"] ||= "test"
 
 task :default => :test
 
+task :build do
+  ENV['EXCEPTIONER_BUILD'] = '1'
+end
+
 desc 'Run Exceptioner-campfire unit tests.'
 Rake::TestTask.new(:test) do |t|
   t.libs << 'lib'
