@@ -9,7 +9,7 @@ module Exceptioner
       @dispatchers = []
     end
 
-    def dispatch(clear = false, &block)
+    def add_dispatcher(clear = false, &block)
       clear_dispatchers if clear
       dispatchers << block
     end
