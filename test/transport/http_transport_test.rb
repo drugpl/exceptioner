@@ -1,5 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/helper')
 require 'webmock/test_unit'
+require 'json'
 
 class HttpTransportTest < TransportTestCase
   def setup
