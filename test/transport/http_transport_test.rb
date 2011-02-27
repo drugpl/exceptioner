@@ -1,9 +1,11 @@
 require File.expand_path(File.dirname(__FILE__) + '/helper')
 require 'webmock/test_unit'
+require 'json'
 
 class HttpTransportTest < TransportTestCase
   def setup
     super
+    config.transports = [:http]
     config.http.api_key = "abcdef"
   end
 
@@ -14,8 +16,7 @@ class HttpTransportTest < TransportTestCase
       :message => exception.message,
       :backtrace => exception.backtrace.join("\n")
     )
-    Exceptioner::Notifier.stubs(:transports).returns([:http])
-    Exceptioner::Notifier.dispatch(:exception => exception)
+    notifier.dispatch(:exception => exception)
   end
 
   def test_deliver_exception_fail_by_http
@@ -25,9 +26,8 @@ class HttpTransportTest < TransportTestCase
       :message => exception.message,
       :backtrace => exception.backtrace.join("\n")
     )
-    Exceptioner::Notifier.stubs(:transports).returns([:http])
     assert_raise Exceptioner::Transport::Http::HttpError do
-      Exceptioner::Notifier.dispatch(:exception => exception)
+      notifier.dispatch(:exception => exception)
     end
   end
 

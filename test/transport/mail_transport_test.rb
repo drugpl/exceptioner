@@ -4,13 +4,13 @@ require 'mail'
 class MailTransportTest < TransportTestCase
   def setup
     super
+    config.transports = [:mail]
     config.mail.recipients = %w[michal@example.net]
   end
 
   def test_deliver_exception_by_email
     exception = get_exception
-    config.transports = [:mail]
     ::Mail::Message.any_instance.expects(:deliver).once
-    Exceptioner::Notifier.dispatch(:exception => exception)
+    notifier.dispatch(:exception => exception)
   end
 end

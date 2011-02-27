@@ -19,8 +19,8 @@ module Exceptioner
     end
 
     def filter_backtrace(backtrace, options = {})
-      app_paths = Array(options[:application_path] || Exceptioner.config.application_path)
-      gem_paths = Array(options[:gem_path] || Exceptioner.config.gem_path)
+      app_paths = Array(options[:application_path])
+      gem_paths = Array(options[:gem_path])
 
       backtrace.collect do |line|
         app_paths.each do |path|
