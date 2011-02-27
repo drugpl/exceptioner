@@ -1,3 +1,4 @@
+require 'erb'
 require 'exceptioner/dispatchable'
 require 'exceptioner/transport/helper'
 

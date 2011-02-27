@@ -1,5 +1,4 @@
 require File.expand_path(File.dirname(__FILE__) + '/helper')
-require 'xmpp4r'
 require 'tinder'
 require 'ostruct'
 

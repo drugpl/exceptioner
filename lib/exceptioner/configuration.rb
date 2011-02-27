@@ -62,11 +62,6 @@ module Exceptioner
     end
     has_value :irc, :klass => Irc, :default => Irc.new
 
-    class Jabber < Authenticable
-      has_collection :jabber_id
-    end
-    has_value :jabber, :klass => Jabber, :default => Jabber.new
-
     class Redmine < Configuration
       has_value :project, :klass => String
       has_value :options, :klass => Hash
