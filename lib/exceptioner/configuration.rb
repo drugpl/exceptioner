@@ -97,7 +97,6 @@ module Exceptioner
     class Http < Configuration
       has_value :api_uri, :klass => String
       has_value :api_key, :klass => String
-      has_value :api_version, :klass => String
     end
     has_value :http, :klass => Http, :default => Http.new
 
