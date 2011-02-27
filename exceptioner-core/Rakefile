@@ -1,0 +1,15 @@
+require 'bundler/gem_helper'
+require 'rake/testtask'
+Bundler::GemHelper.install_tasks
+
+ENV["RAILS_ENV"] ||= "test"
+
+task :default => :test
+
+desc 'Run exceptioner-core unit tests.'
+Rake::TestTask.new(:test) do |t|
+  t.libs << 'lib'
+  t.libs << 'test'
+  t.pattern = 'test/**/*_test.rb'
+  t.verbose = true
+end
