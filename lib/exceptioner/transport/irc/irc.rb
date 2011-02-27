@@ -6,26 +6,22 @@ require 'exceptioner/transport/helper'
 
 module Exceptioner::Transport
   class Irc < Base
-    class_attribute :server
-    class_attribute :port
-    class_attribute :nick
-    class_attribute :channel
-    class_attribute :bot
-    class_attribute :exceptions
+    attr_reader :bot
 
-    def self.init
+    def init
       validate_config
-      self.exceptions = {}
+      @exceptions = {}
 
-      options = default_options.merge(:channel => self.channel)
+      options = default_options.merge(:channel => config.channel)
       klass = Exceptioner::Transport::Irc
 
-      self.bot = Isaac::Bot.new do
+      @bot = Isaac::Bot.new do
 
         configure do |c|
-          c.nick   = options[:nick]
-          c.server = options[:server]
-          c.port   = options[:port]
+          c.nick          = options[:nick]
+          c.server        = options[:server]
+          c.port          = options[:port]
+          c.environment   = :test if ENV['RAILS_ENV'] == 'test'
         end
 
         on :connect do
@@ -85,47 +81,47 @@ module Exceptioner::Transport
       end
       
       thread = Thread.new do
-        self.bot.start
+        @bot.start
       end
 
-      return self.bot, thread
+      return @bot, thread
     end
 
-    def self.deliver(options = {})
+    def deliver(options = {})
       body = prepare_message(options)
-      self.bot.msg self.channel, body
+      @bot.msg config.channel, body
     end
 
-    def self.prepare_message(options)
+    def prepare_message(options)
       body = render(options)
       exception = add_exception(body, options)
       "Exception!: " + exception[:link]
     end
 
-    def self.post_body(body, options = { :provider => :pastebin })
+    def post_body(body, options = { :provider => :pastebin })
       case options[:provider]
         when :pastebin
           Net::HTTP.post_form(URI.parse("http://pastebin.com/api_public.php"), { :paste_code => body, :paste_private => 1 }).body
       end
     end
 
-    def self.add_exception(body, exception)
+    def add_exception(body, exception)
       hash = Digest::SHA1.hexdigest(exception.to_s)
-      self.exceptions[hash] ||= { :options => exception, :link => post_body(body), :body => body, :counter => 1, :created_at => Time.now }
-      self.exceptions[hash][:counter] += 1
+      @exceptions[hash] ||= { :options => exception, :link => post_body(body), :body => body, :counter => 1, :created_at => Time.now }
+      @exceptions[hash][:counter] += 1
 
-      exceptions[hash]
+      @exceptions[hash]
     end
 
-    def self.validate_config
-      raise "Set IRC channel in your configuration first!" unless self.channel
+    def validate_config
+      raise "Set IRC channel in your configuration first!" unless config.channel
     end
 
-    def self.default_options
+    def default_options
       {
-        :nick   => self.nick    || "ExceptionerBot",
-        :server => self.server  || "chat.freenode.net",
-        :port   => self.port    || "6667"
+        :nick   => config.nick    || "ExceptionerBot",
+        :server => config.server  || "chat.freenode.net",
+        :port   => config.port    || "6667"
       }
     end
 

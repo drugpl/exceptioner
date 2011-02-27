@@ -27,6 +27,7 @@ class NotifierTest < Test::Unit::TestCase
     config.campfire.subdomain = 'example'
     config.campfire.username = 'lukasz'
     config.campfire.token = 'randomtoken'
+    config.irc.channel = "#example-channel"
     mail_system.clear_deliveries
   end
 
@@ -43,6 +44,27 @@ class NotifierTest < Test::Unit::TestCase
     Jabber::Client.any_instance.expects(:connect).once
     Jabber::Client.any_instance.expects(:auth).with(config.jabber.password).once
     Jabber::Client.any_instance.expects(:send).once
+    Exceptioner::Notifier.dispatch(exception)
+  end
+
+  def test_deliver_exception_by_irc
+    @socket, @server = MockSocket.pipe
+    TCPSocket.stubs(:open).with(anything, anything).returns(@socket)
+
+    exception = get_exception
+    Exceptioner::Notifier.stubs(:transports).returns([:irc])
+    transport = Exceptioner.transport_instance(:irc)
+    transport.stubs(:post_body).returns('http://example.link.com/')
+    transport.configure
+    transport.bot.configure do |config|
+      config.environment = :test
+    end
+
+    Isaac::Bot.any_instance.expects(:msg).with(any_parameters).once do |channel, message|
+      assert_equal message, "Exception!: http://example.link.com/"
+      assert_equal channel, "#example-channel"
+    end
+
     Exceptioner::Notifier.dispatch(exception)
   end
 

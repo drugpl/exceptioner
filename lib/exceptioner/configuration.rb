@@ -40,6 +40,10 @@ module Exceptioner
 
     has_value :subject, :klass => String, :default => "[ERROR] "
 
+    has_value :application_path
+
+    has_value :gem_path
+
     def only(*keys)
       Hash[self.attributes.select { |k,_| keys.include?(k) }]
     end
@@ -69,6 +73,8 @@ module Exceptioner
       has_value :port, :klass => Integer, :default => 6667
 
       has_value :nick, :klass => String, :default => 'exceptioner'
+
+      has_value :channel, :klass => String
 
     end
 
