@@ -34,7 +34,7 @@ class NotifierTest < ExceptionerTestCase
     exception = get_exception(TestError)
     object = mock()
     object.expects(:do_something).with(exception)
-    Exceptioner.dispatch do |exception|
+    Exceptioner.add_dispatcher do |exception|
       object.do_something(exception)
     end
     Exceptioner.transport_instance(:mail).stubs(:deliver)
@@ -47,7 +47,7 @@ class NotifierTest < ExceptionerTestCase
     Exceptioner.transport_instance(:jabber).expects(:deliver)
     object = mock()
     object.expects(:do_something).with(exception)
-    Exceptioner.transport_instance(:jabber).dispatch do |exception|
+    Exceptioner.transport_instance(:jabber).add_dispatcher do |exception|
       object.do_something(exception)
     end
     Exceptioner::Notifier.dispatch(:exception => exception)
@@ -58,7 +58,7 @@ class NotifierTest < ExceptionerTestCase
     config.transports = [:mail]
     object = mock()
     object.expects(:do_something).with(exception).returns(false)
-    Exceptioner.transport_instance(:mail).dispatch do |exception|
+    Exceptioner.transport_instance(:mail).add_dispatcher do |exception|
       object.do_something(exception)
     end
     Exceptioner.transport_instance(:mail).expects(:deliver).never

@@ -55,13 +55,13 @@ module Exceptioner
   end
 
   def self.disallow_development_environment
-    dispatch do |exception|
+    add_dispatcher do |exception|
       ! config.development_environments.include?(config.environment_name)
     end
   end
 
   def self.disallow_ignored_exceptions
-    dispatch do |exception|
+    add_dispatcher do |exception|
       ! Array(config.ignore).collect(&:to_s).include?(exception.class.name)
     end
   end
