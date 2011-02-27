@@ -21,15 +21,20 @@ module Exceptioner
   end
 
   def self.setup
-    @config = yield Configuration.new if block_given?
+    @config = yield config if block_given?
   end
 
   def self.config
-    @config
+    @config ||= Configuration.new
   end
 
   def self.notifier
     @notifier ||= Notifier.new(config)
+  end
+
+  def self.destroy
+    @config = nil
+    @notifier = nil
   end
 end
 
