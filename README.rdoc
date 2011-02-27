@@ -87,8 +87,9 @@ Then require excptioner and use it like:
 * Dariusz Gertych - https://github.com/chytreg
 * Piotr Niełacny - http://ruby-blog.pl
 * Janek Dudek - http://jandudek.com
-* Łukasz Śliwa - http://github.com/mrplum
+* Łukasz Śliwa - https://github.com/mrplum
 * Paweł Pacana - https://github.com/pawelpacana
+* Staszek Kolarzowski - https://github.com/staszek
 
 == Note on Patches/Pull Requests
  
