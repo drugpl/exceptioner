@@ -135,7 +135,7 @@ class NotifierTest < Test::Unit::TestCase
     Exceptioner.transport_instance(:jabber).expects(:deliver)
     object = mock()
     object.expects(:do_something).with(exception)
-    Exceptioner.config.jabber.dispatch do |exception|
+    Exceptioner.transport_instance(:jabber).dispatch do |exception|
       object.do_something(exception)
     end
     Exceptioner::Notifier.dispatch(:exception => exception)
