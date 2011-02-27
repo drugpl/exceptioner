@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/helper')
 
-class MailTransportTest < Test::Unit::TestCase
+class MailTransportTest < TransportTestCase
   def setup
     config.mail.recipients = %w[michal@example.net]
     super if defined?(super)
