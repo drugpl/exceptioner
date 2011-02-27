@@ -1,8 +1,9 @@
 source "http://rubygems.org"
 
-#gem 'exceptioner', :path => File.expand_path('../..')
 
-# Specify your gem's dependencies in exceptioner-irc.gemspec
+gem 'exceptioner-core', :path => File.expand_path('../../exceptioner-core')
+
+# Specify your gem's dependencies in exceptioner-mail.gemspec
 gemspec
 
 eval File.read(File.join(File.dirname(__FILE__), '../../development_dependencies.rb'))
