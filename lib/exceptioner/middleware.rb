@@ -12,8 +12,8 @@ module Exceptioner
         response = @app.call(env)
       rescue Exception => exception
         Notifier.dispatch(exception, :controller => env['action_controller.instance'], :env => env)
-        raise exception
       end
+        raise exception
       if env['rack.exception']
         Notifier.dispatch(env['rack.exception'], :controller => env['action_controller.instance'], :env => env)
       end

@@ -1,5 +1,6 @@
 require 'exceptioner/dispatchable'
 require 'valuable'
+require 'logger'
 
 module Exceptioner
 
@@ -44,6 +45,9 @@ module Exceptioner
     # Each of them can be array of paths.
     has_value :application_path
     has_value :gem_path
+
+    # Logger
+    has_value :logger
 
     def only(*keys)
       Hash[self.attributes.select { |k,_| keys.include?(k) }]

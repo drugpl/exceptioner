@@ -15,6 +15,7 @@ module Exceptioner
         end
 
         Exceptioner.config.environment_name = RAILS_ENV if defined?(RAILS_ENV)
+        Exceptioner.config.logger = Rails.logger
 
       end
 

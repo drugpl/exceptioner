@@ -36,7 +36,7 @@ module Exceptioner
   end
 
   def self.config
-    @config ||= Configuration.new
+    @config ||= Configuration.new(:logger => Logger.new('exceptioner.log'))
   end
 
   def self.reset_config
@@ -76,6 +76,11 @@ module Exceptioner
     @transport_instances ||= { }
     @transport_instances[transport] ||= Utils.classify_transport(transport).new
   end
+
+  def self.logger
+    config.logger
+  end
+
 end
 
 require 'exceptioner/support/rails2' if defined?(Rails::VERSION::MAJOR) && Rails::VERSION::MAJOR == 2
