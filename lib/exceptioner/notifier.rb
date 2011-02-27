@@ -9,6 +9,8 @@ module Exceptioner
     end
 
     def dispatch(options = {})
+      options[:application_path] ||= config.application_path
+      options[:gem_path] ||= config.gem_path
       issue = Issue.new(options)
 
       if run_dispatchers(issue.exception)
