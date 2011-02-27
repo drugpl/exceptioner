@@ -65,7 +65,14 @@ PLATFORMS
 DEPENDENCIES
   contest
   exceptioner!
+  isaac (~> 0.2.6)
+  json
+  mail (~> 2.2)
   mocha
   rack
   rake
+  redmine_client
+  tinder (~> 1.4)
+  valuable (~> 0.8.5)
   webmock
+  xmpp4r (~> 0.5)

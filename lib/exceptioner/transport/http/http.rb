@@ -3,7 +3,6 @@ require 'uri'
 require 'net/http'
 require 'exceptioner/transport/base'
 
-
 module Exceptioner::Transport
   class Http < Base
     class ConfigError < StandardError; end

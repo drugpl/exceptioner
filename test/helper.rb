@@ -7,7 +7,6 @@ $LOAD_PATH << File.expand_path(File.dirname(__FILE__))
 require 'exceptioner'
 require 'rack'
 require 'mock_smtp'
-require 'mock_irc_bot'
 
 class Test::Unit::TestCase
 

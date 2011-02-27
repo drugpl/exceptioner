@@ -4,9 +4,7 @@ require 'exceptioner/transport/base'
 require 'exceptioner/transport/helper'
 
 module Exceptioner::Transport
-
   class Jabber < Base
-
     def deliver(issue)
       messages = prepare_messages(issue)
       authenticate do |client|
@@ -64,5 +62,4 @@ module Exceptioner::Transport
       end
     end
   end
-
 end

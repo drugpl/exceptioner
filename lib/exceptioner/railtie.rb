@@ -1,5 +1,4 @@
 module Exceptioner
-
   class Railtie < Rails::Railtie
 
     initializer "exceptioner.use_rack_middleware" do |app|
@@ -13,7 +12,7 @@ module Exceptioner
     end
 
     rake_tasks do
-      load "exceptioner/tasks/exceptioner.rake"
+      load "tasks/exceptioner.rake"
     end
 
     protected
@@ -26,5 +25,4 @@ module Exceptioner
     end
 
   end
-
 end
