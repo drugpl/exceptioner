@@ -44,7 +44,7 @@ module Exceptioner
 
   def self.reset_config
     @config = nil
-    @@transport_instances = nil
+    @transport_instances = nil
   end
 
   def self.reset_dispatchers
@@ -76,8 +76,8 @@ module Exceptioner
   end
 
   def self.transport_instance(transport)
-    @@transport_instances ||= { }
-    @@transport_instances[transport] ||= Utils.classify_transport(transport).new
+    @transport_instances ||= { }
+    @transport_instances[transport] ||= Utils.classify_transport(transport).new
   end
 end
 

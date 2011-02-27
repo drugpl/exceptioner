@@ -153,5 +153,10 @@ class NotifierTest < Test::Unit::TestCase
     assert_equal 0, mail_system.deliveries.size
   end
 
-
+  def test_transport_has_one_instance
+    config.transports = [:mail]
+    instance1 = Exceptioner.transport_instance(:mail)
+    instance2 = Exceptioner.transport_instance(:mail)
+    assert instance1.object_id == instance2.object_id
+  end
 end
