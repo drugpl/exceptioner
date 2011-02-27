@@ -19,5 +19,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_dependency("exceptioner-core")
+  s.add_dependency("exceptioner-core", "~> 0.6")
+  s.add_dependency("exceptioner-mail", "~> 0.0.1")
+  s.add_dependency("exceptioner-http", "~> 0.0.1")
 end
