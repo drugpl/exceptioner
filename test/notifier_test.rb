@@ -3,11 +3,11 @@ require 'xmpp4r'
 require 'tinder'
 require 'ostruct'
 
-require File.expand_path(File.dirname(__FILE__) + '/mail_transport_test')
-require File.expand_path(File.dirname(__FILE__) + '/http_transport_test')
-require File.expand_path(File.dirname(__FILE__) + '/jabber_transport_test')
-require File.expand_path(File.dirname(__FILE__) + '/campfire_transport_test')
-require File.expand_path(File.dirname(__FILE__) + '/irc_transport_test')
+require File.expand_path(File.dirname(__FILE__) + '/transport/mail_transport_test')
+require File.expand_path(File.dirname(__FILE__) + '/transport/http_transport_test')
+require File.expand_path(File.dirname(__FILE__) + '/transport/jabber_transport_test')
+require File.expand_path(File.dirname(__FILE__) + '/transport/campfire_transport_test')
+require File.expand_path(File.dirname(__FILE__) + '/transport/irc_transport_test')
 
 class NotifierTest < ExceptionerTestCase
   include MailTransportTest
