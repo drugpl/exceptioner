@@ -13,6 +13,7 @@ class ExceptionerTestCase < Test::Unit::TestCase
   attr_reader :notifier
 
   def setup
+    @notifier = nil
   end
 
   def notifier
