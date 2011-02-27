@@ -53,12 +53,6 @@ module Exceptioner
       has_value :password, :klass => String
     end
 
-    class Http < Configuration
-      has_value :api_uri, :klass => String
-      has_value :api_key, :klass => String
-    end
-    has_value :http, :klass => Http, :default => Http.new
-
     # Define how to deliver exceptions data.
     # For example :mail, :jabber, :irc, :campfirenow
     has_value :transports, :default => [:mail]

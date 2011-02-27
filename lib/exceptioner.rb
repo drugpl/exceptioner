@@ -13,11 +13,6 @@ module Exceptioner
   autoload :Utils,            'exceptioner/utils'
   autoload :Issue,            'exceptioner/issue'
 
-  module Transport
-    autoload :Redmine,  'exceptioner/transport/redmine/redmine'
-    autoload :Http,     'exceptioner/transport/http/http'
-  end
-
   def self.setup
     yield config if block_given?
     init_transports
