@@ -22,4 +22,6 @@ Gem::Specification.new do |s|
   s.add_dependency("exceptioner-core", "~> 0.6")
   s.add_dependency("exceptioner-mail", "~> 0.0.1")
   s.add_dependency("exceptioner-http", "~> 0.0.1")
+
+  eval File.read(File.join(File.dirname(__FILE__), './development_dependencies.rb'))
 end

@@ -21,6 +21,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency("xmpp4r", ["~> 0.5"])
 
-  s.add_development_dependency("mocha")
-  s.add_development_dependency("rake")
+  eval File.read(File.join(File.dirname(__FILE__), '../../development_dependencies.rb'))
 end
