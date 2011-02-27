@@ -7,8 +7,8 @@ module Exceptioner::Transport
 
   class Jabber < Base
 
-    def deliver(options = {})
-      messages = prepare_messages(options)
+    def deliver(issue)
+      messages = prepare_messages(issue)
       authenticate do |client|
         messages.each do |message|
           client.send(message)
@@ -37,10 +37,9 @@ module Exceptioner::Transport
     end
 
     protected
-    def prepare_messages(message_options)
-      options = message_options.dup
-      options = default_options.merge(options)
-      options[:body] ||= render(message_options)
+    def prepare_messages(issue)
+      options = config.attributes
+      options[:body] ||= render(issue)
 
       messages = []
       Array(options[:recipients]).each do |recipient|
