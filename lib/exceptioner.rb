@@ -21,6 +21,7 @@ module Exceptioner
     autoload :Redmine,  'exceptioner/transport/redmine/redmine'
     autoload :IRC,      'exceptioner/transport/irc/irc'
     autoload :Campfire, 'exceptioner/transport/campfire/campfire'
+    autoload :Http,     'exceptioner/transport/http/http'
   end
 
   def self.setup

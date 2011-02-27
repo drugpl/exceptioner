@@ -17,6 +17,7 @@ GEM
     activesupport (2.3.11)
     addressable (2.2.4)
     contest (0.1.2)
+    crack (0.1.8)
     eventmachine (0.12.10)
     faraday (0.5.6)
       addressable (~> 2.2.4)
@@ -52,6 +53,9 @@ GEM
       eventmachine (>= 0.12.8)
       roauth (>= 0.0.2)
     valuable (0.8.5)
+    webmock (1.6.2)
+      addressable (>= 2.2.2)
+      crack (>= 0.1.7)
     xmpp4r (0.5)
 
 PLATFORMS
@@ -69,4 +73,5 @@ DEPENDENCIES
   rr
   tinder (~> 1.4)
   valuable (~> 0.8.5)
+  webmock
   xmpp4r (~> 0.5)

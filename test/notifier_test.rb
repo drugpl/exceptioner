@@ -3,7 +3,11 @@ require 'xmpp4r'
 require 'tinder'
 require 'ostruct'
 
+# http transport test module
+require File.expand_path(File.dirname(__FILE__) + '/http_test')
+
 class NotifierTest < Test::Unit::TestCase
+  include HttpTransportTest
 
   class TestException < StandardError; end
 
@@ -11,6 +15,7 @@ class NotifierTest < Test::Unit::TestCase
 
   def setup
     Exceptioner.reset_config
+    super
     config.mail.recipients = %w[michal@example.net]
     config.jabber.jabber_id = %w[jabber@example.net]
     config.jabber.password = 'secret'
