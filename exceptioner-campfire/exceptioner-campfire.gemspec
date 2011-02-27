@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency("exceptioner-core", ["~> 0.6"]) if ENV['EXCEPTIONER_BUILD']
   s.add_dependency("tinder", ["~> 1.4"])
+  s.add_dependency("i18n", ["~> 0.5"])
 
 
   eval File.read(File.join(File.dirname(__FILE__), '../development_dependencies.rb'))
