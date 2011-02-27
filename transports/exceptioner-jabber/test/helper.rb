@@ -1,3 +1,5 @@
+require 'bundler/setup'
+Bundler.setup
 require 'test/unit'
 require 'mocha'
 require 'xmpp4r'
