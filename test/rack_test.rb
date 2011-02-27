@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/helper')
 
-class RackTest < Test::Unit::TestCase
+class RackTest < ExceptionerTestCase
     
   def test_should_dispatch_exception
     exception = get_exception

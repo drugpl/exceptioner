@@ -8,7 +8,7 @@ require 'exceptioner'
 require 'rack'
 require 'mock_smtp'
 
-class Test::Unit::TestCase
+class ExceptionerTestCase < Test::Unit::TestCase
 
   def get_exception(klass = Exception)
     raise klass.new("Test Exception")

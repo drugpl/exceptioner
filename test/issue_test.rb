@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/helper')
 
 
-class IssueTest < Test::Unit::TestCase
+class IssueTest < ExceptionerTestCase
   def setup
     @exception = StandardError.new('Message')
     @controller_params = { :value => 'key' }

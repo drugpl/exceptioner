@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/helper')
 
-class UtilsTest < Test::Unit::TestCase
+class UtilsTest < ExceptionerTestCase
 
   def test_camelize
     assert "ExceptionerForTheWin", Exceptioner::Utils.camelize("exceptioner_for_the_win")

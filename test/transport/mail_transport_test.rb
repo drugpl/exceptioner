@@ -1,7 +1,10 @@
-module MailTransportTest
+require File.expand_path(File.dirname(__FILE__) + '/helper')
+require 'mail'
+
+class MailTransportTest < TransportTestCase
   def setup
+    super
     config.mail.recipients = %w[michal@example.net]
-    super if defined?(super)
   end
 
   def test_deliver_exception_by_email
