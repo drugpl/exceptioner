@@ -1,5 +1,6 @@
 require 'isaac/bot'
 require 'digest/sha1'
+require 'net/http'
 require 'erb'
 require 'exceptioner/transport/base'
 require 'exceptioner/transport/helper'
@@ -102,12 +103,12 @@ module Exceptioner::Transport
     def post_body(body, options = { :provider => :pastebin })
       case options[:provider]
         when :pastebin
-          Net::HTTP.post_form(URI.parse("http://pastebin.com/api_public.php"), { :paste_code => body, :paste_private => 1 }).body
+          ::Net::HTTP.post_form(URI.parse("http://pastebin.com/api_public.php"), { :paste_code => body, :paste_private => 1 }).body
       end
     end
 
     def add_exception(body, issue, options = {})
-      hash = Digest::SHA1.hexdigest(issue.backtrace)
+      hash = Digest::SHA1.hexdigest(issue.backtrace.to_s + issue.exception.to_s)
       @exceptions[hash] ||= { :issue => issue, :link => post_body(body, options), :body => body, :counter => 1, :created_at => Time.now }
       @exceptions[hash][:counter] += 1
 

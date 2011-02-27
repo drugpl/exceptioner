@@ -2,6 +2,12 @@ require File.expand_path(File.dirname(__FILE__) + '/helper')
 
 class UtilsTest < Test::Unit::TestCase
 
+  def test_camelize
+    assert "ExceptionerForTheWin", Exceptioner::Utils.camelize("exceptioner_for_the_win")
+    assert "ExceptionerForTheWin", Exceptioner::Utils.camelize("ExceptionerForTheWin")
+    assert "ExceptionerForTheWin", Exceptioner::Utils.camelize("ExceptionerFor_the_win")
+  end
+
   def test_filter_backtrace
     backtrace = [
       "/path/to/app/file.rb:4:in `index'",

@@ -20,6 +20,7 @@ pkg
 
 ## PROJECT::SPECIFIC
 .rvmrc
+Gemfile.lock
 
 ## Netbeans
 nbproject/

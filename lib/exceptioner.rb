@@ -1,6 +1,3 @@
-require 'exceptioner/core_ext/class/attribute'
-require 'exceptioner/core_ext/module/attribute_accessors'
-require 'exceptioner/core_ext/string/inflections'
 require 'exceptioner/configuration'
 require 'exceptioner/dispatchable'
 require 'exceptioner/version'
