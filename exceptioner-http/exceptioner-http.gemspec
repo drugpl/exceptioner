@@ -23,5 +23,5 @@ Gem::Specification.new do |s|
   s.add_dependency("json")
   s.add_development_dependency("webmock")
 
-  eval File.read(File.join(File.dirname(__FILE__), '../../development_dependencies.rb'))
+  eval File.read(File.join(File.dirname(__FILE__), '../development_dependencies.rb'))
 end

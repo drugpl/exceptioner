@@ -22,5 +22,5 @@ Gem::Specification.new do |s|
   s.add_dependency("exceptioner-core", ["~> 0.6"]) if ENV['EXCEPTIONER_BUILD']
   s.add_dependency("mail", ["~> 2.2"])
 
-  eval File.read(File.join(File.dirname(__FILE__), '../../development_dependencies.rb'))
+  eval File.read(File.join(File.dirname(__FILE__), '../development_dependencies.rb'))
 end

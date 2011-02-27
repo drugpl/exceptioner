@@ -1,18 +1,18 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "exceptioner-irc/version"
+require "exceptioner-campfire/version"
 
 Gem::Specification.new do |s|
-  s.name        = "exceptioner-irc"
-  s.version     = Exceptioner::Irc::VERSION
+  s.name        = "exceptioner-campfire"
+  s.version     = Exceptioner::Campfire::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Piotr Niełacny (LiTE)"]
-  s.email       = ["piotr.nielacny@gmail.com"]
+  s.authors     = ["Łukasz Śliwa"]
+  s.email       = ["lukasz.sliwa@gmail.com"]
   s.homepage    = "https://github.com/drugpl/exceptioner"
-  s.summary     = %q{IRC transport for exceptioner}
-  s.description = %q{Delivers exception notifications to IRC channels}
+  s.summary     = %q{Campfire transport for exceptioner}
+  s.description = %q{Delivers exception notifications to Campfire rooms}
 
-  s.rubyforge_project = "exceptioner-irc"
+  s.rubyforge_project = "exceptioner-campfire"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
@@ -20,7 +20,8 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency("exceptioner-core", ["~> 0.6"]) if ENV['EXCEPTIONER_BUILD']
-  s.add_dependency("isaac", ["~> 0.2.6"])
+  s.add_dependency("tinder", ["~> 1.4"])
 
-  eval File.read(File.join(File.dirname(__FILE__), '../../development_dependencies.rb'))
+
+  eval File.read(File.join(File.dirname(__FILE__), '../development_dependencies.rb'))
 end

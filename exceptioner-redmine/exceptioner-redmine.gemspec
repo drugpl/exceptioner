@@ -21,5 +21,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency("redmine_client")
 
-  eval File.read(File.join(File.dirname(__FILE__), '../../development_dependencies.rb'))
+  eval File.read(File.join(File.dirname(__FILE__), '../development_dependencies.rb'))
 end

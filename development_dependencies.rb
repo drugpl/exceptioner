@@ -5,7 +5,7 @@ if Object.const_defined?(:Bundler) && Bundler.const_defined?(:Dsl) && self.kind_
     gem 'rake'
     gem 'webmock'
     gem 'contest'
-    gem 'exceptioner-core', :path => File.expand_path('../../exceptioner-core')
+    gem 'exceptioner-core', :path => File.expand_path('../exceptioner-core')
   end
 else #gemspec
 

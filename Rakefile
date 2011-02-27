@@ -7,7 +7,7 @@ ENV["RAILS_ENV"] ||= "test"
 task :default => :test
 
 desc "Run tests for core and transports"
-task :test => ["core:test", "transports:test"]
+task :test => "test:all"
 
 module TaskUtils
   extend self
@@ -28,16 +28,8 @@ module TaskUtils
     end
   end
 
-  def transports_paths
-    Dir[File.join(File.dirname(__FILE__), 'transports/*')]
-  end
-
-  def core_path
-    File.join(File.dirname(__FILE__), 'exceptioner-core')
-  end
-
   def all_paths
-    [core_path] + transports_paths
+    Dir[File.join(File.dirname(__FILE__), 'exceptioner-*')]
   end
 
 end
@@ -52,20 +44,11 @@ namespace :build do
   end
 end
 
-namespace :core do
-  desc "Run exceptioner-core tests"
-  task :test do
-    TaskUtils.run_tests(TaskUtils.core_path)
-  end
-end
-
-namespace :transports do
-  desc 'Run transports tests'
-  task :test do
-    errors = []
-    TaskUtils.each_gem("Running transport tests...", TaskUtils.transports_paths) do |name, path|
-      TaskUtils.run_tests(path) || errors << name
-    end
-    puts "Tests failed for #{errors.join(', ')}" unless errors.empty?
+namespace :test do
+  desc "Run all exceptioner"
+  task :all
+  TaskUtils.each_gem("Running tests...") do |name, path|
+    puts name
+    TaskUtils.run_tests(path)
   end
 end
