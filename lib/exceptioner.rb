@@ -14,6 +14,7 @@ module Exceptioner
   autoload :Middleware,       'exceptioner/middleware'
   autoload :Notifier,         'exceptioner/notifier'
   autoload :Utils,            'exceptioner/utils'
+  autoload :Issue,            'exceptioner/issue'
 
   module Transport
     autoload :Mail,     'exceptioner/transport/mail/mail'

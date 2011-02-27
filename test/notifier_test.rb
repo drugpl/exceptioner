@@ -35,7 +35,8 @@ class NotifierTest < Test::Unit::TestCase
     exception = get_exception
     config.transports = [:mail]
     ::Mail::Message.any_instance.expects(:deliver).once
-    Exceptioner::Notifier.dispatch(exception)
+    Exceptioner::Notifier.dispatch(:exception => exception)
+    assert_equal 1, mail_system.deliveries.size
   end
 
   def test_deliver_exception_by_jabber
@@ -44,7 +45,7 @@ class NotifierTest < Test::Unit::TestCase
     Jabber::Client.any_instance.expects(:connect).once
     Jabber::Client.any_instance.expects(:auth).with(config.jabber.password).once
     Jabber::Client.any_instance.expects(:send).once
-    Exceptioner::Notifier.dispatch(exception)
+    Exceptioner::Notifier.dispatch(:exception => exception)
   end
 
   def test_deliver_exception_by_irc
@@ -100,14 +101,14 @@ class NotifierTest < Test::Unit::TestCase
     room_mock = stub_everything('Tinder::Room', :id => 1, :name => 'test')
     room_mock.expects(:paste)
     Tinder::Campfire.any_instance.stubs(:rooms).returns([room_mock])
-    Exceptioner::Notifier.dispatch(exception)
+    Exceptioner::Notifier.dispatch(:exception => exception)
   end
 
   def test_ignores_specified_exceptions_given_by_string
     config.ignore = %w[NotifierTest::TestException]
     exception = get_exception(TestException)
     Exceptioner::Notifier.stubs(:transports).returns([:mail])
-    Exceptioner::Notifier.dispatch(exception)
+    Exceptioner::Notifier.dispatch(:exception => exception)
     assert_equal 0, mail_system.deliveries.size
   end
 
@@ -115,7 +116,7 @@ class NotifierTest < Test::Unit::TestCase
     config.ignore = NotifierTest::TestError
     config.transports = [:mail]
     exception = get_exception(TestError)
-    Exceptioner::Notifier.dispatch(exception)
+    Exceptioner::Notifier.dispatch(:exception => exception)
     assert_equal 0, mail_system.deliveries.size
   end
 
@@ -126,14 +127,19 @@ class NotifierTest < Test::Unit::TestCase
     config.dispatch do |exception|
       object.do_something(exception)
     end
-    Exceptioner::Notifier.dispatch(exception)
+    Exceptioner::Notifier.dispatch(:exception => exception)
   end
 
   def test_run_dispatch_for_transport
     exception = get_exception(TestError)
     config.transports = [:jabber]
     Exceptioner.transport_instance(:jabber).expects(:deliver)
-    Exceptioner::Notifier.dispatch(exception)
+    object = mock()
+    object.expects(:do_something).with(exception)
+    Exceptioner.config.jabber.dispatch do |exception|
+      object.do_something(exception)
+    end
+    Exceptioner::Notifier.dispatch(:exception => exception)
   end
 
   def test_breaks_if_returned_false_from_dispatch
@@ -144,7 +150,7 @@ class NotifierTest < Test::Unit::TestCase
     Exceptioner.transport_instance(:mail).dispatch do |exception|
       object.do_something(exception)
     end
-    Exceptioner::Notifier.dispatch(exception)
+    Exceptioner::Notifier.dispatch(:exception => exception)
     assert_equal 0, mail_system.deliveries.size
   end
 

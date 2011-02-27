@@ -5,6 +5,8 @@ module Exceptioner::Transport
   class Base
     include Exceptioner::Dispatchable
 
+    class_attribute :sender
+
     def init
     end
 
@@ -32,7 +34,7 @@ module Exceptioner::Transport
       @initialized
     end
 
-    def deliver(options = {})
+    def deliver(issue)
       raise Exceptioner::ExceptionerError, 'Implement deliver method in your Exceptioner::Transport::Base subclass'
     end
 
@@ -50,14 +52,12 @@ module Exceptioner::Transport
       "#{options[:prefix]}#{options[:error_message]}"
     end
 
-    def render(options = {})
+    def render(issue)
       ERB.new(template, nil, '>').result(binding)
     end
 
     def template
       @template ||= File.read(File.expand_path(File.join(File.dirname(__FILE__), 'templates', 'exception.erb')))
     end
-
   end
-
 end

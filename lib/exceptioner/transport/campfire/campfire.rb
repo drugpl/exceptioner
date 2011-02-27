@@ -7,11 +7,11 @@ module Exceptioner::Transport
 
   class Campfire < Base
 
-    def deliver(options = {})
+    def deliver(issue)
       @rooms = config.rooms
       connect do |campfire|
         campfire.rooms.each do |room|
-          room.paste render(options) if @rooms.include?(room.id) || @rooms.include?(room.name)
+          room.paste render(issue) if @rooms.include?(room.id) || @rooms.include?(room.name)
         end
       end
     end
