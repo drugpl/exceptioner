@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   s.name        = "exceptioner"
   s.version     = Exceptioner::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Michał Łomnicki"]
-  s.email       = ["michal.lomnicki@gmail.com"]
+  s.authors     = ["Michał Łomnicki", "Jan Dudek", "Piotr Niełacny", "Paweł Pacana", "Staszek Kolarzowski"]
+  s.email       = ["michal.lomnicki@gmail.com", "jd@jandudek.com", "piotr.nielacny@gmail.com", "pawel.pacana@gmail.com", "stanislaw.kolarzowski@gmail.com"]
   s.homepage    = "https://github.com/mlomnicki/exceptioner"
   s.summary     = "Stay notified of exceptions raised by your application. Choose from various notification methods like Email, Jabber or IRC"
   s.description = "Exceptioner is meant to be a replacement for hoptoad, exception_notification or getexceptional. It's fully customizable and works with each kind of ruby application"
