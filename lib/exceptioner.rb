@@ -16,7 +16,7 @@ module Exceptioner
   end
 
   def self.config
-    @config ||= Configuration.new
+    @config ||= Configuration.new(:logger => Logger.new('exceptioner.log'))
   end
 
   def self.notifier
@@ -26,6 +26,10 @@ module Exceptioner
   def self.destroy
     @config = nil
     @notifier = nil
+  end
+
+  def self.logger
+    config.logger
   end
 
 end
