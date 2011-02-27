@@ -3,56 +3,41 @@ require 'xmpp4r'
 require 'tinder'
 require 'ostruct'
 
-require File.expand_path(File.dirname(__FILE__) + '/mail_transport_test')
-require File.expand_path(File.dirname(__FILE__) + '/http_transport_test')
-require File.expand_path(File.dirname(__FILE__) + '/jabber_transport_test')
-require File.expand_path(File.dirname(__FILE__) + '/campfire_transport_test')
-require File.expand_path(File.dirname(__FILE__) + '/irc_transport_test')
-
-class NotifierTest < Test::Unit::TestCase
-  include MailTransportTest
-  include HttpTransportTest
-  include JabberTransportTest
-  include CampfireTransportTest
-  include IrcTransportTest
-
+class NotifierTest < ExceptionerTestCase
   class TestException < StandardError; end
 
   class TestError < StandardError; end
 
   def setup
     Exceptioner.reset_config
-    super
     config.ignore = []
     Exceptioner.reset_dispatchers
-    Exceptioner.transport_instance(:mail).clear_dispatchers
-    Exceptioner.transport_instance(:jabber).clear_dispatchers
-    mail_system.clear_deliveries
   end
 
   def test_ignores_specified_exceptions_given_by_string
     config.ignore = %w[NotifierTest::TestException]
     exception = get_exception(TestException)
     Exceptioner::Notifier.stubs(:transports).returns([:mail])
+    Exceptioner.transport_instance(:mail).expects(:deliver).never
     Exceptioner::Notifier.dispatch(:exception => exception)
-    assert_equal 0, mail_system.deliveries.size
   end
 
   def test_ignores_specified_exceptions_given_by_class
     config.ignore = NotifierTest::TestError
     config.transports = [:mail]
     exception = get_exception(TestError)
+    Exceptioner.transport_instance(:mail).expects(:deliver).never
     Exceptioner::Notifier.dispatch(:exception => exception)
-    assert_equal 0, mail_system.deliveries.size
   end
 
   def test_run_global_dispatch
     exception = get_exception(TestError)
     object = mock()
     object.expects(:do_something).with(exception)
-    config.dispatch do |exception|
+    Exceptioner.dispatch do |exception|
       object.do_something(exception)
     end
+    Exceptioner.transport_instance(:mail).stubs(:deliver)
     Exceptioner::Notifier.dispatch(:exception => exception)
   end
 
@@ -76,8 +61,8 @@ class NotifierTest < Test::Unit::TestCase
     Exceptioner.transport_instance(:mail).dispatch do |exception|
       object.do_something(exception)
     end
+    Exceptioner.transport_instance(:mail).expects(:deliver).never
     Exceptioner::Notifier.dispatch(:exception => exception)
-    assert_equal 0, mail_system.deliveries.size
   end
 
   def test_transport_has_one_instance

@@ -1,9 +1,10 @@
+require File.expand_path(File.dirname(__FILE__) + '/helper')
 require File.expand_path(File.dirname(__FILE__) + '/mock_irc_bot')
 
-module IrcTransportTest
+class IrcTransportTest < TransportTestCase
   def setup
+    super
     config.irc.channel = "#example-channel"
-    super if defined?(super)
   end
 
   def test_deliver_exception_by_irc

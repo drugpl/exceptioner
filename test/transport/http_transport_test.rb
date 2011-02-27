@@ -1,9 +1,10 @@
+require File.expand_path(File.dirname(__FILE__) + '/helper')
 require 'webmock/test_unit'
 
-module HttpTransportTest
+class HttpTransportTest < TransportTestCase
   def setup
+    super
     config.http.api_key = "abcdef"
-    super if defined?(super)
   end
 
   def test_deliver_exception_success_by_http
