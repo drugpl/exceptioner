@@ -13,12 +13,18 @@ class ExceptionerTestCase < Test::Unit::TestCase
   attr_reader :notifier
 
   def setup
-    config = Exceptioner::Configuration.new
-    @notifier = Exceptioner::Notifier.new(config)
+  end
+
+  def notifier
+    @notifier ||= Exceptioner::Notifier.new(Exceptioner::Configuration.new)
   end
 
   def config
     notifier.config
+  end
+
+  def transport(name)
+    notifier.transport_instance(name)
   end
 
   def get_exception(klass = Exception)
