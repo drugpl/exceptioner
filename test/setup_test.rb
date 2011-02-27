@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/helper')
 
-class SetupTest < Test::Unit::TestCase
+class SetupTest < ExceptionerTestCase
 
   def setup
     Exceptioner.reset_config

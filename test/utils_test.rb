@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/helper')
 
-class UtilsTest < Test::Unit::TestCase
+class UtilsTest < ExceptionerTestCase
 
   def test_filter_backtrace
     backtrace = [

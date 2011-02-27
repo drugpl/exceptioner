@@ -9,7 +9,7 @@ require File.expand_path(File.dirname(__FILE__) + '/jabber_transport_test')
 require File.expand_path(File.dirname(__FILE__) + '/campfire_transport_test')
 require File.expand_path(File.dirname(__FILE__) + '/irc_transport_test')
 
-class NotifierTest < Test::Unit::TestCase
+class NotifierTest < ExceptionerTestCase
   include MailTransportTest
   include HttpTransportTest
   include JabberTransportTest
