@@ -7,16 +7,18 @@ require 'exceptioner/transport/helper'
 
 module Exceptioner::Transport
   class Irc < Base
-    attr_reader :bot
+    attr_reader :bot, :exceptions
 
     def init
       validate_config
       @exceptions = {}
 
       options = default_options.merge(:channel => config.channel)
-      klass = Exceptioner::Transport::Irc
+      klass = self
 
       @bot = Isaac::Bot.new do
+
+        @_klass = klass
 
         configure do |c|
           c.nick          = options[:nick]
@@ -30,26 +32,33 @@ module Exceptioner::Transport
         end
 
         on :channel, /^!all$/ do
-          empty(klass.exceptions)
-          klass.exceptions.each do |hash, exp|
-            print_exception(exp)
-          end
+          print_sorted_exceptions(:created_at, exceptions.size)
+        end
+
+        on :channel, /\A!last\z/ do
+          print_sorted_exceptions(:created_at, 1)
         end
 
         on :channel, /^!last (.*)$/ do |number|
-          empty(klass.exceptions)
-          number = number.to_i
-          sort_exceptions(klass.exceptions, :created_at)[0...number].each do |exp|
-            print_exception(exp)
-          end
+          print_sorted_exceptions(:created_at, number.to_i)
+        end
+
+        on :channel, /\A!mostly\z/ do
+          print_sorted_exceptions(:counter, 1)
         end
 
         on :channel, /^!mostly (.*)$/ do |number|
-          empty(klass.exceptions)
-          number = number.to_i
-          sort_exceptions(klass.exceptions, :counter)[0...number].each do |exp|
-            print_exception(exp)
-          end
+          print_sorted_exceptions(:counter, number.to_i)
+        end
+
+        on :channel, /hoptoad/ do 
+          msg channel, "        ___"
+          msg channel, "       {o,o}"
+          msg channel, "       |)__)"
+          msg channel, "       -\"-\"-"
+          msg channel, "      HOPTOAD?"
+          msg channel, "       O RLY?"
+          msg channel, "           "
         end
 
         on :channel, /!help/ do
@@ -59,22 +68,40 @@ module Exceptioner::Transport
         end
         
         helpers do
-          def print_exception(exp)
-            msg channel, "#{exp[:created_at]} | count #{exp[:counter]} | #{exp[:link]}"
+
+          def exceptions(klass = @_klass)
+            klass.exceptions
           end
 
-          def sort_exceptions(exceptions, by)
-            exceptions.values.sort_by{ |exp| exp[by] }.reverse 
+          def print_exception(exp)
+            msg channel, "#{exp[:issue].exception.class} | #{exp[:link]} | #{exp[:created_at]} | #{exp[:counter]} times"
+          end
+
+          def sort_exceptions(attribute)
+            if exceptions.size > 0
+              exceptions.values.sort_by{ |exp| exp[attribute] }.reverse
+            else
+              msg channel, "No exceptions..."
+              return []
+            end
+          end
+
+          def print_sorted_exceptions(attribute, number)
+            sort_exceptions(attribute)[0...number].each do |exp|
+              print_exception(exp)
+            end
           end
 
           def empty(exceptions)
-            msg channel, "No exceptions..." if exceptions.size == 0  
+            msg channel, "No exceptions..." if exceptions.size == 0
           end
 
           def help
             ["!help - show help",
              "!all - show all exceptions",
+             "!last - show last exception",
              "!last [number] - show last [number] exceptions",
+             "!mostly - show the last common exception",
              "!mostly [number] - show the last [number] common exceptions"]
           end
         end
@@ -83,6 +110,7 @@ module Exceptioner::Transport
       
       thread = Thread.new do
         @bot.start
+
       end
 
       return @bot, thread
@@ -97,7 +125,7 @@ module Exceptioner::Transport
       options = config.attributes
       body = render(issue)
       exception = add_exception(body, issue, options)
-      "Exception!: " + exception[:link]
+      "Exception! | " + issue.exception.class.to_s + " | " + exception[:link]
     end
 
     def post_body(body, options = { :provider => :pastebin })
@@ -109,7 +137,7 @@ module Exceptioner::Transport
 
     def add_exception(body, issue, options = {})
       hash = Digest::SHA1.hexdigest(issue.backtrace.to_s + issue.exception.to_s)
-      @exceptions[hash] ||= { :issue => issue, :link => post_body(body, options), :body => body, :counter => 1, :created_at => Time.now }
+      @exceptions[hash] ||= { :issue => issue, :link => post_body(body, options), :body => body, :counter => 0, :created_at => Time.now }
       @exceptions[hash][:counter] += 1
 
       @exceptions[hash]

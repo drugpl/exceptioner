@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/helper')
 require 'exceptioner/transport/base'
 
-class SetupTest < Test::Unit::TestCase
+class SetupTest < ExceptionerTestCase
 
   def setup
     Exceptioner.reset_config

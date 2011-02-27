@@ -1,9 +1,11 @@
-module CampfireTransportTest
+require File.expand_path(File.dirname(__FILE__) + '/helper')
+
+class CampfireTransportTest < TransportTestCase
   def setup
+    super
     config.campfire.subdomain = 'example'
     config.campfire.username = 'lukasz'
     config.campfire.token = 'randomtoken'
-    super if defined?(super)
   end
 
   def test_deliver_exception_by_campfire

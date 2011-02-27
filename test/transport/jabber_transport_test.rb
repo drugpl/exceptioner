@@ -1,9 +1,11 @@
-module JabberTransportTest
+require File.expand_path(File.dirname(__FILE__) + '/helper')
+
+class JabberTransportTest < TransportTestCase
   def setup
+    super
     config.jabber.jabber_id = %w[jabber@example.net]
     config.jabber.password = 'secret'
     config.jabber.recipients = %w[michal@example.net]
-    super if defined?(super)
   end
 
   def test_deliver_exception_by_jabber

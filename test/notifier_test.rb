@@ -3,24 +3,13 @@ require 'xmpp4r'
 require 'tinder'
 require 'ostruct'
 
-require File.expand_path(File.dirname(__FILE__) + '/http_transport_test')
-require File.expand_path(File.dirname(__FILE__) + '/jabber_transport_test')
-require File.expand_path(File.dirname(__FILE__) + '/campfire_transport_test')
-require File.expand_path(File.dirname(__FILE__) + '/irc_transport_test')
-
-class NotifierTest < Test::Unit::TestCase
-  include HttpTransportTest
-  include JabberTransportTest
-  include CampfireTransportTest
-  include IrcTransportTest
-
+class NotifierTest < ExceptionerTestCase
   class TestException < StandardError; end
 
   class TestError < StandardError; end
 
   def setup
     Exceptioner.reset_config
-    super
     config.ignore = []
     Exceptioner.reset_dispatchers
     Exceptioner.transport_instance(:test).clear_dispatchers
