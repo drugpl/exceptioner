@@ -7,7 +7,7 @@ ENV["RAILS_ENV"] ||= "test"
 
 task :default => :test
 
-desc 'Run Exceptioner-mail unit tests.'
+desc 'Run Exceptioner-irc unit tests.'
 Rake::TestTask.new(:test) do |t|
   t.libs << 'lib'
   t.libs << 'test'
