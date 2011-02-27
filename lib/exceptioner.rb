@@ -14,7 +14,6 @@ module Exceptioner
   autoload :Issue,            'exceptioner/issue'
 
   module Transport
-    autoload :Mail,     'exceptioner/transport/mail/mail'
     autoload :Jabber,   'exceptioner/transport/jabber/jabber'
     autoload :Redmine,  'exceptioner/transport/redmine/redmine'
     autoload :Irc,      'exceptioner/transport/irc/irc'
@@ -76,6 +75,7 @@ module Exceptioner
     @transport_instances ||= { }
     @transport_instances[transport] ||= Utils.classify_transport(transport).new
   end
+
 end
 
 require 'exceptioner/support/rails2' if defined?(Rails::VERSION::MAJOR) && Rails::VERSION::MAJOR == 2

@@ -5,8 +5,8 @@ $LOAD_PATH << File.expand_path(File.join(File.dirname(__FILE__), "..", "lib"))
 $LOAD_PATH << File.expand_path(File.dirname(__FILE__))
 
 require 'exceptioner'
-require 'rack'
-require 'test_transport'
+require 'exceptioner-mail'
+require 'mock_smtp'
 
 class Test::Unit::TestCase
 
@@ -18,6 +18,10 @@ class Test::Unit::TestCase
 
   def config
     Exceptioner.config
+  end
+
+  def mail_system
+    MockSMTP
   end
 
 end

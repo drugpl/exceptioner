@@ -1,11 +1,9 @@
-require 'exceptioner/dispatchable'
 require 'valuable'
 
 module Exceptioner
 
   # TODO: transport-level configuration should be moved to separate gem
   class Configuration < Valuable
-    include Exceptioner::Dispatchable
 
     # Name of current environment.
     # For rails it would be development, test or production.
@@ -54,12 +52,6 @@ module Exceptioner
       has_value :username, :klass => String
       has_value :password, :klass => String
     end
-
-    class Mail < Configuration
-      has_value :delivery_method, :klass => Symbol, :default => :sendmail
-      has_value :delivery_options, :klass => Hash, :default => {}
-    end
-    has_value :mail, :klass => Mail, :default => Mail.new
 
     class Irc < Configuration
       has_value :server, :klass => String

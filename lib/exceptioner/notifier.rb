@@ -3,7 +3,7 @@ module Exceptioner
     def self.dispatch(options = {})
       issue = Issue.new(options)
 
-      if config.run_dispatchers(issue.exception)
+      if Exceptioner.run_dispatchers(issue.exception)
         determine_transports(issue.transports) do |transport|
           if transport.run_dispatchers(issue.exception)
             transport.deliver(issue)

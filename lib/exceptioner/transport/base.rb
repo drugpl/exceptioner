@@ -1,60 +1,63 @@
 require 'exceptioner/dispatchable'
+require 'exceptioner/transport/helper'
 
-module Exceptioner::Transport
-  class Base
-    include Exceptioner::Dispatchable
+module Exceptioner
+  module Transport
+    class Base
+      include Exceptioner::Dispatchable
 
-    def init
-    end
-
-    def config
-      @config ||= begin
-        local_config.update_attributes(Exceptioner.config.only(local_config.attributes.keys))
-        local_config
+      def init
       end
-    end
 
-    def config_name
-      self.class.name.split('::').last.downcase
-    end
+      def config
+        @config ||= begin
+                      local_config.update_attributes(Exceptioner.config.only(local_config.attributes.keys))
+                      local_config
+                    end
+      end
 
-    def local_config
-      Exceptioner.config.send(self.config_name)
-    end
+      def config_name
+        self.class.name.split('::').last.downcase
+      end
 
-    def configure
-      init unless initialized?
-      @initialized = true
-    end
+      def local_config
+        Exceptioner.config.send(self.config_name)
+      end
 
-    def initialized?
-      @initialized
-    end
+      def configure
+        init unless initialized?
+        @initialized = true
+      end
 
-    def deliver(issue)
-      raise Exceptioner::ExceptionerError, 'Implement deliver method in your Exceptioner::Transport::Base subclass'
-    end
+      def initialized?
+        @initialized
+      end
 
-    protected
-    def default_options
-      {
-        :sender => config.sender || 'exceptioner',
-        :recipients => config.recipients,
-        :prefix => config.prefix,
-        :subject => config.subject
-      }
-    end
+      def deliver(issue)
+        raise Exceptioner::ExceptionerError, 'Implement deliver method in your Exceptioner::Transport::Base subclass'
+      end
 
-    def prefixed_subject(options)
-      "#{options[:prefix]}#{options[:error_message]}"
-    end
+      protected
+      def default_options
+        {
+          :sender => config.sender || 'exceptioner',
+          :recipients => config.recipients,
+          :prefix => config.prefix,
+          :subject => config.subject
+        }
+      end
 
-    def render(issue)
-      ERB.new(template, nil, '>').result(binding)
-    end
+      def prefixed_subject(options)
+        "#{options[:prefix]}#{options[:error_message]}"
+      end
 
-    def template
-      @template ||= File.read(File.expand_path(File.join(File.dirname(__FILE__), 'templates', 'exception.erb')))
+      def render(issue)
+        ERB.new(template, nil, '>').result(binding)
+      end
+
+      def template
+        @template ||= File.read(File.expand_path(File.join(File.dirname(__FILE__), 'templates', 'exception.erb')))
+      end
     end
   end
 end
