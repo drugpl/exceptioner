@@ -83,4 +83,23 @@ class IssueTest < ExceptionerTestCase
     @issue.transports = transports
     assert_equal(transports, @issue.transports)
   end
+
+  def test_formatted_backtrace
+    backtrace = [
+      "/path/to/app/file.rb:4:in `index'",
+      "/path/to/gems/some/file.rb:4:in `send_action'",
+      "/path/to/more/gems/other/file.rb:409:in `_run_process_action_callbacks'",
+      "/leave/this/alone/path/to/app/something.rb:409:in `index'"
+    ]
+    formatted_backtrace = [
+      "APPLICATION_PATH/file.rb:4:in `index'",
+      "GEM_PATH/some/file.rb:4:in `send_action'",
+      "GEM_PATH/other/file.rb:409:in `_run_process_action_callbacks'",
+      "/leave/this/alone/path/to/app/something.rb:409:in `index'"
+    ].join("\n")
+    @issue.backtrace = backtrace
+    @issue.application_path = "/path/to/app"
+    @issue.gem_path = ["/path/to/gems", "/path/to/more/gems"]
+    assert_equal formatted_backtrace, @issue.formatted_backtrace
+  end
 end

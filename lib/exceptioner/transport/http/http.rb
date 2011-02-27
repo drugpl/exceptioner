@@ -55,7 +55,7 @@ module Exceptioner::Transport
       issue_hash = {
         :name => issue.exception_name,
         :message => issue.message,
-        :backtrace => issue.backtrace.join("\n")
+        :backtrace => issue.formatted_backtrace
       }
       return { :issue => issue_hash }.to_json
     end
