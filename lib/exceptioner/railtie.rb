@@ -12,7 +12,7 @@ module Exceptioner
     end
 
     rake_tasks do
-      load "exceptioner/tasks/exceptioner.rake"
+      load "tasks/exceptioner.rake"
     end
 
     protected
