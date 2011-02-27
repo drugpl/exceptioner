@@ -15,7 +15,6 @@ module Exceptioner
 
   module Transport
     autoload :Redmine,  'exceptioner/transport/redmine/redmine'
-    autoload :Campfire, 'exceptioner/transport/campfire/campfire'
     autoload :Http,     'exceptioner/transport/http/http'
   end
 

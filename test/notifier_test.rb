@@ -1,5 +1,4 @@
 require File.expand_path(File.dirname(__FILE__) + '/helper')
-require 'tinder'
 require 'ostruct'
 
 class NotifierTest < ExceptionerTestCase
