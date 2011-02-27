@@ -38,7 +38,7 @@ class NotifierTest < ExceptionerTestCase
     exception = get_exception(TestError)
     object = mock()
     object.expects(:do_something).with(exception)
-    config.dispatch do |exception|
+    Exceptioner.dispatch do |exception|
       object.do_something(exception)
     end
     Exceptioner::Notifier.dispatch(:exception => exception)

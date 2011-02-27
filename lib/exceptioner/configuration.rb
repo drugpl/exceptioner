@@ -5,7 +5,6 @@ module Exceptioner
 
   # TODO: transport-level configuration should be moved to separate gem
   class Configuration < Valuable
-    include Exceptioner::Dispatchable
 
     # Name of current environment.
     # For rails it would be development, test or production.
