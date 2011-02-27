@@ -14,9 +14,7 @@ module Exceptioner
   autoload :Issue,            'exceptioner/issue'
 
   module Transport
-    autoload :Jabber,   'exceptioner/transport/jabber/jabber'
     autoload :Redmine,  'exceptioner/transport/redmine/redmine'
-    autoload :Irc,      'exceptioner/transport/irc/irc'
     autoload :Campfire, 'exceptioner/transport/campfire/campfire'
     autoload :Http,     'exceptioner/transport/http/http'
   end
