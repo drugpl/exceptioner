@@ -17,6 +17,10 @@ class ExceptionerTestCase < Test::Unit::TestCase
     @notifier = Exceptioner::Notifier.new(config)
   end
 
+  def config
+    notifier.config
+  end
+
   def get_exception(klass = Exception)
     raise klass.new("Test Exception")
   rescue Exception => exception
