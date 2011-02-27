@@ -3,6 +3,7 @@ require 'webmock/test_unit'
 module HttpTransportTest
   def setup
     config.http.api_key = "abcdef"
+    super if defined?(super)
   end
 
   def test_deliver_exception_success_by_http
