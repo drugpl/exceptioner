@@ -6,6 +6,11 @@ class ExceptionerTestCase < Test::Unit::TestCase
     @notifier = nil
   end
 
+  # Prevent test::unit (or mocha?) complaining with "no tests were defiend"
+  def test_truth
+    assert true
+  end
+
   def notifier
     @notifier ||= Exceptioner::Notifier.new(Exceptioner::Configuration.new)
   end
