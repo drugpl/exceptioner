@@ -21,6 +21,7 @@ pkg
 ## PROJECT::SPECIFIC
 .rvmrc
 Gemfile.lock
+*.log
 
 ## Netbeans
 nbproject/
