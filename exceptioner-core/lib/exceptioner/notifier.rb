@@ -13,7 +13,9 @@ module Exceptioner
 
       if run_dispatchers(issue.exception)
         determine_transports(issue.transports) do |transport|
+          config.logger.debug("Trying to dispatch an issue for #{transport.name}")
           if transport.run_dispatchers(issue.exception)
+            config.logger.debug("Passing issue to #{transport.name}")
             transport.deliver(issue)
           end
         end

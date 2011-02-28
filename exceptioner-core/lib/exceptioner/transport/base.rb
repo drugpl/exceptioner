@@ -35,6 +35,10 @@ module Exceptioner
         @initialized
       end
 
+      def name
+        self.class.name
+      end
+
       def deliver(issue)
         raise Exceptioner::ExceptionerError, 'Implement deliver method in your Exceptioner::Transport::Base subclass'
       end

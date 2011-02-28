@@ -20,6 +20,9 @@ Exceptioner.setup do |config|
   # By default ActiveRecord::RecordNotFound, ActionController::RoutingError and
   # ActionController::UnknownAction are ignored.
   # config.ignore += %w[ActionController::InvalidAuthenticityToken]
+  #
+  # Turn debugging on
+  # config.debug = true
 
   # ### The section below regards mail transport only ###
 
