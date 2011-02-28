@@ -46,9 +46,10 @@ end
 
 namespace :test do
   desc "Run all exceptioner"
-  task :all
-  TaskUtils.each_gem("Running tests...") do |name, path|
-    puts name
-    TaskUtils.run_tests(path)
+  task :all do
+    TaskUtils.each_gem("Running tests...") do |name, path|
+      puts name
+      TaskUtils.run_tests(path)
+    end
   end
 end
