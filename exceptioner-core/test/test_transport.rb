@@ -12,6 +12,8 @@ module Exceptioner
         @delivered
       end
 
+      public :render
+
     end
   end
 end
