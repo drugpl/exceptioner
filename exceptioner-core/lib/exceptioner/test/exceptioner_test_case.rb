@@ -12,7 +12,7 @@ class ExceptionerTestCase < Test::Unit::TestCase
   end
 
   def notifier
-    @notifier ||= Exceptioner::Notifier.new(Exceptioner::Configuration.new)
+    @notifier ||= Exceptioner::Notifier.new(Exceptioner::Configuration.new(:logger => Logger.new("exceptioner.log")))
   end
 
   def config
