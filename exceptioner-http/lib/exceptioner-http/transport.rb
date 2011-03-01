@@ -24,12 +24,7 @@ module Exceptioner
       end
 
       def running_eventmachine?
-        begin
-          em = Kernel.const_get(:EM)
-          em.respond_to?(:reactor_running?) && em.send(:reactor_running?)
-        rescue NameError
-          false
-        end
+        ::EM.reactor_running? rescue false
       end
 
       protected
