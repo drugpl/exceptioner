@@ -22,6 +22,10 @@ module Exceptioner
       @controller.controller_name if @controller
     end
 
+    def controller_action_name
+      @controller.action_name if @controller
+    end
+
     def formatted_backtrace
       app_paths = Array(application_path)
       gem_paths = Array(gem_path)

@@ -9,13 +9,13 @@ module Exceptioner
     end
 
     def dispatch(options = {})
-      options[:application_path] ||= config.application_path
-      options[:gem_path] ||= config.gem_path
-      issue = Issue.new(options)
+      issue = Issue.new(default_options.merge options)
 
       if run_dispatchers(issue.exception)
         determine_transports(issue.transports) do |transport|
+          config.logger.debug("Trying to dispatch an issue for #{transport.name}")
           if transport.run_dispatchers(issue.exception)
+            config.logger.debug("Passing issue to #{transport.name}")
             transport.deliver(issue)
           end
         end
@@ -24,7 +24,7 @@ module Exceptioner
 
     def transport(name)
       @transports[name] ||= begin
-        transport = Utils.classify_transport(name).new
+        transport = classify_transport(name).new
         transport.configure(config)
         transport
       end
@@ -41,6 +41,10 @@ module Exceptioner
 
     protected
 
+    def default_options
+      { :application_path => config.application_path, :gem_path => config.gem_path }
+    end
+
     def determine_transports(issue_transports)
       (issue_transports || transports).each do |transport_name|
         yield transport(transport_name)
@@ -49,6 +53,14 @@ module Exceptioner
 
     def transports
       config.transports
+    end
+
+    def classify_transport(transport_name)
+      begin
+        ::Exceptioner::Transport.const_get(Utils.camelize(transport_name.to_s))
+      rescue NameError
+        raise Exceptioner::ExceptionerError, "No such transport: #{transport_name.to_s}"
+      end
     end
 
     # Determines class of exception.

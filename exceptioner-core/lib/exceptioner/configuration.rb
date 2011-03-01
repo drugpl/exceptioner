@@ -48,6 +48,8 @@ module Exceptioner
     # Logger
     has_value :logger
 
+    has_value :debug, :klass => :boolean, :default => false
+
     def only(*keys)
       Hash[self.attributes.select { |k,_| keys.include?(k) }]
     end
