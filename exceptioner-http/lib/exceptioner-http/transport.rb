@@ -1,46 +1,46 @@
-require 'json'
 require 'uri'
-require 'net/http'
+require 'json'
 require 'exceptioner/transport/base'
+require 'exceptioner-http/request'
 
 module Exceptioner
   module Transport
     class Http < Base
-      class ConfigError < StandardError; end
-      class HttpError   < StandardError; end
+      class ConfigurationError < StandardError; end
 
       def init
+        if running_eventmachine?
+          extend EventMachineRequest
+        else
+          extend NetHttpRequest
+        end
         validate_config
+        uri = URI.parse(options[:api_uri])
+        @host, @port, @path = uri.host, uri.port, uri.request_uri
       end
 
       def deliver(issue)
-        uri = URI.parse(options[:api_uri])
-        request = Net::HTTP::Post.new(uri.request_uri)
-        request["Content-Type"] = "application/json"
-        request["API-Key"] = options[:api_key]
-        request.body = prepare_json(issue)
-        response = Net::HTTP.new(uri.host, uri.port).start do |http|
-          http.request(request)
+        # see corresponding request module
+      end
+
+      def running_eventmachine?
+        begin
+          em = Kernel.const_get(:EM)
+          em.respond_to?(:reactor_running?) && em.send(:reactor_running?)
+        rescue NameError
+          false
         end
-        handle_error(request, response) unless response.kind_of? Net::HTTPSuccess
       end
 
       protected
 
-      def handle_error(request, response)
-        message = "HTTP error ocurred. I guess you're not happy with that."
-        raise HttpError, message
-      end
-
       def validate_config
         message = "Please set API key in configuration first!"
-        raise ConfigError, message unless config.api_key
+        raise ConfigurationError, message unless config.api_key
       end
 
       def default_options
-        {
-          :api_uri => "http://exceptioner.com/api/0.1/issues",
-        }
+        { :api_uri => "http://exceptioner.com/api/0.1/issues" }
       end
 
       def options
@@ -56,7 +56,7 @@ module Exceptioner
         issue_hash = {
           :name => issue.exception_name,
           :message => issue.message,
-          :backtrace => issue.backtrace.join("\n")
+          :backtrace => issue.formatted_backtrace
         }
         return { :issue => issue_hash }.to_json
       end
