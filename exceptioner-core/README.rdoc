@@ -103,4 +103,4 @@ Then require excptioner and use it like:
 
 == Copyright
 
-Copyright (c) 2010 Michał Łomnicki. See LICENSE for details.
+Copyright (c) 2011 Dolnośląski Ruby User Group. See LICENSE for details.
