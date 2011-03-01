@@ -84,15 +84,15 @@ Then require excptioner and use it like:
 = Contributors
 
 * Michał Łomnicki - http://mlomnicki.com
-* Dariusz Gertych - https://github.com/chytreg
 * Piotr Niełacny - http://ruby-blog.pl
 * Janek Dudek - http://jandudek.com
-* Łukasz Śliwa - https://github.com/mrplum
 * Paweł Pacana - https://github.com/pawelpacana
 * Staszek Kolarzowski - https://github.com/staszek
+* Dariusz Gertych - https://github.com/chytreg
+* Łukasz Śliwa - https://github.com/mrplum
 
 == Note on Patches/Pull Requests
- 
+
 * Fork the project.
 * Make your feature addition or bug fix.
 * Add tests for it. This is important so I don't break it in a
