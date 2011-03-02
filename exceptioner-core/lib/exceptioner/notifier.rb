@@ -23,15 +23,22 @@ module Exceptioner
     end
 
     def transport(name)
-      @transports[name] ||= begin
-        transport = classify_transport(name).new
-        transport.configure(config)
-        transport
-      end
+      @transports[name] ||= classify_transport(name).new(transport_config(name))
     end
 
     def config
       @config
+    end
+
+    # TODO: move to configuration
+    def transport_config(name)
+      if config.attributes.has_key?(name)
+        local_config = config.send(name)
+        local_config.class.new(config.only(*local_config.attributes.keys).merge(local_config.attributes))
+        local_config
+      else
+        config
+      end
     end
 
     def add_default_dispatchers

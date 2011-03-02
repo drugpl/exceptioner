@@ -71,8 +71,4 @@ class NotifierTest < ExceptionerTestCase
     assert instance1.object_id == instance2.object_id
   end
 
-  def test_transport_is_initialized
-    config.transports = [:test]
-    assert transport(:test).initialized?
-  end
 end

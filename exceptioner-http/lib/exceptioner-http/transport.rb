@@ -8,7 +8,8 @@ module Exceptioner
     class Http < Base
       class ConfigurationError < StandardError; end
 
-      def init
+      def initialize(config)
+        super
         if running_eventmachine?
           extend EventMachineRequest
         else

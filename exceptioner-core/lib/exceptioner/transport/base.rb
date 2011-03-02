@@ -7,32 +7,10 @@ module Exceptioner
     class Base
       include Exceptioner::Dispatchable
 
-      def init
-      end
+      attr_reader :config
 
-      def config
-        @config ||= begin
-                      local_config.update_attributes(@global_config.only(local_config.attributes.keys))
-                      local_config
-                    end
-      end
-
-      def config_name
-        self.class.name.split('::').last.downcase
-      end
-
-      def local_config
-        @global_config.send(self.config_name)
-      end
-
-      def configure(config)
-        @global_config = config
-        init unless initialized?
-        @initialized = true
-      end
-
-      def initialized?
-        @initialized
+      def initialize(config)
+        @config = config
       end
 
       def name

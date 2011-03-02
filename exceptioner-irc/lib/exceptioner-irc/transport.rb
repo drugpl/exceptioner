@@ -8,7 +8,8 @@ module Exceptioner
     class Irc < Base
       attr_reader :bot, :exceptions
 
-      def init
+      def initialize(config)
+        super
         validate_config
         @exceptions = {}
 
