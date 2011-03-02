@@ -54,6 +54,17 @@ module Exceptioner
       Hash[self.attributes.select { |k,_| keys.include?(k) }]
     end
 
+    # duplicates and merges with child config
+    # TODO: valuable gem should expose merge method
+    def for(name)
+      if self.attributes.has_key?(name)
+        local_config = send(name)
+        local_config.class.new(self.only(*local_config.attributes.keys).merge(local_config.attributes))
+      else
+        self.dup
+      end
+    end
+
     class Authenticable < Configuration
       has_value :username, :klass => String
       has_value :password, :klass => String
