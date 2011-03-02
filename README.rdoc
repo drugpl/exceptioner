@@ -22,6 +22,36 @@ Still under development. Not released yet.
 Note: Exceptioner is under heavy development and it is not recommended to use for
 production applications.
 
+== Exceptioner-edge
+
+Gemfile
+
+    # exceptioner-core
+    gem :exceptioner-core, :git => 'https://github.com/drugpl/exceptioner'
+
+    # use one or many of following transports
+    gem :exceptioner-mail, :git => 'https://github.com/drugpl/exceptioner'
+    gem :exceptioner-http, :git => 'https://github.com/drugpl/exceptioner'
+    gem :exceptioner-irc, :git => 'https://github.com/drugpl/exceptioner'
+    gem :exceptioner-jabber, :git => 'https://github.com/drugpl/exceptioner'
+    gem :exceptioner-redmine, :git => 'https://github.com/drugpl/exceptioner'
+
+Run initializer
+
+    Exceptioner.setup do |config|
+
+        config.transports = [:mail]
+
+        config.mail.recipients = %w[me@example.org rms@example.com]
+
+    end
+
+For transport specific options conform transport README
+
+== Configuration
+
+TODO
+
 == Rails 3 users
 
 Add to your Gemfile
