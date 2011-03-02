@@ -17,6 +17,12 @@ This is meta-gem which includes mail and http transport methods.
 * exceptioner-mail
 * exceptioner-http
 
+NOTE: If you want to use git version then specify all dependencies
+
+    gem :exceptioner-core, :git => 'https://github.com/drugpl/exceptioner-core'
+    gem :exceptioner-mail, :git => 'https://github.com/drugpl/exceptioner-mail'
+    gem :exceptioner-http, :git => 'https://github.com/drugpl/exceptioner-http'
+
 = Contributors
 
 * Michał Łomnicki - http://mlomnicki.com
