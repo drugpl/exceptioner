@@ -1,17 +1,14 @@
 require 'redmine_client'
+require 'exceptioner/transport/base'
 
 module Exceptioner
   module Transport
     class Redmine < Base
 
-      def connection(&block)
-        RedmineClient::Base.configure(&block)
-      end
-
-      def deliver(options = {})
-        options = config.attributes.merge(options)
-        options[:subject] ||= prefixed_subject(options)
-        options[:description] ||= render(options)
+      def deliver(issue)
+        options = config.attributes
+        options[:subject] ||= prefixed_subject(issue)
+        options[:description] ||= render(issue)
         begin
           issue = RedmineClient::Issue.new(
             :subject     => options[:subject],

@@ -7,4 +7,5 @@ $LOAD_PATH << File.expand_path(File.dirname(__FILE__))
 
 require 'exceptioner'
 require 'exceptioner/test/transport_test_case'
-require 'exceptioner-irc'
+require 'exceptioner-redmine'
+
