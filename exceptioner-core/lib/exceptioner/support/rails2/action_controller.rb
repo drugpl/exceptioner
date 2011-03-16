@@ -30,7 +30,7 @@ module Exceptioner
         end
 
         def exceptioner_dispatch_exception(exception)
-          Exceptioner.notifier.dispatch(:exceptioner => exception, :controller => self, :env => request.env)
+          Exceptioner.notifier.dispatch(:exception => exception, :controller => self, :env => request.env)
         end
 
       end
