@@ -1,7 +1,7 @@
 exceptioner_core = File.exist?("../exceptioner-core")? "../exceptioner-core" : "./exceptioner-core"
 
 if Object.const_defined?(:Bundler) && Bundler.const_defined?(:Dsl) && self.kind_of?(Bundler::Dsl)
-  group :development do
+  group :test, :development do
     gem 'rack'
     gem 'mocha'
     gem 'rake'

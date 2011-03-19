@@ -6,10 +6,10 @@ class TemplateTest < ExceptionerTestCase
   def setup
     @exception = get_exception
     @controller_params = { :value => 'key' }
-    @env = { :ruby => '1.9.2', :shell => 'bash' }
+    @env = { 'ruby' => '1.9.2', 'shell' => 'bash' }
     @controller = stub('ActionController::Base', :params => @controller_params, :controller_name => 'base', :action_name => 'test_action')
     @issue = Exceptioner::Issue.new(:controller => @controller, :exception => @exception, :env => @env)
-    @transport = Exceptioner::Transport::Test.new(config)
+    @transport = Exceptioner::Transport::Testing.new(config)
   end
 
   def test_renders

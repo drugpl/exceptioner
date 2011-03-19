@@ -1,0 +1,4 @@
+<% if issue.message %>
+<%= Exceptioner::Formatter::Helper.title('Error Message') %>
+    <%= issue.message %>
+<% end %>
