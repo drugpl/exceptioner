@@ -2,6 +2,7 @@ require 'isaac/bot'
 require 'digest/sha1'
 require 'net/http'
 require 'exceptioner/transport/base'
+require 'exceptioner-irc/request'
 
 module Exceptioner
   module Transport
@@ -12,6 +13,12 @@ module Exceptioner
         super
         validate_config
         @exceptions = {}
+
+        if running_eventmachine?
+          extend EventMaschineDeliverAgent
+        else
+          extend NetHtppDeliverAgent
+        end
 
         options = default_options.merge(:channel => config.channel)
         klass = self
@@ -108,36 +115,33 @@ module Exceptioner
 
         end
 
-        thread = Thread.new do
+
+        if running_eventmachine?
           @bot.start
-
+          return @bot
+        else
+          thread = Thread.new do
+            @bot.start
+          end
+          return @bot, thread
         end
-
-        return @bot, thread
       end
 
       def deliver(issue)
-        body = prepare_message(issue)
-        @bot.msg config.channel, body
+        # request.rb
+      end
+      
+      def running_eventmachine?
+        ::EM.reactor_running? rescue false
       end
 
-      def prepare_message(issue)
-        options = config.attributes
-        body = render(issue)
-        exception = add_exception(body, issue, options)
-        "Exception! | " + issue.exception.class.to_s + " | " + exception[:link]
+      def prepare_message(exception)
+        "Exception! | " + exception[:issue].exception.class.to_s + " | " + exception[:link]
       end
 
-      def post_body(body, options = { :provider => :pastebin })
-        case options[:provider]
-        when :pastebin
-          ::Net::HTTP.post_form(URI.parse("http://pastebin.com/api_public.php"), { :paste_code => body, :paste_private => 1 }).body
-        end
-      end
-
-      def add_exception(body, issue, options = {})
+      def add_exception(body, issue, link, options = {})
         hash = Digest::SHA1.hexdigest(issue.backtrace.to_s + issue.exception.to_s)
-        @exceptions[hash] ||= { :issue => issue, :link => post_body(body, options), :body => body, :counter => 0, :created_at => Time.now }
+        @exceptions[hash] ||= { :issue => issue, :link => link, :body => body, :counter => 0, :created_at => Time.now }
         @exceptions[hash][:counter] += 1
 
         @exceptions[hash]

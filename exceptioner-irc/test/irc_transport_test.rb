@@ -17,7 +17,7 @@ class IrcTransportTest < TransportTestCase
     TCPSocket.stubs(:open).with(anything, anything).returns(@socket)
 
     exception = get_exception
-    transport.stubs(:post_body).returns('http://example.link.com/')
+#    transport.stubs(:post_body).returns('http://example.link.com/')
     transport.bot.configure do |config|
       config.environment = :test
     end
