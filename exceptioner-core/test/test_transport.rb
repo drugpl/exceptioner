@@ -2,7 +2,7 @@ require 'exceptioner/transport/base'
 
 module Exceptioner
   module Transport
-    class Test < Base
+    class Testing < Base
 
       def deliver(*)
         @delivered = true
