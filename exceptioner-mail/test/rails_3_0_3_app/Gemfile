@@ -1,11 +1,19 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.3'
+gem 'exceptioner'
+
+group :development, :test do
+  gem "rspec-rails", "~> 2.4"
+  gem 'steak', "1.0.0"
+  gem 'capybara', "0.4.0"
+  gem 'email_spec', "1.1.1"
+end
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-#gem 'sqlite3-ruby', :require => 'sqlite3'
+gem 'sqlite3-ruby', :require => 'sqlite3'
 
 # Use unicorn as the web server
 # gem 'unicorn'
