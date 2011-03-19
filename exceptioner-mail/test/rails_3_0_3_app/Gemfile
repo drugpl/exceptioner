@@ -3,7 +3,7 @@ source 'http://rubygems.org'
 gem 'rails', '3.0.3'
 
 gem 'exceptioner-core', :git => "git@github.com:drugpl/exceptioner.git"
-gem 'exceptioner', :git => "git@github.com:drugpl/exceptioner.git"
+gem 'exceptioner-mail', :git => "git@github.com:drugpl/exceptioner.git"
 
 #gem 'exceptioner'
 
