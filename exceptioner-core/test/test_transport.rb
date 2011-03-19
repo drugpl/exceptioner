@@ -2,7 +2,7 @@ require 'exceptioner/transport/base'
 
 module Exceptioner
   module Transport
-    class Test < Base
+    class Testing < Base
 
       def deliver(*)
         @delivered = true
@@ -15,5 +15,11 @@ module Exceptioner
       public :render
 
     end
+  end
+
+  class Configuration
+    class Testing < Configuration
+    end
+    has_value :testing, :klass => Testing, :default => Testing.new
   end
 end

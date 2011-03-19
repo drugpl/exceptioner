@@ -1,0 +1,5 @@
+<% if issue.backtrace %>
+<%= Exceptioner::Formatter::Helper.title('Backtrace') %>
+
+        <%= issue.formatted_backtrace %>
+<% end %>
