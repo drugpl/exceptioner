@@ -1,0 +1,8 @@
+<% if issue.params %>
+<% issue.params.each_pair do |key, value| %>
+<%= Exceptioner::Formatter::Helper.title(key.to_s) %>
+
+    <%= value.inspect %>
+
+<% end %>
+<% end %>

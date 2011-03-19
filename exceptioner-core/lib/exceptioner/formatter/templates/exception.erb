@@ -1,0 +1,6 @@
+<% if issue.exception %>
+Application raised <%= issue.exception_name %> <%= issue.message %>
+<% end %>
+<% if issue.controller %>
+ from <%= issue.controller_name %>#<%= issue.controller_action_name %>
+<% end %>.

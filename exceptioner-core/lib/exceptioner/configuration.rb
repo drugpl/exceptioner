@@ -48,6 +48,8 @@ module Exceptioner
     # Logger
     has_value :logger
 
+    has_value :template, :default => [:exception, :message, :backtrace, :params, :env]
+
     has_value :debug, :klass => :boolean, :default => false
 
     def only(*keys)

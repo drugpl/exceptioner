@@ -1,6 +1,5 @@
-require 'erb'
 require 'exceptioner/dispatchable'
-require 'exceptioner/transport/helper'
+require 'exceptioner/formatter'
 
 module Exceptioner
   module Transport
@@ -58,11 +57,8 @@ module Exceptioner
       end
 
       def render(issue)
-        ERB.new(template, nil, '>').result(binding)
-      end
-
-      def template
-        @template ||= File.read(File.expand_path(File.join(File.dirname(__FILE__), 'templates', 'exception.erb')))
+        formatter = Exceptioner::Formatter.new(config.template)
+        formatter.render issue
       end
     end
   end

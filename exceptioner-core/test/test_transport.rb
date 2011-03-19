@@ -16,4 +16,10 @@ module Exceptioner
 
     end
   end
+
+  class Configuration
+    class Testing < Configuration
+    end
+    has_value :testing, :klass => Testing, :default => Testing.new
+  end
 end

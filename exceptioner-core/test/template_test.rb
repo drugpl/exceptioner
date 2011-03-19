@@ -9,7 +9,7 @@ class TemplateTest < ExceptionerTestCase
     @env = { :ruby => '1.9.2', :shell => 'bash' }
     @controller = stub('ActionController::Base', :params => @controller_params, :controller_name => 'base', :action_name => 'test_action')
     @issue = Exceptioner::Issue.new(:controller => @controller, :exception => @exception, :env => @env)
-    @transport = Exceptioner::Transport::Testing.new
+    @transport = notifier.transport(:testing)
   end
 
   def test_renders
