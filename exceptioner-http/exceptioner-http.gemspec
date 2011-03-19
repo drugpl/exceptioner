@@ -21,7 +21,9 @@ Gem::Specification.new do |s|
 
   s.add_dependency("exceptioner-core", "~> 0.6") if ENV['EXCEPTIONER_BUILD']
   s.add_dependency("json")
-  s.add_development_dependency("webmock")
 
   eval File.read(File.join(File.dirname(__FILE__), '../development_dependencies.rb'))
+  s.add_development_dependency("webmock")
+  s.add_development_dependency("em-spec")
+  s.add_development_dependency("eventmachine")
 end

@@ -1,25 +1,60 @@
-= Exceptioner 
+= Exceptioner
 
-Stay notified about exceptions by various transports Email, Jabber, IRC, Campfire etc. Choose the option you want.
+Stay notified about exceptions by various transports Email, HTTP, Jabber, IRC, Campfire etc. Choose the option you want.
 
 The most common use is to use Exceptioner as rack middleware and send notifications when an exception occur in you web application. It may be used with Rails, Sinatra or any other rack citizen. 
 Exceptioner may be also used with any ruby code you want. Just configure delivery methods and don't miss any exception.
 
-= Currently available delivery methods
-* Email 
-* Jabber/XMPP 
+== Disclaimer
+
+Still under development. Not released yet.
+
+== Currently available delivery methods
+* Email
+* HTTP
+* Jabber/XMPP
 * IRC
 * Campfire
 * Redmine
 
-= Usage 
+== Usage
 
 Note: Exceptioner is under heavy development and it is not recommended to use for
 production applications.
 
+== Exceptioner-edge
+
+Gemfile
+
+    # exceptioner-core
+    gem :exceptioner-core, :git => 'https://github.com/drugpl/exceptioner'
+
+    # use one or many of following transports
+    gem :exceptioner-mail, :git => 'https://github.com/drugpl/exceptioner'
+    gem :exceptioner-http, :git => 'https://github.com/drugpl/exceptioner'
+    gem :exceptioner-irc, :git => 'https://github.com/drugpl/exceptioner'
+    gem :exceptioner-jabber, :git => 'https://github.com/drugpl/exceptioner'
+    gem :exceptioner-redmine, :git => 'https://github.com/drugpl/exceptioner'
+
+Run initializer
+
+    Exceptioner.setup do |config|
+
+        config.transports = [:mail]
+
+        config.mail.recipients = %w[me@example.org rms@example.com]
+
+    end
+
+For transport specific options conform transport README
+
+== Configuration
+
+TODO
+
 == Rails 3 users
 
-Add to your Gemfile 
+Add to your Gemfile
     gem 'exceptioner'
 
 and obviously run bundle install
@@ -51,48 +86,23 @@ Then require exceptioner and add Exceptioner::Middleware to your stack
     gem install exceptioner
 
 Then require excptioner and use it like:
-    
-    begin 
+
+    begin
         # some code which may fail
     rescue VeryFatalError => e
         Exceptioner.notify(e)
-    end    
-
-= Transports examples
-
-== Campfire
-
-    require 'exceptioner'
-
-    Exceptioner.setup do |config|
-      config.transports = [:campfire]
-      config.campfire.subdomain = 'myawesomesubdomain'
-      config.campfire.username = 'lukasz.sliwa'
-      config.campfire.password = 'password'
-
-      # config.campfire.token = 'myrandomtoken'
-
-      config.campfire.rooms = ['Another Awesome Room Name']
-    end
-
-    begin
-      raise Exception.new('i like raise')
-    rescue Exception => e
-      Exceptioner.notify(e)
     end
 
 = Contributors
 
 * Michał Łomnicki - http://mlomnicki.com
-* Dariusz Gertych - https://github.com/chytreg
 * Piotr Niełacny - http://ruby-blog.pl
 * Janek Dudek - http://jandudek.com
-* Łukasz Śliwa - https://github.com/mrplum
 * Paweł Pacana - https://github.com/pawelpacana
 * Staszek Kolarzowski - https://github.com/staszek
 
 == Note on Patches/Pull Requests
- 
+
 * Fork the project.
 * Make your feature addition or bug fix.
 * Add tests for it. This is important so I don't break it in a
@@ -103,4 +113,4 @@ Then require excptioner and use it like:
 
 == Copyright
 
-Copyright (c) 2010 Michał Łomnicki. See LICENSE for details.
+Copyright (c) 2011 Dolnośląski Ruby User Group. See LICENSE for details.

@@ -7,4 +7,9 @@ class TransportTestCase < ExceptionerTestCase
     assert true
   end
 
+  protected
+  def test_config
+    config 
+  end
+
 end

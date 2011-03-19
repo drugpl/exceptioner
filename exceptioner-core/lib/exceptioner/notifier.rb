@@ -23,11 +23,7 @@ module Exceptioner
     end
 
     def transport(name)
-      @transports[name] ||= begin
-        transport = classify_transport(name).new
-        transport.configure(config)
-        transport
-      end
+      @transports[name] ||= classify_transport(name).new(config.for(name))
     end
 
     def config

@@ -2,7 +2,6 @@ $LOAD_PATH.unshift 'lib'
 require 'isaac'
 require 'rubygems'
 require 'test/unit'
-require 'contest'
 require 'timeout'
 
 begin

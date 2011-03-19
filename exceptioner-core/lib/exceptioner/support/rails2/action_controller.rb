@@ -26,11 +26,11 @@ module Exceptioner
 
         def rescue_action_locally_with_exceptioner(exception)
           rescue_action_locally_without_exceptioner(exception)
-          exceptioner_dispatch_exception(exception) if Exceptioner.dispatch_local_requests
+          exceptioner_dispatch_exception(exception) if Exceptioner.config.dispatch_local_requests
         end
 
         def exceptioner_dispatch_exception(exception)
-          Notifier.dispatch(exception, :controller => self, :env => request.env)
+          Exceptioner.notifier.dispatch(:exception => exception, :controller => self, :env => request.env)
         end
 
       end

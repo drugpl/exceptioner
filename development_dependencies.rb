@@ -14,6 +14,4 @@ else #gemspec
   s.add_development_dependency("rack")
   s.add_development_dependency("mocha")
   s.add_development_dependency("rake")
-  s.add_development_dependency("webmock")
-  s.add_development_dependency("contest")
 end

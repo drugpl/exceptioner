@@ -1,13 +1,8 @@
-require 'bundler/gem_helper'
-require 'rake/testtask'
-Bundler::GemHelper.install_tasks
+task :default => "test:all"
 
-ENV["RAILS_ENV"] ||= "test"
-
-task :default => :test
-
-desc "Run tests for core and transports"
-task :test => "test:all"
+task :build do
+  ENV['EXCEPTIONER_BUILD'] = '1'
+end
 
 module TaskUtils
   extend self
@@ -18,6 +13,10 @@ module TaskUtils
 
   def build(path)
     system("cd #{path} && rake build")
+  end
+
+  def install_deps(path)
+    system("cd #{path} && bundle install")
   end
 
   def each_gem(action, paths = all_paths, &block)
@@ -34,6 +33,16 @@ module TaskUtils
 
 end
 
+namespace :dependencies do
+  desc "Install all dependencies"
+  task :install do
+    TaskUtils.each_gem("Installing dependencies...") do |name, path|
+      puts name
+      TaskUtils.install_deps(path)
+    end
+  end
+end
+
 namespace :build do
   desc "Builds all gems"
   task :all => :build do
@@ -45,7 +54,7 @@ namespace :build do
 end
 
 namespace :test do
-  desc "Run all exceptioner"
+  desc "Run all exceptioner tests"
   task :all do
     TaskUtils.each_gem("Running tests...") do |name, path|
       puts name
