@@ -1,3 +1,5 @@
+exceptioner_core = File.exist?("../exceptioner-core")? "../exceptioner-core" : "./exceptioner-core"
+
 if Object.const_defined?(:Bundler) && Bundler.const_defined?(:Dsl) && self.kind_of?(Bundler::Dsl)
   group :development do
     gem 'rack'
@@ -5,7 +7,7 @@ if Object.const_defined?(:Bundler) && Bundler.const_defined?(:Dsl) && self.kind_
     gem 'rake'
     gem 'webmock'
     gem 'contest'
-    gem 'exceptioner-core', :path => File.expand_path('../exceptioner-core')
+    gem 'exceptioner-core', :path => (File.expand_path(exceptioner_core))
   end
 else #gemspec
 
