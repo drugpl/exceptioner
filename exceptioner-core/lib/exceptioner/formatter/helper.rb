@@ -1,8 +1,6 @@
 module Exceptioner
   class Formatter
     module Helper
-      extend self
-
       def format_env(env)
         unless env.empty?
           max_length = env.keys.max_by { |key| key.to_s.size }.size

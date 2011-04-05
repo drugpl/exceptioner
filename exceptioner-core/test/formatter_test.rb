@@ -18,4 +18,12 @@ class FormatterTest < ExceptionerTestCase
     assert ! body.match("Application raised")
     assert body.match("exceptioner_test_case.rb:27")
   end
+
+  def test_using_helpers
+    formatter = Exceptioner::Formatter.new([])
+    formatter.stubs(:load_template_string).returns("<%= title('Backtrace') %>")
+    issue = mock
+    body = formatter.render_partial(:xxx, issue)
+    assert body.match('#####\nBacktrace')
+  end
 end
